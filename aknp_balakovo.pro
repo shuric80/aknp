@@ -13,7 +13,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        widget.cpp
+        widget.cpp \
+    ake_01.cpp \
+    ake_02.cpp
 
-HEADERS  += widget.h
+HEADERS  += widget.h \
+    ake_01.h \
+    ake_02.h
 
