@@ -43,7 +43,8 @@ ake_01::ake_01(QWidget *parent) :
 	str[5][1] = QString(" Ftx2 = 00000 Гц");
 	str[6][1] = QString(" T1 = %2 %1С 1").arg(QChar(0x00b0));
 	str[7][1] = QString(" T2 = %2 %1С 0").arg(QChar(0x00b0));
-	str[8][1] = QString(" Kz = %1");
+    str[8][1] = QString(" Kz = %1 %2 %3 %4 %5");
+    str[9][1] = QString("%1 %2 %3 %4 %5");
   }
 
   for(int i=0;i<8;i++){
@@ -56,7 +57,7 @@ ake_01::ake_01(QWidget *parent) :
 
 	label[8][0]->setText(str[8][0]);
 	label[8][1]->setText(str[8][1]);
-
+    label[9][1]->setText(str[9][1]);
 	label[8][0]->setMaximumSize(WIDTH,HEIGHT);
     label[8][1]->setMaximumSize(2*WIDTH,HEIGHT);
 	label[9][1]->setMaximumSize(2*WIDTH,HEIGHT);
@@ -70,6 +71,97 @@ ake_01::ake_01(QWidget *parent) :
  
 
 }
-   this->setStyleSheet("background-color:qlineargradient(x1: 0,y1: 0,x2: 0,y2: 1,stop: 0#aaaaaa,stop: 0.5 #434343, stop: 0.31 #000000, stop: 1 #585c5f)");
+  // this->setStyleSheet("background-color:qlineargradient(x1: 0,y1: 0,x2: 0,y2: 1,stop: 0#aaaaaa,stop: 0.5 #434343, stop: 0.31 #000000, stop: 1 #585c5f)");
   this->setLayout(topLayout); 
 }
+
+void ake_01::selectId(const QVector<int> &data){
+
+    int id = data.at(0);
+    QVector<int> data_01;
+    QVector<int> data_02;
+    QVector<int> data_03;
+    QVector<int> data_04;
+
+    data_01 << data.mid(1,2);
+    data_02 << data.mid(3,2);
+    data_03 << data.mid(5,2);
+    data_04 << data.mid(7,2);
+
+    QVector <int> dataFl;
+    QVector <int> dataFh;
+
+    dataFl << data.mid(1,4);
+    dataFl << data.mid(5,4);
+
+
+    switch(id){
+
+    case 0x401:
+        str[0][1].arg(toFloat(dataFl));
+        break;
+    case 0x402:
+        str[5][1].arg(toInt(data_01));
+        str[4][1].arg(toInt(data_03));
+        break;
+    case 0x403:
+        str[6][0].arg(toInt(data_01));
+        str[4][0].arg(toInt(data_02));
+        str[5][0].arg(toInt(data_03));
+        str[7][0].arg(toInt(data_04));
+        break;
+     case 0x405:
+        str[1][1].arg(toFloat(dataFh));
+        break;
+
+     case 0x406:
+        str[8][1].arg(data.at(1)).arg(data.at(2)).arg(data.at(3)).arg(data.at(4)).arg(data.at(5));
+        str[9][1].arg(data.at(6)).arg(data.at(7)).arg(data.at(8));
+        break;
+     case 0x407:
+        //str[9][1].arg(data.)
+        break;
+
+     case 0x408:
+        str[6][1].arg(toInt(data_03));
+        str[7][1].arg(toInt(data_04));
+        break;
+
+      case 0x409:
+        str[1][0].arg(toInt(data_02));
+        str[2][0].arg(toInt(data_03));
+        str[3][0].arg(toInt(data_04));
+        break;
+
+    case 0x40A:
+        str[3][1].arg(toFloat(dataFl));
+        break;
+
+    default:
+        break;
+      }
+
+
+}
+
+int ake_01::toInt(const QVector<int> &data){
+
+    int I = data.at(1) <<8 | data.at(0);
+
+    return I;
+
+}
+
+float ake_01::toFloat(const QVector<int> &data){
+
+    float f;
+    quint8 *str = (quint8*) &f;
+    str[0] = data.at(0);
+    str[1] = data.at(1);
+    str[2] = data.at(2);
+    str[3] = data.at(3);
+
+    return f;
+
+    }
+

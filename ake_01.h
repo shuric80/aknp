@@ -16,8 +16,12 @@ explicit ake_01(QWidget *parent = 0);
 private:
 
 QLabel *label[10][2];
-QString str[9][2];
+QString str[10][2];
 
+private slots:
+    void selectId(const QVector<int>&);
+    int toInt(const QVector<int>&);
+    float toFloat(const QVector<int>&);
     
 };
 
