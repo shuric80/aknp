@@ -16,7 +16,6 @@
 #include <QDebug>
 #include <QMutex>
 
-#include <QtNetwork/QLocalSocket>
 
 using namespace std;
 

@@ -6,19 +6,18 @@ aknp_imit::aknp_imit(QWidget *parent):QWidget(parent){
     stack = new QStackedWidget(this);
     combo = new QComboBox(this);
 
-    QString style = QString("color:white");
+    QFont font("Monospace",8);
+    this->setFont(font);
 
-
-    {   combo->setStyleSheet("color:black; background-color:white;color:black;\
-                             selection-color:white;selection-background-color:grey");
-
+   this->setFixedWidth(250);
+{
         combo->addItem("Генератор частоты");
         combo->addItem("Имитатор времени удвоения");
         combo->addItem("Имитатор реактивности");
         combo->addItem("Проверка имитатора реактивности");
         combo->addItem("Проверка НП");
     }
-//this->setStyleSheet("background-color:rgb(50,50,50)");
+
     FreqGenerator *freq[4];
 
     periodimit =new PeriodImit(this);
@@ -32,7 +31,7 @@ aknp_imit::aknp_imit(QWidget *parent):QWidget(parent){
     vert_layout->addWidget(combo);
     vert_layout->addWidget(stack);
 
-    QLabel *label[4];
+    QLabel *label[3];
     QWidget *freq_widget = new QWidget(this);
 
     for(int i=3;i>=0;i--){
@@ -49,7 +48,7 @@ aknp_imit::aknp_imit(QWidget *parent):QWidget(parent){
 
     }
     */
-    //freq_layout->addStretch(1);
+
     freq_widget->setLayout(freq_layout);
 
     stack->addWidget(freq_widget);

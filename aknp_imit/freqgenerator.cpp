@@ -7,104 +7,70 @@ FreqGenerator::FreqGenerator(int canal, QWidget *parent) : QWidget(parent)
     QLocale::setDefault(QLocale::C);
     this->setLocale(QLocale::C);
 
-    QString style = QString("color:white");
 
 
-    QString style_0 = QString("border-width: 2px;\
-                              border-radius: 4px;\
-            padding: 6px;\
-    border-style: outset;\
-    background-color:rgb(120,120,120);\
-    border-color:grey;\
-    text-align:center;\
-    color:white;\
-    selection-background-color:white;\
-    selection-color:black");
+freqBox = new QDoubleSpinBox;
+stepBox = new QDoubleSpinBox;
+plusButton = new QPushButton;
+minusButton = new QPushButton;
 
-    QString style_tst= QString("background-color: grey;\
-    border-style: outset;\
-    border-width: 2px;\
-    border-radius: 4px;\
-    border-color: beige;\
-    font: bold 14px;\
-    min-width: 10em;\
-    padding: 6px"
-    );
+QLabel *freqLabel =new QLabel;
+QLabel *stepLabel =new QLabel;
 
-   // this->setStyleSheet("QPushButton#minusButton:pressed {background-color: rgb(224, 0, 0)}");
+QString style = QString("background-color:lightgrey;\
+        color:dark; padding:0px;\
+        border:0px");
 
+minusButton->setFixedHeight(35);
+plusButton->setFixedHeight(35);
 
-    freqBox = new QDoubleSpinBox;
-    stepBox = new QDoubleSpinBox;
-    plusButton = new QPushButton;
-    minusButton = new QPushButton;
-//
-  // freqBox->setStyleSheet(style);
-  //  stepBox->setStyleSheet(style);
-  //  plusButton->setStyleSheet(style);
-   // minusButton->setStyleSheet(style);
+//freqLabel->setStyleSheet(style);
+//stepLabel->setStyleSheet(style);
 
-    QLabel *freqLabel =new QLabel;
-    QLabel *stepLabel =new QLabel;
-
-    freqLabel->setStyleSheet(style);
-    stepLabel->setStyleSheet(style);
+QHBoxLayout *freqLayout = new QHBoxLayout;
+QHBoxLayout *stepLayout =new QHBoxLayout;
+QHBoxLayout *buttonLayout = new QHBoxLayout;
+QVBoxLayout *mainLayout = new QVBoxLayout;
 
 
-    freqBox->setStyleSheet(style_0);
-    stepBox->setStyleSheet(style_0);
-    minusButton->setStyleSheet(style_tst);
+freqLayout->addWidget(freqLabel);
+freqLayout->addWidget(freqBox);
+stepLayout->addWidget(stepLabel);
+stepLayout->addWidget(stepBox);
+
+buttonLayout ->addWidget(minusButton);
+buttonLayout->addWidget(plusButton);
+
+mainLayout->addLayout(freqLayout);
+mainLayout->addLayout(stepLayout);
+mainLayout->addLayout(buttonLayout);
+
+this->canal = canal;
+freqBox->setMaximum(MAX_FREQ);
+stepBox->setMaximum(MAX_STEP);
+
+freqLabel->setText("Частота(F), Гц");
+stepLabel->setText(QString("Шаг изм. F(%1F),%").arg(QChar(0x03B4)));
+plusButton->setText(QString("+%1F").arg(QChar(0x03B4)));
+minusButton->setText(QString("-%1F").arg(QChar(0x03B4)));
+
+freqBox->setValue(0.1);
+stepBox ->setValue(10.00);
+
+connect(plusButton,SIGNAL(clicked()),this,SLOT(plusFreq()));
+connect(minusButton,SIGNAL(clicked()),this,SLOT(minusFreq()));
+connect(freqBox,SIGNAL(editingFinished()),this,SLOT(start()));
+connect(freqBox,SIGNAL(editingFinished()),stepBox,SLOT(setFocus()));
+
+plusButton->setAutoRepeat(true);
+minusButton->setAutoRepeat(true);
+
+this->setLayout(mainLayout);
 
 
-
-    plusButton->setStyleSheet(style_tst);
-
-
-
-    QHBoxLayout *freqLayout = new QHBoxLayout;
-    QHBoxLayout *stepLayout =new QHBoxLayout;
-    QHBoxLayout *buttonLayout = new QHBoxLayout;
-    QVBoxLayout *mainLayout = new QVBoxLayout;
-
-
-    freqLayout->addWidget(freqLabel);
-    freqLayout->addWidget(freqBox);
-    stepLayout->addWidget(stepLabel);
-    stepLayout->addWidget(stepBox);
-
-    buttonLayout ->addWidget(minusButton);
-    buttonLayout->addWidget(plusButton);
-
-    mainLayout->addLayout(freqLayout);
-    mainLayout->addLayout(stepLayout);
-    mainLayout->addLayout(buttonLayout);
-
-    this->canal = canal;
-    freqBox->setMaximum(MAX_FREQ);
-    stepBox->setMaximum(MAX_STEP);
-
-    freqLabel->setText("Частота(F), Гц");
-    stepLabel->setText(QString("Шаг изм. F(%1F),%").arg(QChar(0x03B4)));
-    plusButton->setText(QString("+%1F").arg(QChar(0x03B4)));
-    minusButton->setText(QString("-%1F").arg(QChar(0x03B4)));
-
-    freqBox->setValue(0.1);
-    stepBox ->setValue(10.00);
-
-    connect(plusButton,SIGNAL(clicked()),this,SLOT(plusFreq()));
-    connect(minusButton,SIGNAL(clicked()),this,SLOT(minusFreq()));
-    connect(freqBox,SIGNAL(editingFinished()),this,SLOT(start()));
-    connect(freqBox,SIGNAL(editingFinished()),stepBox,SLOT(setFocus()));
-
-    plusButton->setAutoRepeat(true);
-    minusButton->setAutoRepeat(true);
-
-    this->setLayout(mainLayout);
-
-
-    start_freq =0.1;
-    step =10.0;
-    freq =0.1;
+start_freq =0.1;
+step =10.0;
+freq =0.1;
 }
 
 void FreqGenerator::plusFreq(){

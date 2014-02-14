@@ -12,6 +12,10 @@ PeriodImit::PeriodImit(QWidget *parent):QWidget(parent){
 
     usec=0;
 
+    QString style = QString("background-color:lightgrey;\
+            color:dark; padding:0px;\
+            border:0px");
+
     QHBoxLayout *layout[5];
     QLabel *label[5];
     for (int i=0;i<5;i++){
@@ -20,6 +24,7 @@ PeriodImit::PeriodImit(QWidget *parent):QWidget(parent){
         layout[i]->addWidget(label[i]);
         layout[i]->addStretch(1);
         layout[i]->setMargin(0);
+      //  label[i]->setStyleSheet(style);
     }
     {
         label[0]->setText("Время удвоения, c");
@@ -101,6 +106,9 @@ PeriodImit::PeriodImit(QWidget *parent):QWidget(parent){
     power_F->setText("1.50e+2");
 
     time->setText("20");
+
+
+btn_start->setFixedHeight(35);
 }
 
 void PeriodImit::slotEnabledStart(QString){
@@ -165,7 +173,7 @@ void PeriodImit::start(){
     else  {
 
 
-        timer->start(100);
+        timer->start(1000);
         btn_start->setText("Стоп");
         emit mode_imit(3);}
 

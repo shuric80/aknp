@@ -10,7 +10,7 @@ CanThread::CanThread(QObject *parent) :
 }
 
 void CanThread::addThread(){
-  
+//  qDebug()<<"add";  
  
   cansocket = new CanSocketDriver; 
   thread = new QThread;
@@ -23,24 +23,24 @@ void CanThread::addThread(){
   connect(thread,SIGNAL(finished()),thread,SLOT(deleteLater()));
 
 
- // connect(cansocket,SIGNAL(read_ok(QVector<int>&)),this,SLOT(rx_buffer(QVector<int>&)));
+  connect(cansocket,SIGNAL(read_ok(const QVector<int>&)),this,SLOT(rx_buffer(const QVector<int>&)));
   connect(cansocket,SIGNAL(read_ok(const QVector<int>&)),this,SIGNAL(emitRxBuf(const QVector<int>&)));
+
   connect(this,SIGNAL(emitTxBuf(QVector<int>)),cansocket,SLOT(slot_save(QVector<int>)));
+
   thread->start();
 }
 
 
-void CanThread::rx_buffer(QVector<int> &value){
+void CanThread::rx_buffer(const QVector<int> &value){
 
-    qDebug() << "slot";
+
 }
 
 
 void CanThread::tx_buffer(QVector<int> data){
 
-  //qDebug() << "slot save thread";
-  emit emitTxBuf(data);
-
+  cansocket->slot_save(data);
 }
 
 

@@ -13,6 +13,12 @@ public:
     
     QLabel *label[10][2];
     QString str[10][2];
+ private:
+    int toInt(const QVector<int>&);
+    float toFloat(const QVector<int>&);
+
+public slots:
+    void selectId(const QVector<int>&);
 };
 
 #endif // AKE_02_H

@@ -22,7 +22,7 @@ signals:
   void emitTxBuf(QVector<int>);
 
 public slots:
-   void rx_buffer(QVector<int>&);
+   void rx_buffer(const QVector<int>&);
    void tx_buffer(QVector<int>);
    
 

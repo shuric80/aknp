@@ -13,11 +13,16 @@ react_imit::react_imit(bool mode, QWidget *parent) :
     timer =new QTimer;
     connect(timer,SIGNAL(timeout()),this,SLOT(input_time()));
 
+    QString style = QString("background-color:lightgrey;\
+            color:dark; padding:0px;\
+            border:0px");
+
     QHBoxLayout *layout[7];
     QLabel *label[7];
     for (int i=0;i<7;i++){
         layout[i] = new QHBoxLayout;
         label[i] = new QLabel;
+      //  label[i]->setStyleSheet(style);
         layout[i]->addWidget(label[i]);
         layout[i]->addStretch(1);
         layout[i]->setMargin(0);
@@ -126,7 +131,7 @@ react_imit::react_imit(bool mode, QWidget *parent) :
     power_F->setInputMask("0.00e#0");
     power_F->setText("1.50e+2");
 
-
+btn_start->setFixedHeight(35);
 }
 
 void react_imit::slotEnabledStart(QString){
@@ -217,7 +222,7 @@ void react_imit::start(){
 
     else if(step==2) {
 
-        timer->start(100);
+        timer->start(1000);
         btn_start->setText("Стоп");
 
         emit mode_imit(mode ? 0b101:0b1001);
