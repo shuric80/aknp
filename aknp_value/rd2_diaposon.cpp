@@ -1,6 +1,6 @@
 #include "rd2_diaposon.h"
 
-rd2_diaposon::rd2_diaposon()
+rd2_diaposon::rd2_diaposon(QWidget *parent)
 {
     led[0]->setText("АЗ N");
     led[1]->setText("ПЗ N");
@@ -8,15 +8,15 @@ rd2_diaposon::rd2_diaposon()
     led[3]->setVisible(false);
     led[4]->setVisible(false);
     led[5]->setVisible(false);
-    led[6]->setText("N>5%");
-    led[7]->setText("N>75%");
+    led[6]->setText("PMN");
+    led[7]->setVisible(false);
     led[8]->setVisible(false);
-    led[9]->setVisible(false);
-    led[10]->setVisible(false);
+    led[9]->setText("N>5%");
+    led[10]->setText("N>75");
 	led[11]->setVisible(false);
 	led[12]->setText("НД РД2");
-    led[13]->setText("Н РД2.");
-    led[14]->setText("Н БХ");
+    led[13]->setText("Исп РД2.");
+    led[14]->setText("Исп БХ1");
     //discret_layout->setColumnMinimumWidth(1,30);
    // discret_layout->setColumnMinimumWidth(3,30);
    // discret_layout->setRowMinimumWidth(4,90);
@@ -34,11 +34,12 @@ rd2_diaposon::rd2_diaposon()
 
     led[0]->setColor("red");
     led[1]->setColor("yellow");
-    led[6]->setColor("green");
-    led[7]->setColor("green");
+    led[6]->setColor("yellow");
+    led[9]->setColor("green");
+    led[10]->setColor("green");
     led[12]->setColor("green");
-    led[13]->setColor("red");
-    led[14]->setColor("red");
+    led[13]->setColor("green");
+    led[14]->setColor("green");
 
     //discret_layout->setRowMinimumHeight(2,30);
 }

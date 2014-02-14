@@ -1,4 +1,12 @@
 #include "outwidget.h"
+#define W_ANALOG 80
+#define H_ANALOG 20
+#define W_DISCRET 55
+#define H_DISCRET 25
+#define H_LABEL 20
+#define W_LABEL 40
+
+#define SPACE  15
 
 outWidget::outWidget(QWidget *parent) :
     QWidget(parent){
@@ -7,84 +15,53 @@ outWidget::outWidget(QWidget *parent) :
     font.setPixelSize(9);
     this->setFont(font);
 
-    main_layout = new QHBoxLayout;
-    QVBoxLayout *lay[6];
-
-    analog_layout =new QGridLayout;
-    left_layout = new QVBoxLayout;
-
-    for(int i=12;i<15;i++)
-        left_layout ->addWidget(led[i] = new QLed);
-
-    left_layout->addStretch(1);
-
     for(int i=0;i<6;i++){
-
-        lay[i] = new  QVBoxLayout;
-        lay[i] ->addStretch(1);
-        lay[i]->addWidget(analog_lab[i] = new QLabel);
-       // analog_lab[i]->setFixedSize(40,20);
-        lay[i]->addStretch(1);
-        lay[i]->addWidget(analog[i] = new QLineEdit);
-        analog[i]->setFocusPolicy(Qt::NoFocus);
-
-    }
-
-    for(int i=0;i<6;i++){
-
-        analog_layout->addLayout(lay[i],setPosX(i),setPosY(i));
-    }
-
-    discret_layout = new QGridLayout;
-
-    for(int i=0;i<12;i++){
-
-        discret_layout->addWidget(led[i] =new QLed,setPosX(i),setPosY(i));
-    }
-
-    for(int i=0;i<6;i++){
-
+        analog[i] = new QLineEdit(this);
         analog[i]->setMaxLength(9);
-        analog[i]->setFixedSize(64,20);
         analog[i]->setReadOnly(true);
-}
-
-    for(int i=0;i<15;i++){
-        led[i]->setFixedSize(55,25);
-
     }
 
-   // main_layout->addStretch(1);
-    main_layout->addLayout(left_layout);
-    main_layout->addLayout(analog_layout);
-    main_layout->addSpacing(10);
-    main_layout->addLayout(discret_layout);
+    {
+        //geometry analog
+        for(int i=0;i<3;i++)
+            analog[i]->setGeometry(100,20+40*i,W_ANALOG,H_ANALOG);
+        for(int i=3;i<6;i++)
+            analog[i]->setGeometry(200,20+40*(i-3),W_ANALOG,H_ANALOG);
+     }
 
-    this->setLayout(main_layout);
+     for(int i=0;i<15;i++){
+         led[i] = new QLed(this);
+        //led[i]->setFixedSize(55,25);
 
+    }
+     {
+         for(int i=0;i<3;i++)
+             led[i]->setGeometry(300,20+35*i,W_DISCRET,H_DISCRET);
+         for(int i=3;i<6;i++)
+             led[i]->setGeometry(350,20+35*(i-3),W_DISCRET,H_DISCRET);
+         for(int i=6;i<9;i++)
+             led[i]->setGeometry(400,20+35*(i-6),W_DISCRET,H_DISCRET);
+         for(int i=9;i<12;i++)
+             led[i]->setGeometry(450,20+35*(i-9),W_DISCRET,H_DISCRET);
+         for(int i=12;i<15;i++)
+             led[i]->setGeometry(10,20+35*(i-12),W_DISCRET,H_DISCRET);
 }
 
-int outWidget::setPosX(int n){
+     for(int i=0;i<8;i++){
 
-    if(n<3)
-        return n;
-    else if( n<6)
-        return n-3;
-    else if(n<9)
-        return n-6;
-    else
-        return n-9;
-}
-int outWidget::setPosY(int n){
+         analog_lab[i] = new QLabel(this);
+     }
+     {
+         for(int i=0;i<3;i++)
+             analog_lab[i]->setGeometry(120,40*i,W_LABEL,H_LABEL);
+         for(int i=3;i<6;i++)
+             analog_lab[i]->setGeometry(220,40*(i-3),W_LABEL,H_LABEL);
 
-    if(n<3)
-        return 0;
-    else if(n<6)
-        return 1;
-    else if(n<9)
-        return 2;
-    else
-        return 3;
+
+     }
+
+    this->setFixedSize(600,200);
+
 }
 
 
@@ -109,8 +86,8 @@ void outWidget:: set_analog(unsigned int number, float value,int mode ){
 
 
 void outWidget::set_discret(unsigned int number ,bool toogle){
-    if(number <15)
-        led[number]->setLed(toogle);
+      if(number <15)
+          led[number]->setLed(toogle);
 }
 
 void outWidget::clean(){
@@ -118,7 +95,7 @@ void outWidget::clean(){
     for(int i=0;i<6;i++)
         analog[i]->clear();
     for(int i=0;i<14;i++)
-        led[i]->setLed(0);
+          led[i]->setLed(0);
 
 
 }

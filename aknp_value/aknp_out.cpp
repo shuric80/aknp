@@ -30,6 +30,7 @@ aknp_out::aknp_out(QWidget *parent)
     verticalLayout->addSpacing(30);
     verticalLayout->addLayout( diap_layout[1]= new QHBoxLayout);//("Поддиапазон РД1"));
     verticalLayout->addWidget(RD1Widget);
+    verticalLayout->addSpacing(30);
     verticalLayout->addLayout(diap_layout[2] = new QHBoxLayout);//("Поддиапазон ПД1"));
     verticalLayout->addWidget(PDWidget);
     verticalLayout->addLayout(diap_layout[3] = new QHBoxLayout);//("Поддиапазон ПД1"));
@@ -91,32 +92,21 @@ void aknp_out::select(const QVector<int> &value){
 
     switch(id){
 
-  //  case 0x81:
-  //      RD2Widget->set_analog(4,analog_h,1);
-  //      RD2Widget->set_analog(5,120);
-  //      break;
-
     case 0x401:
         RD2Widget-> set_analog(0,analog_l,4);
         RD2Widget-> set_analog(3,analog_h,1);
         break;
 
-  //  case 0x83:
-   //     RD2Widget->set_analog(2,analog_l,1);
-   //     RD2Widget->set_analog(1,analog_h,3);
-   //     break;
-
     case 0x404:
-        //qDebug() << "id" <<id << bin  << value.at(3) << value.at(2) << value.at(1) << value.at(0);
         RD2Widget->set_discret(0,discret(value.at(5),0));  // az rd2
         RD2Widget->set_discret(1,discret(value.at(5),1));   // pz rd2
         RD2Widget->set_discret(12,discret(value.at(5),3));  //  start diap rd2
-        RD2Widget->set_discret(6,discret(value.at(5),4));   // >5%
-        RD2Widget->set_discret(7,discret(value.at(5),5));   // >75
-        RD2Widget->set_discret(13,discret(value.at(5),6));   //  err
-        RD2Widget->set_discret(14,discret(value.at(7),0));   //  err bh rd2
+        RD2Widget->set_discret(9,discret(value.at(5),4));   // >5%
+        RD2Widget->set_discret(10,discret(value.at(5),5));   // >75
+        RD2Widget->set_discret(13,!discret(value.at(5),6));   //  err
+        RD2Widget->set_discret(14,!discret(value.at(7),0));   //  err bh rd2
 
-        RD1Widget->set_discret(14,discret(value.at(7),1));   //err bh rd1
+        RD1Widget->set_discret(14,!discret(value.at(7),1));   //err bh rd1
 
         TWidget->set_discret(12,discret(value.at(7),5));
         TWidget->set_discret(0,discret(value.at(7),6));
@@ -157,30 +147,30 @@ void aknp_out::select(const QVector<int> &value){
         PDWidget->set_analog(3,analog_h,2);
         break;
 
-
-   case 0x105:
+    case 0x105:
         PDWidget->set_analog(1,analog_l);
         PDWidget->set_analog(4,analog_h);
         break;
 
-
-   case 0x106:
+    case 0x106:
         TWidget->set_analog(0,analog_l,2);
         TWidget->set_analog(1,analog_h);
         break;
 
     case 0x107:
         RD1Widget->set_discret(0,discret(value.at(1),0));
-        RD1Widget->set_discret(1,discret(value.at(1),2));
-        RD1Widget->set_discret(3,discret(value.at(1),1));
+        RD1Widget->set_discret(3,discret(value.at(1),2));
+        RD1Widget->set_discret(1,discret(value.at(1),1));
         RD1Widget->set_discret(4,discret(value.at(1),3));
         RD1Widget->set_discret(12,discret(value.at(1),4));
-        RD1Widget->set_discret(13,discret(value.at(1),5));
+        RD1Widget->set_discret(13,!discret(value.at(1),5));
 
         PDWidget->set_discret(0,discret(value.at(2),0));
-        PDWidget->set_discret(3,discret(value.at(2),1));
-        PDWidget->set_discret(1,discret(value.at(2),2));
+        PDWidget->set_discret(1,discret(value.at(2),1));
+        PDWidget->set_discret(3,discret(value.at(2),2));
         PDWidget->set_discret(4,discret(value.at(2),3));
+        PDWidget->set_discret(12,discret(value.at(2),4));
+        PDWidget->set_discret(13,!discret(value.at(2),5));
 
         label[0]->setStyleSheet(discret(value.at(3),0) ? " background-color:rgb(0,250,0) ;border-radius: 5px; border-color: beige; padding: 2px;":
                                                          " background-color:rgb(CF,CF,CF) ;border-radius: 5px; border-color: beige; padding: 2px;");
@@ -206,44 +196,7 @@ void aknp_out::select(const QVector<int> &value){
         timer[1]->start();
         break;
 
-    //case 0x183:
-    //    PDWidget->set_analog(1,analog_l);
-    //    PDWidget->set_analog(4,analog_h);
-    //    break;
-    /*case 0x187:
-        PDWidget->set_discret(0,discret(value.at(1),0));
-        PDWidget->set_discret(1,discret(value.at(1),2));
-        PDWidget->set_discret(3,discret(value.at(1),1));
-        PDWidget->set_discret(4,discret(value.at(1),3));
-        PDWidget->set_discret(12,discret(value.at(1),4));
-        PDWidget->set_discret(13,discret(value.at(1),5));
 
-        count[2]++;
-        if(count[2] == 5){
-            ind[3]->setStyleSheet("background-color:rgb(240,240,240);border-radius:2px;padding :1px");
-            ind[4]->setStyleSheet("background-color:rgb(0,255,0);border-radius:2px;padding :1px");
-        }
-        else if(count[2] ==10){
-            ind[3]->setStyleSheet("background-color:rgb(0,255,0);border-radius:2px;padding :1px");
-            ind[4]->setStyleSheet("background-color:rgb(240,240,240);border-radius:2px;padding :1px");
-            count[2]=0;
-        }
-
-        timer[2]->stop();
-        timer[2]->start();
-           break;
-*/
-    /*case 0x404:
-        RD2Widget->set_discret(0,discret(value.at(5),0));
-        RD2Widget->set_discret(1,discret(value.at(5),1));
-        RD2Widget->set_discret(6,discret(value.at(5),4));
-        RD2Widget->set_discret(7,discret(value.at(5),5));
-        RD2Widget->set_discret(12,discret(value.at(5),3));
-        RD2Widget->set_discret(13,discret(value.at(5),6));
-.
-
-    break;
-*/
     default:
         break;
     }

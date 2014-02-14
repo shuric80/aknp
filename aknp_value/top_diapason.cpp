@@ -1,6 +1,6 @@
 #include "top_diapason.h"
 
-top_diaposon::top_diaposon()
+top_diaposon::top_diaposon(QWidget *parent)
 {
     led[0]->setText("АЗ N");
     led[1]->setText("ПЗ N");

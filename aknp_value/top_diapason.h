@@ -5,7 +5,7 @@
 class top_diaposon : public outWidget
 {
 public:
-    top_diaposon();
+    top_diaposon(QWidget *parent = 0);
 
 };
 

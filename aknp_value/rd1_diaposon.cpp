@@ -1,30 +1,31 @@
 #include "rd1_diaposon.h"
 
-rd1_diaposon::rd1_diaposon()
+rd1_diaposon::rd1_diaposon(QWidget *parent )
 {
     led[0]->setText("АЗ N");
-    led[1]->setText("АЗ Т");
+    led[3]->setText("АЗ Т");
     led[2]->setVisible(false);
-    led[3]->setText("ПС N");;
-    led[4]->setText("ПС T");
+    led[1]->setText("ПЗ N");;
+    led[4]->setText("ПЗ T");
     led[5]->setVisible(false);
-    led[6]->setVisible(false);
+    led[6]->setText("PMT");
     led[7]->setVisible(false);
     led[8]->setVisible(false);
 	led[9]->setVisible(false);
 	led[10]->setVisible(false);
 	led[11]->setVisible(false);
     led[12]->setText("НД РД1");
-    led[13]->setText("Н РД1.");
-    led[14]->setText("Н Бх");
+    led[13]->setText("Исп РД1.");
+    led[14]->setText("Исп БХ");
 
     led[0]->setColor("red");
-	led[1]->setColor("red");
-    led[3]->setColor("yellow");
+    led[1]->setColor("yellow");
+    led[3]->setColor("red");
     led[4]->setColor("yellow");
+    led[6]->setColor("yellow");
 	led[12]->setColor("green");
-	led[13]->setColor("red");
-    led[14]->setColor("red");
+    led[13]->setColor("green");
+    led[14]->setColor("green");
   //  discret_layout->setColumnMinimumWidth(2,60);
   //  discret_layout->setColumnMinimumWidth(3,60);
 	//discret_layout->setRowMinimumHeight(2,30);

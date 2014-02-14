@@ -5,7 +5,7 @@
 class rd2_diaposon : public outWidget
 {
 public:
-    rd2_diaposon();
+    rd2_diaposon(QWidget *parent = 0);
 
 };
 

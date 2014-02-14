@@ -5,7 +5,7 @@
 class pd_diaposon : public outWidget
 {
 public:
-    pd_diaposon();
+    pd_diaposon(QWidget *parent = 0);
 };
 
 #endif // PD_DIAPOSON_H

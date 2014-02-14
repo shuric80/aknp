@@ -1,12 +1,12 @@
 #include "pd_diaposon.h"
 
-pd_diaposon::pd_diaposon()
+pd_diaposon::pd_diaposon(QWidget *parent )
 {
     led[0]->setText("АЗ N");
-    led[1]->setText("АЗ T");
+    led[3]->setText("АЗ T");
     led[2]->setVisible(false);
-    led[3]->setText("ПС N");
-    led[4]->setText("ПС Т");
+    led[1]->setText("ПЗ N");
+    led[4]->setText("ПЗ Т");
     led[5]->setVisible(false);
     led[6]->setVisible(false);
     led[7]->setVisible(false);
@@ -14,8 +14,8 @@ pd_diaposon::pd_diaposon()
     led[9]->setVisible(false);
 	led[10]->setVisible(false);
 	led[11]->setVisible(false);
-    led[12]->setText("НД ПД1");
-	led[13]->setText("Неиспр.");
+    led[12]->setText("НД ПД");
+    led[13]->setText("Исп ПД.");
 	led[14]->setVisible(false);
 
     led[0]->setColor("red");
@@ -23,7 +23,7 @@ pd_diaposon::pd_diaposon()
     led[3]->setColor("yellow");
 	led[4]->setColor("yellow");
 	led[12]->setColor("green");
-	led[13]->setColor("red");
+    led[13]->setColor("green");
 	
   //  discret_layout->setColumnMinimumWidth(3,65);
   //  discret_layout->setColumnMinimumWidth(4,65);

@@ -14,6 +14,7 @@ MainWidget::MainWidget(QWidget *parent) :
     QVBoxLayout *right_layout = new QVBoxLayout;
     {
         rightCombo = new QComboBox(this);
+        rightCombo->setFixedWidth(200);
         {   rightCombo->addItem("АКНП");
             rightCombo->addItem("Слайд 1");
             rightCombo->addItem("Слайд 2");
