@@ -38,14 +38,9 @@ ake_01::ake_01(QWidget *parent) :
     label[8][0]->setFont(font);
     label[8][1]->setFont(font);
     label[9][1]->setFont(font);
- 
-
 }
 
-
-
-
-  {
+ {
           label[0][1]->setText(QString(" Nk = %1 %").arg(00.0));
           label[5][1]->setText(QString(" Ftx2 = %1 Гц").arg(0));
           label[4][1]->setText(QString(" Ftx1 = %1 Гц").arg(0));
@@ -78,22 +73,27 @@ ake_01::ake_01(QWidget *parent) :
 
   }
 
-  QVBoxLayout *akeLayout = new QVBoxLayout;
+  /*QVBoxLayout *akeLayout = new QVBoxLayout;
   {
       for(int i=0;i<4;i++)
           akeLayout->addWidget(ake_imit[i] = new AkeSlideImitator);
 
   }
 
+*/
   QHBoxLayout *topLayout = new QHBoxLayout;
-  topLayout->addLayout(akeLayout);
+//  topLayout->addLayout(akeLayout);
   topLayout->addLayout(layout);
   this->setLayout(topLayout);
+  // set style
+  {
+
+
+}
 }
 
 void ake_01::selectId(const QVector<int> &data){
 
-   // qDebug()<<"data"<<data;
 
     int id = data.at(0);
     QVector<int> data_01;

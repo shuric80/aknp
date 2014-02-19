@@ -25,13 +25,15 @@ private:
     pd_diaposon  *PDWidget ;
     rd1_diaposon *RD1Widget;
     rd2_diaposon *RD2Widget;
-    //AkeSlideImitator *ake_imit[4];
+
+    QString style_0;
+    QString style_1;
 
     bool discret(int,int);
     QLabel *label[3];
     QLabel *ind[4];
-    int count[3];
-    QTimer *timer[3];
+    int count[2];
+    QTimer *timer[2];
      float toFloat(QVector<int>);
 
 

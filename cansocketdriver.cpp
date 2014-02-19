@@ -9,6 +9,8 @@
 CanSocketDriver::CanSocketDriver(QObject *parent) :
     QObject(parent)
 {
+
+    //  extern bool debug;
     //QLocalSocket socket;
     qRegisterMetaType <QVector<int> > ("QVector<int>");  // register signal  <QVector<int> >
     stopped = false;
@@ -43,6 +45,7 @@ CanSocketDriver::CanSocketDriver(QObject *parent) :
 
 
 void CanSocketDriver::slot_thread_read(){
+    extern bool debug_rd;
 
     while(!stopped){
 
@@ -58,7 +61,9 @@ void CanSocketDriver::slot_thread_read(){
             for(int i=0;i<frame.can_dlc;i++)
                 buffer << frame.data[i];
             emit read_ok(buffer);
-            //qDebug()<<hex<<"0x"<<frame.can_id;
+
+            if(debug_rd)
+                qDebug() <<"r: id =0x" << hex << buffer.at(0);
         }
         qApp->processEvents();
     }
@@ -68,7 +73,7 @@ void CanSocketDriver::slot_thread_read(){
 
 void CanSocketDriver::slot_save(QVector<int> data){
 
-
+    extern bool debug_wr;
     struct can_frame frame_tx;
     frame_tx.can_id = data.at(0);
 
@@ -80,7 +85,9 @@ void CanSocketDriver::slot_save(QVector<int> data){
         frame_tx.data[i] = data.at(i+1);
 
     ssize_t ret = ::send(rx_s,&frame_tx,sizeof(struct can_frame),0);
-    qDebug()<< "save ssize_t"<< ret;
+
+    if(debug_wr)
+        qDebug() <<"w:" << hex << data;
 
     if(ret==-1)
         qWarning()<<"Error send in CAN";
@@ -91,13 +98,13 @@ void CanSocketDriver::slot_save(QVector<int> data){
 
 void CanSocketDriver::stop(){
 
-    qCritical()<<"Stop read";
+     qCritical()<<"Stop read";
      stopped = true;
 }
 
 
 CanSocketDriver::~CanSocketDriver(){
     emit finished();
-}
+    }
 
 

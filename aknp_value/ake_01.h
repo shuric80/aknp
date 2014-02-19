@@ -6,7 +6,7 @@
 #include <QLabel>
 #include <QGridLayout>
 #include <QTimer>
-#include <akeslideimitator.h>
+//#include <akeslideimitator.h>
 
 
 class ake_01 : public QWidget
@@ -19,7 +19,7 @@ private:
 
 QLabel *label[10][2];
 QString str[10][2];
-AkeSlideImitator *ake_imit[4];
+//AkeSlideImitator *ake_imit[4];
 
 public slots:
   void selectId(const QVector<int>&);

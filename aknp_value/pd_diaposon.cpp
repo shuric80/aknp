@@ -8,7 +8,7 @@ pd_diaposon::pd_diaposon(QWidget *parent )
     led[1]->setText("ПЗ N");
     led[4]->setText("ПЗ Т");
     led[5]->setVisible(false);
-    led[6]->setVisible(false);
+    led[6]->setText("PM T");
     led[7]->setVisible(false);
     led[8]->setVisible(false);
     led[9]->setVisible(false);
@@ -22,6 +22,7 @@ pd_diaposon::pd_diaposon(QWidget *parent )
 	led[1]->setColor("red");	
     led[3]->setColor("yellow");
 	led[4]->setColor("yellow");
+    led[6]->setColor("yellow");
 	led[12]->setColor("green");
     led[13]->setColor("green");
 	

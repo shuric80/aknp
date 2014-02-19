@@ -19,6 +19,7 @@ class MainWidget : public QWidget
     Q_OBJECT
 public:
     explicit MainWidget(QWidget *parent = 0);
+    QStackedWidget *rightStack;
 
 private:
    aknp_out *SlideValueDiap;
@@ -28,7 +29,7 @@ private:
     akr_widget *Slide_akr;
     QComboBox *leftCombo;
     QComboBox *rightCombo;
-    QStackedWidget *rightStack;
+    //QStackedWidget *rightStack;
 public slots:
 
    void  sel(const QVector<int>&);

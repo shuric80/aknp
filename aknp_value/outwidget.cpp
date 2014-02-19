@@ -1,6 +1,6 @@
 #include "outwidget.h"
-#define W_ANALOG 80
-#define H_ANALOG 20
+#define W_ANALOG 65
+#define H_ANALOG 25
 #define W_DISCRET 55
 #define H_DISCRET 25
 #define H_LABEL 20
@@ -15,10 +15,13 @@ outWidget::outWidget(QWidget *parent) :
     font.setPixelSize(9);
     this->setFont(font);
 
+    QFont font_anlg("Monospace",12);
+
     for(int i=0;i<6;i++){
         analog[i] = new QLineEdit(this);
-        analog[i]->setMaxLength(9);
+        analog[i]->setMaxLength(7);
         analog[i]->setReadOnly(true);
+        analog[i]->setFont(font_anlg);
     }
 
     {

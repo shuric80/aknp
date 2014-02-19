@@ -20,7 +20,6 @@ HEADERS += ake_01.h \
            aknp_imit/react_imit.h \
            aknp_imit/ulineedit.h \
            aknp_imit/verify.h \
-           aknp_value/akeslideimitator.h \
            aknp_value/aknp_out.h \
            aknp_value/outwidget.h \
            aknp_value/pd_diaposon.h \
@@ -30,7 +29,10 @@ HEADERS += ake_01.h \
            akr/akr_widget.h \
            aknp_value/QLed/qled.h \
     aknp_value/ake_01.h \
-    aknp_value/ake_02.h
+    aknp_value/ake_02.h \
+    aknp_imit/akeslideimitator.h \
+    aknp_imit/privod.h \
+    aknp_imit/akeimitator.h
 SOURCES += \
            cansocketdriver.cpp \
            canthread.cpp \
@@ -43,7 +45,6 @@ SOURCES += \
            aknp_imit/react_imit.cpp \
            aknp_imit/ulineedit.cpp \
            aknp_imit/verify.cpp \
-           aknp_value/akeslideimitator.cpp \
            aknp_value/aknp_out.cpp \
            aknp_value/outwidget.cpp \
            aknp_value/pd_diaposon.cpp \
@@ -53,4 +54,7 @@ SOURCES += \
            akr/akr_widget.cpp \
            aknp_value/QLed/qled.cpp \
     aknp_value/ake_01.cpp \
-    aknp_value/ake_02.cpp
+    aknp_value/ake_02.cpp \
+    aknp_imit/akeslideimitator.cpp \
+    aknp_imit/privod.cpp \
+    aknp_imit/akeimitator.cpp

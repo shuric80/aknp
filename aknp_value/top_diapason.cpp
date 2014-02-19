@@ -11,7 +11,7 @@ top_diaposon::top_diaposon(QWidget *parent)
     led[6]->setText("ГЦН 3");
     led[7]->setText("ГЦН 4");//setText("ПС N/G");
     led[8]->setVisible(false);
-    led[9]->setVisible(false);//("ПЗАФСЗ");
+    led[9]->setText("PM T");//("ПЗАФСЗ");
     led[10]->setVisible(false);
     led[11]->setVisible(false);
     led[12]->setText("АКНП");
@@ -43,6 +43,7 @@ top_diaposon::top_diaposon(QWidget *parent)
     led[7]->setColor("red");
     led[12]->setColor("green");
     led[13]->setColor("red");
+    led[9]->setColor("yellow");
 
 
 

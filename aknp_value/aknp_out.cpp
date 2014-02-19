@@ -6,11 +6,19 @@ aknp_out::aknp_out(QWidget *parent)
 {
 
 
+    QFont font("Monospace",10);
+    this->setFont(font);
 
     TWidget = new top_diaposon;
     PDWidget = new pd_diaposon;
     RD1Widget = new rd1_diaposon;
     RD2Widget = new rd2_diaposon;
+
+    //set style ind diap
+    style_1 = " background-color:rgb(0,250,0) ;border-radius: 5px; border-color: beige; padding: 2px;";
+    style_0 = "background-color:rgb(CF,CF,CF) ;border-radius: 5px; border-color: beige; padding: 2px;";
+
+
     //ake_imit = new AkeSlideImitator;
 
   //  PD1Widget->setVisible(false);
@@ -44,7 +52,10 @@ aknp_out::aknp_out(QWidget *parent)
         diap_layout[i]->addStretch(1);
         diap_layout[i]->addWidget(ind[i] = new QLabel);
         diap_layout[i]->addStretch(1);
-        label[i]->setStyleSheet(" background-color: rgb(150,150,150);border-radius: 5px; border-color: beige; padding: 1px;");
+        label[i]->setStyleSheet(" background-color: rgb(150,150,150);\
+                                border-radius: 5px; border-color: beige;\
+                                padding: 1px;");
+
         label[i]-> setFrameStyle(QFrame::Panel | QFrame::Raised);
         label[i]-> setLineWidth(1);
         label[i]->setMinimumHeight(15);
@@ -65,14 +76,15 @@ aknp_out::aknp_out(QWidget *parent)
 
     count[0]=0;
     count[1]=0;
-    count[2]=0;
-    for(int i=0;i<3;i++){
+
+    for(int i=0;i<2;i++){
         timer[i] =new  QTimer(this);
         timer[i]->setInterval(500);
     }
     connect(timer[0],SIGNAL(timeout()),RD2Widget,SLOT(clean()));
+    connect(timer[1],SIGNAL(timeout()),TWidget,SLOT(clean()));
     connect(timer[1],SIGNAL(timeout()),RD1Widget,SLOT(clean()));
-    connect(timer[2],SIGNAL(timeout()),PDWidget,SLOT(clean()));
+    connect(timer[1],SIGNAL(timeout()),PDWidget,SLOT(clean()));
 
     //connect(timer[0],SIGNAL(timeout()),this,SLOT(setNG()));
 
@@ -100,6 +112,7 @@ void aknp_out::select(const QVector<int> &value){
     case 0x404:
         RD2Widget->set_discret(0,discret(value.at(5),0));  // az rd2
         RD2Widget->set_discret(1,discret(value.at(5),1));   // pz rd2
+        RD2Widget->set_discret(6,discret(value.at(5),2));   // rm n
         RD2Widget->set_discret(12,discret(value.at(5),3));  //  start diap rd2
         RD2Widget->set_discret(9,discret(value.at(5),4));   // >5%
         RD2Widget->set_discret(10,discret(value.at(5),5));   // >75
@@ -116,7 +129,8 @@ void aknp_out::select(const QVector<int> &value){
         TWidget->set_discret(4,!discret(value.at(6),1)); // ГЦН2
         TWidget->set_discret(6,!discret(value.at(6),2)); // ГЦН3
         TWidget->set_discret(7,!discret(value.at(6),3)); // ГЦН4
-        TWidget->set_discret(13,discret(value.at(6),6));
+        TWidget->set_discret(13,discret(value.at(6),6));  // pm t
+        
 
         count[0]++;
 
@@ -158,38 +172,35 @@ void aknp_out::select(const QVector<int> &value){
         break;
 
     case 0x107:
-        RD1Widget->set_discret(0,discret(value.at(1),0));
-        RD1Widget->set_discret(3,discret(value.at(1),2));
-        RD1Widget->set_discret(1,discret(value.at(1),1));
-        RD1Widget->set_discret(4,discret(value.at(1),3));
-        RD1Widget->set_discret(12,discret(value.at(1),4));
-        RD1Widget->set_discret(13,!discret(value.at(1),5));
+	  RD1Widget->set_discret(0,discret(value.at(1),0));  // az n
+	  RD1Widget->set_discret(3,discret(value.at(1),2));  // az t
+	  RD1Widget->set_discret(1,discret(value.at(1),1));  // pz n
+	  RD1Widget->set_discret(4,discret(value.at(1),3));  // pz t 
+	  RD1Widget->set_discret(6,discret(value.at(1),4)); //  rm t
+	  RD1Widget->set_discret(12,discret(value.at(1),5)); //  start
 
-        PDWidget->set_discret(0,discret(value.at(2),0));
-        PDWidget->set_discret(1,discret(value.at(2),1));
-        PDWidget->set_discret(3,discret(value.at(2),2));
-        PDWidget->set_discret(4,discret(value.at(2),3));
-        PDWidget->set_discret(12,discret(value.at(2),4));
-        PDWidget->set_discret(13,!discret(value.at(2),5));
+	  PDWidget->set_discret(0,discret(value.at(2),0));   // az n
+	  PDWidget->set_discret(1,discret(value.at(2),1));   // pz n
+	  PDWidget->set_discret(3,discret(value.at(2),2));   // az t 
+	  PDWidget->set_discret(4,discret(value.at(2),3));   // pz t
+      PDWidget->set_discret(6,discret(value.at(2),4));    //pm t
+	  PDWidget->set_discret(12,discret(value.at(2),5));  // start
+	  PDWidget->set_discret(13,!discret(value.at(2),6)); //err
+      TWidget->set_discret(9,discret(value.at(6),4));  
+  
 
-        label[0]->setStyleSheet(discret(value.at(3),0) ? " background-color:rgb(0,250,0) ;border-radius: 5px; border-color: beige; padding: 2px;":
-                                                         " background-color:rgb(CF,CF,CF) ;border-radius: 5px; border-color: beige; padding: 2px;");
-        label[1]->setStyleSheet(discret(value.at(3),1) ? " background-color:rgb(0,250,0) ;border-radius: 5px; border-color: beige; padding: 2px;":
-                                                         " background-color:rgb(CF,CF,CF) ;border-radius: 5px; border-color: beige; padding: 2px;");
-        label[2]->setStyleSheet(discret(value.at(3),2) ? " background-color:rgb(0,250,0) ;border-radius: 5px; border-color: beige; padding: 2px;":
-                                                         " background-color:rgb(CF,CF,CF) ;border-radius: 5px; border-color: beige; padding: 2px;");
-        label[3]->setStyleSheet(discret(value.at(3),3) ? " background-color:rgb(0,250,0) ;border-radius: 5px; border-color: beige; padding: 2px;":
-                                                         " background-color:rgb(CF,CF,CF) ;border-radius: 5px; border-color: beige; padding: 2px;");
-        label[4]->setStyleSheet(discret(value.at(3),4) ? " background-color:rgb(0,250,0) ;border-radius: 5px; border-color: beige; padding: 2px;":
-                                                         " background-color:rgb(CF,CF,CF) ;border-radius: 5px; border-color: beige; padding: 2px;");
+        label[0]->setStyleSheet(discret(value.at(3),0) ? style_1: style_0);
+        label[1]->setStyleSheet(discret(value.at(3),1) ? style_1: style_0);
+        label[2]->setStyleSheet(discret(value.at(3),2) ? style_1: style_0);
+
         count[1]++;
         if(count[1] == 5){
             ind[1]->setStyleSheet("background-color:rgb(0,255,0) ;border-radius:2px;padding :1px");
-            ind[2]->setStyleSheet("background-color:rgb(240,240,240);;border-radius:2px;padding :1px");
+            ind[2]->setStyleSheet("background-color:rgb(240,240,240);border-radius:2px;padding :1px");
         }
         else if(count[1] ==10){
             ind[1]->setStyleSheet("background-color:rgb(240,240,240);border-radius:2px;padding :1px");
-            ind[2]->setStyleSheet("background-color:rgb(0,255,0);;border-radius:2px;padding :1px");
+            ind[2]->setStyleSheet("background-color:rgb(0,255,0);border-radius:2px;padding :1px");
             count[1]=0;
         }
         timer[1]->stop();

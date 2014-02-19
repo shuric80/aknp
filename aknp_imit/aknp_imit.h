@@ -10,6 +10,9 @@
 #include "react_imit.h"
 #include "periodimit.h"
 #include "verify.h"
+#include "privod.h"
+
+//#include "akeslideimitator.h"
 
 class aknp_imit : public QWidget
 {
@@ -18,30 +21,31 @@ class aknp_imit : public QWidget
 public:
     explicit aknp_imit(QWidget *parent = 0);
     ~aknp_imit();
+     QStackedWidget *stack;
 
 public slots:
      void stopFreq(int);
 
 private:
-    QStackedWidget *stack;
-    QComboBox *combo;
+
     PeriodImit *periodimit ;
     react_imit *reactimit ;
     react_imit *test_react_imit;
     verify *verify_widget;
+
 
     QVector <int> toVector(float);
     float toFloat(QVector<int>);
 
 public slots:
     void select(const QVector<int>&);
+    void mode_imit(int);
 
 private slots:
-
     void slot_freqgenerator(int,float);
     void slot_periodImit(QVector <float>);
     void slot_reactImit(QVector<float>);
-    void mode_imit(int);
+
 
 signals:
     void send(QVector<int>);

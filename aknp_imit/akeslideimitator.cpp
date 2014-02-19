@@ -7,7 +7,7 @@ AkeSlideImitator::AkeSlideImitator(QWidget *parent) :
 	  
       QLabel *label;
 
-	  privodLayout ->addWidget(label = new QLabel("F"));
+      privodLayout ->addWidget(label = new QLabel("H"));
 	  privodLayout ->addWidget(valuePrivod = new QSpinBox);
       privodLayout->addWidget(btnPlus = new QPushButton("+"));
 	  privodLayout->addWidget(btnMinus = new QPushButton("-"));
@@ -20,6 +20,7 @@ AkeSlideImitator::AkeSlideImitator(QWidget *parent) :
 	  connect(valuePrivod,SIGNAL(valueChanged(int)),this,SLOT(slotPrivod()));
       connect(btnPlus,SIGNAL(clicked()),this,SLOT(slotPlusValue()));
 	  connect(btnMinus,SIGNAL(clicked()),this,SLOT(slotMinusValue()));
+      this->setFixedWidth(70);
   }
   
 void AkeSlideImitator::slotPrivod(){

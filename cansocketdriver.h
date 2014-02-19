@@ -42,9 +42,7 @@ private:
   struct sockaddr_can addr;
   struct ifreq ifr;
   struct can_frame frame;
- // QMutex mutex;
 
- // QAbstractSocket *sock;
 
 };
 

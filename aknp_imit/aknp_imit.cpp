@@ -4,65 +4,68 @@
 aknp_imit::aknp_imit(QWidget *parent):QWidget(parent){
 
     stack = new QStackedWidget(this);
-    combo = new QComboBox(this);
+    //  combo = new QComboBox(this);
 
-    QFont font("Monospace",8);
-    this->setFont(font);
 
-   this->setFixedWidth(250);
-{
-        combo->addItem("Генератор частоты");
-        combo->addItem("Имитатор времени удвоения");
-        combo->addItem("Имитатор реактивности");
-        combo->addItem("Проверка имитатора реактивности");
-        combo->addItem("Проверка НП");
-    }
+ //   QFont font("Monospace",10);
+ //   this->setFont(font);
 
-    FreqGenerator *freq[4];
+    FreqGenerator *freq[2];
 
     periodimit =new PeriodImit(this);
     reactimit =new react_imit(true,this);
     test_react_imit  = new  react_imit(false,this);
     verify_widget =new verify(this);
 
+
     QVBoxLayout *freq_layout =new QVBoxLayout;
     QVBoxLayout *vert_layout = new QVBoxLayout;
 
-    vert_layout->addWidget(combo);
+    //vert_layout->addWidget(combo);
     vert_layout->addWidget(stack);
 
-    QLabel *label[3];
+    QLabel *label[2];
     QWidget *freq_widget = new QWidget(this);
 
-    for(int i=3;i>=0;i--){
-      //  freq_layout->addWidget(label[i]  =new QLabel);//(QString("КАНАЛ %1").arg(i)));
-        freq_layout->addWidget(freq[i] =new FreqGenerator(i));
-        freq[i]->setFixedHeight(150);
-
+    for(int i=1;i>=0;i--){
+        freq_layout->addWidget(label[i]  =new QLabel);//(QString("КАНАЛ %1").arg(i)));
+        freq_layout->addWidget(freq[i] = new FreqGenerator(i));
     };
-    /*{
-        label[3]->setText("Поддиапазон РД");
-        label[2]->setText("Поддиапазон ПД2");
-        label[1]->setText("Поддиапазон ПД1");
-        label[0]->setText("Поддиапазон ИД");
 
-    }
-    */
+    freq_layout->addStretch(1);
+
+    label[0]->setText("Поддиапазон 1");
+    label[1]->setText("Поддиапазон 2");
 
     freq_widget->setLayout(freq_layout);
 
-    stack->addWidget(freq_widget);
-    stack->addWidget(periodimit);
-    stack->addWidget(reactimit);
-    stack->addWidget(test_react_imit);
-    stack->addWidget(verify_widget);
+    QWidget *privodWidget = new QWidget(this);
+    QVBoxLayout *privodLayout = new QVBoxLayout;
+    {
+        PrivodImit *privodImit[4];
+
+        for(int i=0;i<4;i++){
+            privodLayout->addWidget(privodImit[i] = new PrivodImit(i));
+
+        }
+
+      privodWidget->setLayout(privodLayout);
+    }
+     {
+        stack->addWidget(freq_widget);
+        stack->addWidget(periodimit);
+        stack->addWidget(reactimit);
+        stack->addWidget(test_react_imit);
+        stack->addWidget(verify_widget);
+        stack->addWidget(privodWidget);
+    }
 
     this->setLayout(vert_layout);
 
-    connect(combo,SIGNAL(activated(int)),stack,SLOT(setCurrentIndex(int)));
-    connect(combo,SIGNAL(activated(int)),this,SLOT(stopFreq(int)));
+    //  connect(combo,SIGNAL(activated(int)),stack,SLOT(setCurrentIndex(int)));
+    //  connect(combo,SIGNAL(activated(int)),this,SLOT(stopFreq(int)));
 
-    for(int i=0;i<4;i++)
+    for(int i=0;i<2;i++)
         connect(freq[i],SIGNAL(setFreq(int,float)),this,SLOT(slot_freqgenerator(int,float)));
 
     connect(periodimit,SIGNAL(send(QVector<float>)),this,SLOT(slot_periodImit(QVector<float>)));
@@ -82,6 +85,14 @@ void aknp_imit::stopFreq(int n){
     periodimit->reset();
     reactimit->reset();
     test_react_imit->reset();
+    if(n==6){
+        stack->setDisabled(true);
+        stack->setCurrentIndex(0);
+    }
+    else
+        stack->setDisabled(false);
+
+
 }
 
 void aknp_imit::select(const QVector<int> &value){

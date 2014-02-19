@@ -29,6 +29,8 @@ public slots:
  private:
   QThread *thread;
   CanSocketDriver *cansocket;
+  QVector<int> dd_0;
+  QVector<int> dd_1;
 };
 
 #endif // CANTHREAD_H
