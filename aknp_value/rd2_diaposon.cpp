@@ -14,17 +14,19 @@ rd2_diaposon::rd2_diaposon(QWidget *parent)
     led[9]->setText("N>5%");
     led[10]->setText("N>75");
 	led[11]->setVisible(false);
-	led[12]->setText("НД РД2");
-    led[13]->setText("Исп РД2");
-    led[14]->setText("Исп БХ1");
+    led[12]->setText("ндРД2");
+    led[13]->setText("ИспРД2");
+    led[14]->setText("ИспБХ1");
     //discret_layout->setColumnMinimumWidth(1,30);
    // discret_layout->setColumnMinimumWidth(3,30);
    // discret_layout->setRowMinimumWidth(4,90);
 
-    analog_lab[0]->setText("N,%");
+    prefix[0] = "N";
+    suffix[0] = "%";
   //  analog_lab[1]->setText("G,кг/с");
   //  analog_lab[2]->setText("N/G,% ");
-    analog_lab[3]->setText("Nуст,%");
+    prefix[3] ="Nуст";
+    suffix[3] ="%";
  //   analog_lab[4]->setText("F,Гц");
  //   analog_lab[5]->setText("N/Gуст,% ");
     analog[1]->setVisible(false);

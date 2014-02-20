@@ -41,9 +41,9 @@ aknp_imit::aknp_imit(QWidget *parent):QWidget(parent){
 
     QWidget *privodWidget = new QWidget(this);
     QVBoxLayout *privodLayout = new QVBoxLayout;
-    {
-        PrivodImit *privodImit[4];
 
+        PrivodImit *privodImit[4];
+{
         for(int i=0;i<4;i++){
             privodLayout->addWidget(privodImit[i] = new PrivodImit(i));
 
@@ -75,6 +75,10 @@ aknp_imit::aknp_imit(QWidget *parent):QWidget(parent){
     connect(test_react_imit,SIGNAL(mode_imit(int)),this,SLOT(mode_imit(int)));
     connect(test_react_imit,SIGNAL(send(QVector<float>)),this,SLOT(slot_reactImit(QVector<float>)));
     connect(verify_widget,SIGNAL(send_verify(int)),this,SLOT(mode_imit(int)));
+
+    for(int i=0;i<4;i++)
+        connect(privodImit[i],SIGNAL(setFreq(int,float)),this,SLOT(slot_freqgenerator(int,float)));
+
 }
 
 

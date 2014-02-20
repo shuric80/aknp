@@ -9,10 +9,11 @@
 #include <QtGui/QDoubleSpinBox>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QVBoxLayout>
+#include <QRadioButton>
 
 #define MAX_FREQ 125000
 #define MAX_STEP 10.0
-
+#define MAX_STEP_POWER 1000
 
 class FreqGenerator : public QWidget
 {
@@ -27,11 +28,21 @@ private slots:
     void plusFreq();
     void minusFreq();
     void start();
+    void setMode(bool);
+
 private:
     QDoubleSpinBox *freqBox;
     QDoubleSpinBox *stepBox;
+    QDoubleSpinBox *stepPowerBox;
     QPushButton *plusButton;
 	QPushButton *minusButton;
+    QRadioButton *selMode_0;
+    QRadioButton *selMode_1;
+
+    QLabel *stepLabel;
+    QLabel *powLabel;
+
+    bool mode;
 
     float value_step;
     float start_freq;

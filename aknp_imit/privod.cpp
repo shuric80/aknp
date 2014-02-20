@@ -134,13 +134,17 @@ void PrivodImit::slotPrivod(){
       privBox->setValue(181);
     else if((182 < pv) & (pv <254)){
       privBox ->setStyleSheet("background-color:pink");
-      //btnMinus->setEnabled(false);
-      //btnPlus->setEnabled(false);
+      plusButton->setEnabled(false);
+      minusButton->setEnabled(false);
+      freqBox->setEnabled(false);
+      stepBox->setEnabled(false);
      }
     else{
       privBox->setStyleSheet("background-color:white");
-      //btnPlus->setEnabled(true);
-      //btnMinus->setEnabled(true);
+      plusButton->setEnabled(true);
+      minusButton->setEnabled(true);
+      freqBox->setEnabled(true);
+      stepBox->setEnabled(true);
      }
 
     //send

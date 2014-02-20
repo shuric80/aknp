@@ -19,12 +19,14 @@ top_diaposon::top_diaposon(QWidget *parent)
     led[14]->setVisible(false);
    // discret_layout->setColumnMinimumWidth(1,10);
     //
-    analog_lab[0]->setText("Nтек,%");
-    analog_lab[1]->setText("Tтек,c");
-    analog_lab[2]->setVisible(false);
-    analog_lab[4]->setVisible(false);
-    analog_lab[3]->setVisible(false);
-    analog_lab[5]->setVisible(false);
+   prefix[0] ="N";
+   suffix[0]= "%";
+   prefix[1] = "T";
+   suffix[1] = "c";
+    //analog_lab[2]->setVisible(false);
+    //analog_lab[4]->setVisible(false);
+    //analog_lab[3]->setVisible(false);
+    //analog_lab[5]->setVisible(false);
     //analog[1]->setVisible(false);
     analog[2]->setVisible(false);
     analog[5]->setVisible(false);

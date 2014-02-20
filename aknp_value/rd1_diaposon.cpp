@@ -14,9 +14,9 @@ rd1_diaposon::rd1_diaposon(QWidget *parent )
 	led[9]->setVisible(false);
 	led[10]->setVisible(false);
 	led[11]->setVisible(false);
-    led[12]->setText("НД РД1");
-    led[13]->setText("Исп РД1");
-    led[14]->setText("Исп БХ");
+    led[12]->setText("НРД1");
+    led[13]->setText("ИспРД1");
+    led[14]->setText("ИспБХ");
 
     led[0]->setColor("red");
     led[1]->setColor("yellow");
@@ -30,12 +30,16 @@ rd1_diaposon::rd1_diaposon(QWidget *parent )
   //  discret_layout->setColumnMinimumWidth(3,60);
 	//discret_layout->setRowMinimumHeight(2,30);
     //
-    analog_lab[0]->setText("N,%");
-    analog_lab[1]->setText("Т,с ");
-    analog_lab[2]->setVisible(false);
-    analog_lab[3]->setText("Nуст,%");
-    analog_lab[4]->setText("Туст,с");
-    analog_lab[5]->setVisible(false);
+    prefix[0] ="N";
+    suffix[0] ="%";
+    prefix[1] ="Т";
+    suffix[1] ="c";
+    //prefix[2]->setVisible(fanlse);
+    prefix[3] = "Nуст";
+    suffix[3]="%";
+    prefix[4] = "Туст";
+    suffix[4]="c";
+    //analog_lab[5]->setVisible(false);
     analog[2]->setVisible(false);
     analog[5]->setVisible(false); 
 

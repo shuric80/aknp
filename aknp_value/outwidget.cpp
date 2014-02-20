@@ -1,27 +1,27 @@
 #include "outwidget.h"
-#define W_ANALOG 65
-#define H_ANALOG 25
+#define W_ANALOG 75
+#define H_ANALOG 35
 #define W_DISCRET 55
 #define H_DISCRET 25
-#define H_LABEL 20
-#define W_LABEL 40
 
-#define SPACE  15
+
+#define SPACE  10
 
 outWidget::outWidget(QWidget *parent) :
     QWidget(parent){
 
     QFont font("Monospace");
-    font.setPixelSize(9);
+    font.setPixelSize(12);
     this->setFont(font);
 
-    QFont font_anlg("Monospace",12);
+    QString style = QString("background-color:rgb(100,100,100);color:rgb(250,250,250);\
+                            padding:0px;border-radius:10px");
+
 
     for(int i=0;i<6;i++){
-        analog[i] = new QLineEdit(this);
-        analog[i]->setMaxLength(7);
-        analog[i]->setReadOnly(true);
-        analog[i]->setFont(font_anlg);
+       analog[i] = new QLabel(this);
+       analog[i]->setStyleSheet(style);
+       analog[i]->setFont(font);
     }
 
     {
@@ -31,6 +31,7 @@ outWidget::outWidget(QWidget *parent) :
         for(int i=3;i<6;i++)
             analog[i]->setGeometry(200,20+40*(i-3),W_ANALOG,H_ANALOG);
      }
+
 
      for(int i=0;i<15;i++){
          led[i] = new QLed(this);
@@ -50,20 +51,20 @@ outWidget::outWidget(QWidget *parent) :
              led[i]->setGeometry(10,20+35*(i-12),W_DISCRET,H_DISCRET);
 }
 
-     for(int i=0;i<8;i++){
+//     for(int i=0;i<8;i++){
 
-         analog_lab[i] = new QLabel(this);
-     }
-     {
-         for(int i=0;i<3;i++)
-             analog_lab[i]->setGeometry(120,40*i,W_LABEL,H_LABEL);
-         for(int i=3;i<6;i++)
-             analog_lab[i]->setGeometry(220,40*(i-3),W_LABEL,H_LABEL);
+//         analog_lab[i] = new QLabel(this);
+//     }
+//     {
+//         for(int i=0;i<3;i++)
+//             analog_lab[i]->setGeometry(120,40*i,W_LABEL,H_LABEL);
+//         for(int i=3;i<6;i++)
+//             analog_lab[i]->setGeometry(220,40*(i-3),W_LABEL,H_LABEL);
 
 
-     }
+//     }
 
-    this->setFixedSize(600,200);
+    this->setFixedSize(580,200);
 
 }
 
@@ -71,15 +72,15 @@ outWidget::outWidget(QWidget *parent) :
 void outWidget:: set_analog(unsigned int number, float value,int mode ){
 
     if(mode ==1)
-        analog[number] ->setText(QString(" ") +QString::number(value,'f',1));
+        analog[number] ->setText(prefix[number]+QString::number(value,'f',1));
     else if(mode ==2)
-        analog[number]->setText(QString(" ") +QString::number(value,'e',2));
+        analog[number]->setText(prefix[number]+QString::number(value,'e',2));
     else if(mode==3)
-        analog[number]->setText(QString(" ") + QString ::number(value,'f',3));
+        analog[number]->setText(prefix[number]+QString ::number(value,'f',3));
     else if (mode==4)
-        analog[number]->setText(QString(" ")+ QString::number(value,'f',2));
+        analog[number]->setText(prefix[number]+QString::number(value,'f',2));
     else{
-        QString str = QString::number(value,'f',0);
+        QString str = prefix[number]+ QString::number(value,'f',0);
         if(value <0)
             analog[number] ->setText(QString("%1").arg(str));//,10,'f',0));//,'f',0));
         else

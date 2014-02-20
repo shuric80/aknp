@@ -10,13 +10,18 @@ ake_01::ake_01(QWidget *parent) :
   QHBoxLayout *hlayout[8];
   QVBoxLayout *layout = new QVBoxLayout;
 
-  QFont font("Arial Cyr",10);
+  QFont font("Arial Cyr",12);
+
+  QString style = QString("background-color:rgb(100,100,100);color:rgb(250,250,250);\
+                          padding:0px;border-radius:10px");
   
   for(int i=0;i<8;i++){
     layout->addLayout(hlayout[i] = new QHBoxLayout);
     hlayout[i]->addWidget(label[i][0] = new QLabel);
     hlayout[i]->addWidget(label[i][1] = new QLabel);
     hlayout[i]->addStretch(1);
+    label[i][0]->setStyleSheet(style);
+    label[i][1]->setStyleSheet(style);
   }
 
   layout->addWidget(label[8][0] = new QLabel);
@@ -27,7 +32,7 @@ ake_01::ake_01(QWidget *parent) :
 	for(int j=0;j<2;j++){
 
       label[i][j]->setFixedSize(WIDTH,HEIGHT);
-      label[i][j]->setFrameStyle(6);
+      //label[i][j]->setFrameStyle(6);
       label[i][j]->setFont(font);
 	}
 
@@ -38,6 +43,11 @@ ake_01::ake_01(QWidget *parent) :
     label[8][0]->setFont(font);
     label[8][1]->setFont(font);
     label[9][1]->setFont(font);
+
+
+    label[8][0]->setStyleSheet(style);
+    label[8][1]->setStyleSheet(style);
+    label[9][1]->setStyleSheet(style);
 }
 
  {

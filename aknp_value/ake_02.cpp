@@ -1,5 +1,5 @@
 #include "ake_02.h"
-#define WIDTH 180
+#define WIDTH 140
 #define HEIGHT 40
 #include <QDebug>
 
@@ -9,22 +9,31 @@ ake_02::ake_02(QWidget *parent) :
 
     QHBoxLayout *hlayout[10];
     QVBoxLayout *topLayout = new QVBoxLayout;
-
+    QString style = QString("background-color:rgb(100,100,100);color:rgb(250,250,250);\
+                            padding:0px;border-radius:10px");
+    QFont font("Monospace",12);
+   // this->setFont(font);
 
     for(int i=0;i<8;i++){
         topLayout->addLayout(hlayout[i] = new QHBoxLayout);
         hlayout[i]->addWidget(label[i][0] = new QLabel);
         hlayout[i]->addWidget(label[i][1] = new QLabel);
+        hlayout[i]->addStretch(1);
+
+    //    label[i][0]->setStyleSheet(style);
+
     }
 
     topLayout->addLayout(hlayout[8] = new QHBoxLayout);
     topLayout->addLayout(hlayout[9] = new QHBoxLayout);
 
-    hlayout[8]->addStretch(1);
-    hlayout[8]->addWidget(label[8][1] = new QLabel);
 
-    hlayout[9]->addStretch(1);
+    hlayout[8]->addWidget(label[8][1] = new QLabel);
+    hlayout[8]->addStretch(1);
+
+
     hlayout[9]->addWidget(label[9][1] = new QLabel);
+     hlayout[9]->addStretch(1);
 
     str[4][1] = QString(" Nh = %1");
 
@@ -35,12 +44,14 @@ ake_02::ake_02(QWidget *parent) :
         for(int j=0;j<2;j++){
             //label[i][j]->setText(str[i][j]);
             label[i][j]->setFixedSize(WIDTH,HEIGHT);
-            label[i][j]->setFrameStyle(6);
+            label[i][j]->setFont(font);
+              label[i][j]->setStyleSheet(style);
 
         }
         for(int i=8;i<=9;i++){
-            label[i][1]->setFrameStyle(6);
+            label[i][1]->setFont(font);
             label[i][1]->setFixedSize(WIDTH,HEIGHT);
+            label[i][1]->setStyleSheet(style);
         }
     }
     this->setLayout(topLayout);

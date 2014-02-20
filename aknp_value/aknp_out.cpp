@@ -6,7 +6,7 @@ aknp_out::aknp_out(QWidget *parent)
 {
 
 
-    QFont font("Monospace",10);
+    QFont font("Monospace",8);
     this->setFont(font);
 
     TWidget = new top_diaposon;

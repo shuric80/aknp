@@ -26,12 +26,14 @@ AkeSlideImitator::AkeSlideImitator(QWidget *parent) :
 void AkeSlideImitator::slotPrivod(){
 
 	int pv = valuePrivod->value();
+
     if(pv == 182)
 	  valuePrivod->setValue(255);
 	else if(pv == 254 )
 	  valuePrivod->setValue(181);
 	else if((182 < pv) & (pv <254)){
 	  valuePrivod ->setStyleSheet("background-color:pink");
+
       btnMinus->setEnabled(false);
       btnPlus->setEnabled(false); 
 	 }
