@@ -11,6 +11,7 @@
 #include "periodimit.h"
 #include "verify.h"
 #include "privod.h"
+#include <unistd.h>
 
 //#include "akeslideimitator.h"
 
@@ -37,15 +38,19 @@ private:
     QVector <int> toVector(float);
     float toFloat(QVector<int>);
 
+    QSpinBox *privodBox[4];
+
 public slots:
     void select(const QVector<int>&);
     void mode_imit(int);
+    void mode_imit_byte2(int);
+
 
 private slots:
     void slot_freqgenerator(int,float);
     void slot_periodImit(QVector <float>);
     void slot_reactImit(QVector<float>);
-
+    void slot_privod(int);
 
 signals:
     void send(QVector<int>);

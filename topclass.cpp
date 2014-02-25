@@ -23,7 +23,7 @@ TopClass::TopClass(QWidget*parent) :
     connect(thread,SIGNAL(emitRxBuf(const QVector<int>&)),widget,SLOT(sel(const QVector<int>&)));
     //connect(thread,SIGNAL(emitRxBuf(const QVector<int>&)),widget,SIGNAL())
     widget->setWindowState(widget->windowState() ^ Qt::WindowFullScreen);
-    widget->setFixedSize(800,600);
+    widget->setFixedSize(850,600);
     widget->show();
 
 

@@ -111,11 +111,11 @@ void aknp_out::select(const QVector<int> &value){
 
     case 0x404:
         RD2Widget->set_discret(0,discret(value.at(5),0));  // az rd2
-        RD2Widget->set_discret(1,discret(value.at(5),1));   // pz rd2
+        RD2Widget->set_discret(3,discret(value.at(5),1));   // pz rd2
         RD2Widget->set_discret(6,discret(value.at(5),2));   // rm n
         RD2Widget->set_discret(12,discret(value.at(5),3));  //  start diap rd2
-        RD2Widget->set_discret(9,discret(value.at(5),4));   // >5%
-        RD2Widget->set_discret(10,discret(value.at(5),5));   // >75
+        RD2Widget->set_discret(4,discret(value.at(5),4));   // >5%
+        RD2Widget->set_discret(1,discret(value.at(5),5));   // >75
         RD2Widget->set_discret(13,!discret(value.at(5),6));   //  err
         RD2Widget->set_discret(14,!discret(value.at(7),0));   //  err bh rd2
 
@@ -173,17 +173,17 @@ void aknp_out::select(const QVector<int> &value){
 
     case 0x107:
 	  RD1Widget->set_discret(0,discret(value.at(1),0));  // az n
-	  RD1Widget->set_discret(3,discret(value.at(1),2));  // az t
-	  RD1Widget->set_discret(1,discret(value.at(1),1));  // pz n
+      RD1Widget->set_discret(1,discret(value.at(1),2));  // az t
+      RD1Widget->set_discret(3,discret(value.at(1),1));  // pz n
 	  RD1Widget->set_discret(4,discret(value.at(1),3));  // pz t 
-	  RD1Widget->set_discret(6,discret(value.at(1),4)); //  rm t
+      RD1Widget->set_discret(7,discret(value.at(1),4)); //  rm t
 	  RD1Widget->set_discret(12,discret(value.at(1),5)); //  start
 
 	  PDWidget->set_discret(0,discret(value.at(2),0));   // az n
-	  PDWidget->set_discret(1,discret(value.at(2),1));   // pz n
-	  PDWidget->set_discret(3,discret(value.at(2),2));   // az t 
+      PDWidget->set_discret(3,discret(value.at(2),1));   // pz n
+      PDWidget->set_discret(1,discret(value.at(2),2));   // az t
 	  PDWidget->set_discret(4,discret(value.at(2),3));   // pz t
-      PDWidget->set_discret(6,discret(value.at(2),4));    //pm t
+      PDWidget->set_discret(7,discret(value.at(2),4));    //pm t
 	  PDWidget->set_discret(12,discret(value.at(2),5));  // start
 	  PDWidget->set_discret(13,!discret(value.at(2),6)); //err
       TWidget->set_discret(9,discret(value.at(6),4));  

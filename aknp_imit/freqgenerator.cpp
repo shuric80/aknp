@@ -108,6 +108,7 @@ border:0px");
    // setMode(false);
     selMode_1->setChecked(true); //default mode =true;
    //this->setFixedWidth(150);
+
 }
 void FreqGenerator::setMode(bool mode){
 

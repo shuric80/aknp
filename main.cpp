@@ -23,9 +23,6 @@ int main(int argc, char *argv[])
 
     }
 
-
-
-
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8")); //изменения
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8")); //изменения
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8")); //изменения

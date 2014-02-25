@@ -20,6 +20,7 @@ MainWidget::MainWidget(QWidget *parent) :
             rightCombo->addItem("Слайд 1");
             rightCombo->addItem("Слайд 2");
             rightCombo->addItem("АКР");
+            rightCombo->addItem("Параметры");
         }
 
         leftCombo = new QComboBox(this);
@@ -27,7 +28,7 @@ MainWidget::MainWidget(QWidget *parent) :
         {
 
             leftCombo->addItem("Имитатор мощности");
-            leftCombo->addItem("Имитатор времени удвоения");
+            leftCombo->addItem("Имитатор периода");
             leftCombo->addItem("Имитатор реактивности");
             leftCombo->addItem("Проверка имитатора реактивности");
             leftCombo->addItem("Проверка НП");
@@ -47,7 +48,9 @@ MainWidget::MainWidget(QWidget *parent) :
             rightStack->addWidget(Slide_AKE0 = new ake_01(rightStack));
             rightStack->addWidget(Slide_AKE1 = new ake_02(rightStack));
             rightStack->addWidget(Slide_akr = new akr_widget(rightStack));
+           rightStack->addWidget(listParametrer = new ParamTable(rightStack));
         }
+        Slide_akr ->setFixedWidth(520);
         connect(rightCombo,SIGNAL(activated(int)),rightStack,SLOT(setCurrentIndex(int)));
 
         right_layout->addWidget(rightCombo);
@@ -71,7 +74,7 @@ MainWidget::MainWidget(QWidget *parent) :
     connect(leftCombo,SIGNAL(activated(int)),Slide_imitator->stack,SLOT(setCurrentIndex(int)));
     connect(leftCombo,SIGNAL(activated(int)),Slide_imitator,SLOT(stopFreq(int)));
 
-
+  
 }
 
 void MainWidget::sel(const QVector<int>&data){
@@ -80,4 +83,5 @@ void MainWidget::sel(const QVector<int>&data){
     Slide_AKE1->selectId(data);
     Slide_akr->select(data);
     Slide_imitator->select(data);
+    listParametrer->selectId(data);
 }

@@ -242,7 +242,7 @@ void react_imit::input_power(float val){
 
 void react_imit::input_react(float val){
 
-    out_react->setText(QString::number(val,'g',4));
+    out_react->setText(QString::number(val,'g',3));
 }
 void react_imit::input_time(){
     usec++;

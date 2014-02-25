@@ -15,14 +15,12 @@ public:
     ~outWidget();
   
     QLed *led[15];
- //   QLabel *analog_lab[8];
-    QLabel *analog[6];
+    QLabel *analog_lab[8];
+    QLineEdit *analog[6];
 
 
 
 public:
-    QString prefix[6];
-    QString suffix[6];
     void set_analog(unsigned int,float,int mode = 0);
     void set_discret(unsigned int,bool);
 public slots:

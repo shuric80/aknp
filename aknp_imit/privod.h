@@ -19,21 +19,21 @@ class PrivodImit : public QWidget
     Q_OBJECT
     
 public:
-    explicit PrivodImit(int , QWidget *parent = 0);
+    explicit PrivodImit(int ,QWidget *parent = 0);
  signals:
 
-	void setFreq(int,float);   
+    void setFreq(int,float);
 private slots:
     void plusFreq();
     void minusFreq();
-    void slotPrivod();
     void start();
 private:
     QDoubleSpinBox *freqBox;
     QDoubleSpinBox *stepBox;
-    QSpinBox *privBox;
     QPushButton *plusButton;
 	QPushButton *minusButton;
+
+    int init;
 
     float value_step;
     float start_freq;

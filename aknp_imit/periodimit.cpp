@@ -27,7 +27,7 @@ PeriodImit::PeriodImit(QWidget *parent):QWidget(parent){
       //  label[i]->setStyleSheet(style);
     }
     {
-        label[0]->setText("Время удвоения, c");
+        label[0]->setText("Период, c");
         label[1]->setText("Начальная мощность, %");
         label[2]->setText("Конечная мощность, %");
         label[3]->setText("Текущее время, c");

@@ -12,6 +12,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include "aknp_value/aknp_out.h"
+#include "paramtable.h"
 
 
 class MainWidget : public QWidget
@@ -29,6 +30,7 @@ private:
     akr_widget *Slide_akr;
     QComboBox *leftCombo;
     QComboBox *rightCombo;
+    ParamTable *listParametrer;
     //QStackedWidget *rightStack;
 public slots:
 

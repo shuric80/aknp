@@ -2,10 +2,11 @@
 
 ULineEdit::ULineEdit(QWidget *parent):QLineEdit(parent){
    
-     QFont font("Monospace");
-    font.setPixelSize(12);
+     QFont font("Monospace",9);
+     this->setFont(font);
+
     this->setFixedHeight(30);
-    this->setFont(font);
+
     this->valid = true;
     connect(this,SIGNAL(textChanged(QString)),this,SLOT(slotTextEdit(QString)));
 

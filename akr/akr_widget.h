@@ -12,6 +12,7 @@
 #include <QInputDialog>
 #include <QTimer>
 #include <QMutex>
+#include <unistd.h>
 
 class akr_widget : public QWidget
 {

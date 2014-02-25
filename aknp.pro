@@ -32,7 +32,8 @@ HEADERS += ake_01.h \
     aknp_value/ake_02.h \
     aknp_imit/akeslideimitator.h \
     aknp_imit/privod.h \
-    aknp_imit/akeimitator.h
+    aknp_imit/akeimitator.h \
+    paramtable.h
 SOURCES += \
            cansocketdriver.cpp \
            canthread.cpp \
@@ -57,4 +58,8 @@ SOURCES += \
     aknp_value/ake_02.cpp \
     aknp_imit/akeslideimitator.cpp \
     aknp_imit/privod.cpp \
-    aknp_imit/akeimitator.cpp
+    aknp_imit/akeimitator.cpp \
+    paramtable.cpp
+
+FORMS += \
+    paramtable.ui

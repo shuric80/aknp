@@ -74,13 +74,13 @@ akr_widget::akr_widget(QWidget *parent) :
     label[5]->setText("Ns,%");
     label[6]->setText("Pu/U");
     label[7]->setText("Усреднение");
-    label[8]->setText("Fгр ПД2 <-> РД1,Гц");
-    label[9]->setText("Fгр ПД1 <-> ПД2,Гц");
-    label[10]->setText("Fгр ИД <-> ПД1,Гц");
-    label[11]->setText("N/F рд1,рд2");
-    label[12]->setText("N/Fпд2");
-    label[13]->setText("N/Fпд1");
-    label[14]->setText("N/Fид");
+    label[8]->setText("Fгр ПД <-> РД1,Гц");
+    label[9]->setText("Fгр скп <-> ПД,Гц");
+    label[10]->setText("Fгр афз <-> скп,Гц");
+    label[11]->setText("N/Fрд");
+    label[12]->setText("N/Fпд");
+    label[13]->setText("N/Fскп");
+    label[14]->setText("N/Fафз");
     label[15]->setText("F0,Гц");
     label[16]->setText("N канала");
 
@@ -116,7 +116,7 @@ akr_widget::akr_widget(QWidget *parent) :
         analog_line[i]->setReadOnly(true);
         analog_line[i]->setFocusPolicy(Qt::NoFocus);
         analog_line[i]-> setStyleSheet("background-color:rgb(235,235,235)");
-        analog_line[i]->setFixedSize(70,25);
+        analog_line[i]->setFixedSize(75,25);
 
     }
     for(int i =0;i<5;i++){
@@ -242,22 +242,24 @@ void akr_widget::slot_save(){
     
     for(int i=0;i<4;i++)
         power_dd << byte[i];
-    for(int i=0;i<10;i++){
+   // for(int i=0;i<10;i++){
         mutex.lock();
         emit send(koef_nf0);
-        
+
+        ::usleep(1000);
         emit send(koef_nf1);
-        
+        ::usleep(1000);
         emit send(power_dd);
-        
+        ::usleep(1000);
         emit send(freq0);
-        
+        ::usleep(1000);
+
         QVector<int> save;
         save << 0x285;
         emit send(save);
         
         mutex.unlock();
-    }
+   // }
     //slot_reset();
 }
 
@@ -342,14 +344,14 @@ void akr_widget::select(const QVector<int> &value){
             diaposon_line->setText("Неисправность");
         
         else if(value.at(1) == 0b00010)
-            diaposon_line->setText("РД1");
+            diaposon_line->setText("РД");
         
         else if(value.at(1) == 0b00100)
-            diaposon_line->setText("ПД2");
+            diaposon_line->setText("ПД");
         else if(value.at(1)== 0b01000)
-            diaposon_line->setText("ПД1");
+            diaposon_line->setText("СКП");
         else if(value.at(1) == 0b10000)
-            diaposon_line->setText("ИД");
+            diaposon_line->setText("АФЗ");
         else {}
     }
         
