@@ -15,16 +15,16 @@ pd_diaposon::pd_diaposon(QWidget *parent )
 	led[10]->setVisible(false);
 	led[11]->setVisible(false);
     led[12]->setText("НД ПД");
-    led[13]->setText("Исп ПД.");
+    led[13]->setText("ПД");
 	led[14]->setVisible(false);
 
-    led[0]->setColor("red");
-	led[1]->setColor("red");	
-    led[3]->setColor("yellow");
-	led[4]->setColor("yellow");
-    led[7]->setColor("yellow");
-	led[12]->setColor("green");
-    led[13]->setColor("green");
+    led[0]->setColor("R");
+    led[1]->setColor("R");
+    led[3]->setColor("Y");
+    led[4]->setColor("Y");
+    led[7]->setColor("Y");
+    led[12]->setColor("G");
+    led[13]->setColor("RG");
 	
   //  discret_layout->setColumnMinimumWidth(3,65);
   //  discret_layout->setColumnMinimumWidth(4,65);

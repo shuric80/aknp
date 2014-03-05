@@ -100,8 +100,8 @@ void ake_02::selectId(const QVector<int> &data){
 
     switch(id){
     case 0x404:
-        label[8][1] ->setText(QString(" Fнкор = %1").arg(toInt(data_01)));
-        label[9][1] ->setText(QString(" Fккор = %1").arg(toInt(data_02)));
+        label[8][1] ->setText(QString(" Fнкор = %1").arg(toInt(data_01)*1.1111));
+        label[9][1] ->setText(QString(" Fккор = %1").arg(toInt(data_02)*1.1111));
         break;
 
     case 0x40A:

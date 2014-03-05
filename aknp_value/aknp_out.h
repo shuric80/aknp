@@ -18,6 +18,7 @@ class aknp_out : public QWidget
 
 public:
     explicit aknp_out(QWidget *parent = 0);
+    volatile int err;
     //~MainWindow();
 
 private:
@@ -37,8 +38,13 @@ private:
      float toFloat(QVector<int>);
 
 
+
 public slots:
     void select(const QVector<int>&);
+    void setErr();
+
+signals:
+    void sendCodErr();
   };
 
 #endif // MAINWINDOW_H

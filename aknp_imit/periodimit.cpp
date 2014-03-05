@@ -51,9 +51,9 @@ PeriodImit::PeriodImit(QWidget *parent):QWidget(parent){
     time->min = -900;
     time->max = 900;
     power_S->min = 1e-08;
-    power_S->max = 1.5e2;
+    power_S->max = 2.4e2;
     power_F->min = 1e-08;
-    power_F->max = 1.5e2;
+    power_F->max = 2.4e2;
     time->setMaximumWidth(QFontMetrics(time->font()).width("_+00000_")+10);
     power_S->setMaximumWidth(QFontMetrics(power_S->font()).width("_+0.00E-00_")+10);
     power_F->setMaximumWidth(QFontMetrics(power_F->font()).width("_+0.00E-00_")+10);

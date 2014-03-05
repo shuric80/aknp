@@ -58,9 +58,9 @@ react_imit::react_imit(bool mode, QWidget *parent) :
     time->min = 0;
     time->max = 1000;
     power_S->min = 1e-09;
-    power_S->max = 1.5e2;
+    power_S->max = 2.4e2;
     power_F->min = 1e-09;
-    power_F->max = 1.5e2;
+    power_F->max = 2.4e2;
 
 
     react->setMaximumWidth(QFontMetrics(react->font()).width("_+00000000_")+10);

@@ -1,21 +1,35 @@
 #include "qled.h"
+#define  GREY   0x888888
 
 QLed::QLed(QWidget *parent) :
     QWidget(parent){
+
+    timer = new QTimer(this);
+    timer->setInterval(500);
+    connect(timer,SIGNAL(timeout()),this,SLOT(NoActive()));
 
    // this->setMinimumSize(50,5);
     this->str ="test";
     this->on =0x0f0f0f;
     this->off=0xf0f0f0;
-    this->set=false;
+    this->set=true;
+
+    timer->start();
 }
 
 void QLed::setLed(bool on){
-  if(!set == on){
+
+    off = this->colorOff;
+
+    if(!set == on){
     this -> set = on;
     this->update();
    }
   else {}
+
+  timer->stop();
+  timer->start();
+
 }
 
 void QLed::setText(QString str){
@@ -24,22 +38,40 @@ void QLed::setText(QString str){
 
 void QLed::setColor(QString color){
 
-    if(color == QString("red")){
+    if(color == QString("R")){
         on = 0xff0000;
-        off =0x800000 ;
+        off = GREY ;
     }
-    else if(color == QString ("green")){
+    else if(color == QString ("G")){
         on  = 0x00ff00;
-        off = 0x008000;
+        off = GREY;
     }
-    else if(color == QString("yellow")){
+    else if(color == QString("Y")){
         on = 0xffff00;
-        off= 0x808000;
+        off= GREY;
     }
+    else if(color == QString("RG")){
+        on = 0x00ff00;
+        off = 0xff0000;
+    }
+
     else {
         on =  0x000000;
         off = 0xffffff;
     }
+
+    this->colorOff = off;
+}
+
+
+void QLed::NoActive(){
+
+
+    off = GREY;
+    set = FALSE;
+
+    this->update();
+    timer->stop();
 
 }
 
@@ -52,7 +84,7 @@ void QLed::paintEvent(QPaintEvent *){
     gradient.setColorAt(0,Qt::white);
 
     set ?   gradient.setColorAt(0.05,on)
-             :gradient.setColorAt(0.05,Qt::gray);
+             :gradient.setColorAt(0.05,off);
 
     painter.setPen(QPen(Qt::black,1,Qt::SolidLine,Qt::RoundCap));
     painter.setBrush(gradient);

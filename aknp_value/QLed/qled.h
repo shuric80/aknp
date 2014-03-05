@@ -8,6 +8,7 @@
 #include <QtGui/QFrame>
 #include <QtGui/QLabel>
 #include <QtGui/QVBoxLayout>
+#include <QTimer>
 
 #define  H_SIZE 15
 #define  V_SIZE 8
@@ -31,6 +32,10 @@ private:
     int on_color;
     int off_color;
     bool set;
+    QTimer *timer;
+    int colorOff;
+private slots:
+    void NoActive();
 
 };
 

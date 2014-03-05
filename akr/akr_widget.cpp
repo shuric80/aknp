@@ -146,6 +146,8 @@ akr_widget::akr_widget(QWidget *parent) :
 
     connect(timer,SIGNAL(timeout()),this,SLOT(clear()));  //clear form if no send data
 
+    this-> err = 1;
+
 
 }
 
@@ -153,6 +155,8 @@ void akr_widget::clear(){
     
     for(int i=0;i<9;i++)
         analog_line[i]->clear();
+
+    this->err =1;
 
     
 }
@@ -329,6 +333,7 @@ void akr_widget::select(const QVector<int> &value){
         analog_line[1]->setText(QString::number(analog_h,'e',2));
         timer->stop();
         timer->start(500);
+        this->err =0;
 
         break;
         

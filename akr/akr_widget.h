@@ -20,6 +20,8 @@ class akr_widget : public QWidget
 public:
     explicit akr_widget(QWidget *parent = 0);
 
+    volatile int  err;
+
 private:
     bool toggled;
     QLineEdit *analog_line[10];
@@ -44,9 +46,11 @@ private:
     QVector<int> toVector(const QString &);
     QTimer *timer;
     QMutex mutex;
+
 signals:
     void send(QVector<int>);
     void reset_akr();
+
 public slots:
     void select(const QVector<int>&);
     void input_password();

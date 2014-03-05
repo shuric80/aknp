@@ -9,6 +9,8 @@ aknp_out::aknp_out(QWidget *parent)
     QFont font("Monospace",8);
     this->setFont(font);
 
+
+
     TWidget = new top_diaposon;
     PDWidget = new pd_diaposon;
     RD1Widget = new rd1_diaposon;
@@ -79,12 +81,17 @@ aknp_out::aknp_out(QWidget *parent)
 
     for(int i=0;i<2;i++){
         timer[i] =new  QTimer(this);
-        timer[i]->setInterval(500);
+        timer[i]->setInterval(1000);
+        timer[i]->start();
     }
     connect(timer[0],SIGNAL(timeout()),RD2Widget,SLOT(clean()));
     connect(timer[1],SIGNAL(timeout()),TWidget,SLOT(clean()));
     connect(timer[1],SIGNAL(timeout()),RD1Widget,SLOT(clean()));
     connect(timer[1],SIGNAL(timeout()),PDWidget,SLOT(clean()));
+
+    connect(timer[0],SIGNAL(timeout()),this,SLOT(setErr()));
+
+
 
     //connect(timer[0],SIGNAL(timeout()),this,SLOT(setNG()));
 
@@ -114,8 +121,8 @@ void aknp_out::select(const QVector<int> &value){
         RD2Widget->set_discret(3,discret(value.at(5),1));   // pz rd2
         RD2Widget->set_discret(6,discret(value.at(5),2));   // rm n
         RD2Widget->set_discret(12,discret(value.at(5),3));  //  start diap rd2
-        RD2Widget->set_discret(4,discret(value.at(5),4));   // >5%
-        RD2Widget->set_discret(1,discret(value.at(5),5));   // >75
+        RD2Widget->set_discret(1,discret(value.at(5),4));   // >5%
+        RD2Widget->set_discret(4,discret(value.at(5),5));   // >75
         RD2Widget->set_discret(13,!discret(value.at(5),6));   //  err
         RD2Widget->set_discret(14,!discret(value.at(7),0));   //  err bh rd2
 
@@ -123,13 +130,14 @@ void aknp_out::select(const QVector<int> &value){
 
         TWidget->set_discret(12,discret(value.at(7),5));
         TWidget->set_discret(0,discret(value.at(7),6));
-        TWidget->set_discret(1,discret(value.at(7),7));
+        TWidget->set_discret(3,discret(value.at(7),7));
 
-        TWidget->set_discret(3,!discret(value.at(6),0)); // ГЦН1
-        TWidget->set_discret(4,!discret(value.at(6),1)); // ГЦН2
-        TWidget->set_discret(6,!discret(value.at(6),2)); // ГЦН3
-        TWidget->set_discret(7,!discret(value.at(6),3)); // ГЦН4
-        TWidget->set_discret(13,discret(value.at(6),6));  // pm t
+        TWidget->set_discret(2,!discret(value.at(6),0)); // ГЦН1
+        TWidget->set_discret(5,!discret(value.at(6),1)); // ГЦН2
+        TWidget->set_discret(8,!discret(value.at(6),2)); // ГЦН3
+        TWidget->set_discret(11,!discret(value.at(6),3)); // ГЦН4
+        TWidget->set_discret(13,!discret(value.at(6),6));  // er ake
+
         
 
         count[0]++;
@@ -142,6 +150,7 @@ void aknp_out::select(const QVector<int> &value){
         }
         else{
             timer[0]->stop();
+            setErr();
             timer[0]->start();
         }
         break;
@@ -178,6 +187,7 @@ void aknp_out::select(const QVector<int> &value){
 	  RD1Widget->set_discret(4,discret(value.at(1),3));  // pz t 
       RD1Widget->set_discret(7,discret(value.at(1),4)); //  rm t
 	  RD1Widget->set_discret(12,discret(value.at(1),5)); //  start
+      RD1Widget->set_discret(13,!discret(value.at(1),6));  // er rd1
 
 	  PDWidget->set_discret(0,discret(value.at(2),0));   // az n
       PDWidget->set_discret(3,discret(value.at(2),1));   // pz n
@@ -185,8 +195,8 @@ void aknp_out::select(const QVector<int> &value){
 	  PDWidget->set_discret(4,discret(value.at(2),3));   // pz t
       PDWidget->set_discret(7,discret(value.at(2),4));    //pm t
 	  PDWidget->set_discret(12,discret(value.at(2),5));  // start
-	  PDWidget->set_discret(13,!discret(value.at(2),6)); //err
-      TWidget->set_discret(9,discret(value.at(6),4));  
+      PDWidget->set_discret(13,discret(value.at(2),6)); //err
+      TWidget->set_discret(7,discret(value.at(6),4));
   
 
         label[0]->setStyleSheet(discret(value.at(3),0) ? style_1: style_0);
@@ -204,6 +214,7 @@ void aknp_out::select(const QVector<int> &value){
             count[1]=0;
         }
         timer[1]->stop();
+        setErr();
         timer[1]->start();
         break;
 
@@ -231,4 +242,13 @@ float aknp_out::toFloat(QVector<int> value){
     str[3] = value.at(3);
 
     return f;
+}
+
+void aknp_out::setErr(){
+
+
+    this->err = ((RD2Widget->err) << 2) |(PDWidget->err);
+//    qDebug()<< err;
+
+
 }

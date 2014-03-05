@@ -96,13 +96,11 @@ ake_01::ake_01(QWidget *parent) :
   topLayout->addLayout(layout);
   this->setLayout(topLayout);
   // set style
-  {
-
-
-}
+ //  this->err=1;
 }
 
 void ake_01::selectId(const QVector<int> &data){
+
 
 
     int id = data.at(0);
@@ -129,14 +127,14 @@ void ake_01::selectId(const QVector<int> &data){
         label[0][1]->setText(QString(" Nk = %1 %").arg(toFloat(dataFl),0,'f',2));
         break;
     case 0x402:
-        label[5][1]->setText(QString(" Ftx2 = %1 Гц").arg(toInt(data_01)));
-        label[4][1]->setText(QString(" Ftx1 = %1 Гц").arg(toInt(data_03)));
+        label[5][1]->setText(QString(" Ftx2 = %1 Гц").arg(toInt(data_01)*10));
+        label[4][1]->setText(QString(" Ftx1 = %1 Гц").arg(toInt(data_03)*10));
         break;
     case 0x403:
-        label[6][0] ->setText(QString(" Fн = %1 Гц").arg(toInt(data_01)));
-        label[4][0] ->setText(QString(" Fв = %1 Гц").arg(toInt(data_02)));
-        label[5][0] ->setText(QString(" Fc = %1 Гц").arg(toInt(data_03)));
-        label[7][0]-> setText(QString(" Fкор = %1 Гц").arg(toInt(data_04)));
+        label[6][0] ->setText(QString(" Fн = %1 Гц").arg(toInt(data_01)*1.1111));
+        label[4][0] ->setText(QString(" Fв = %1 Гц").arg(toInt(data_02)*1.1111));
+        label[5][0] ->setText(QString(" Fc = %1 Гц").arg(toInt(data_03)*1.1111));
+        label[7][0]-> setText(QString(" Fкор = %1 Гц").arg(toInt(data_04)*1.1111));
         break;
      case 0x405:
         label[1][1]->setText(QString(" N = %1 %").arg(toFloat(dataFh),0,'f',2));

@@ -11,12 +11,12 @@ rd2_diaposon::rd2_diaposon(QWidget *parent)
     led[6]->setText("PM N");
     led[10]->setVisible(false);
     led[8]->setVisible(false);
-    led[4]->setText("N>5%");
-    led[1]->setText("N>75");
+    led[4]->setText("N>75%");
+    led[1]->setText("N>5");
 	led[11]->setVisible(false);
 	led[12]->setText("НД РД2");
-    led[13]->setText("Исп РД2");
-    led[14]->setText("Исп БХ1");
+    led[13]->setText("РД2");
+    led[14]->setText("БХ РД2");
 
 
     analog_lab[0]->setText("N,%");
@@ -27,14 +27,14 @@ rd2_diaposon::rd2_diaposon(QWidget *parent)
     analog[4]->setVisible(false);
     analog[5]->setVisible(false);
 
-    led[0]->setColor("red");
-    led[3]->setColor("yellow");
-    led[6]->setColor("yellow");
-    led[4]->setColor("green");
-    led[1]->setColor("green");
-    led[12]->setColor("green");
-    led[13]->setColor("green");
-    led[14]->setColor("green");
+    led[0]->setColor("R");
+    led[3]->setColor("Y");
+    led[6]->setColor("Y");
+    led[4]->setColor("G");
+    led[1]->setColor("G");
+    led[12]->setColor("G");
+    led[13]->setColor("RG");
+    led[14]->setColor("RG");
 
     //discret_layout->setRowMinimumHeight(2,30);
 }

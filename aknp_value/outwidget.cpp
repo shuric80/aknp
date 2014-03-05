@@ -39,15 +39,15 @@ outWidget::outWidget(QWidget *parent) :
     }
      {
          for(int i=0;i<3;i++)
-             led[i]->setGeometry(320,20+35*i,W_DISCRET,H_DISCRET);
+             led[i]->setGeometry(320,20+30*i,W_DISCRET,H_DISCRET);
          for(int i=3;i<6;i++)
-             led[i]->setGeometry(370,20+35*(i-3),W_DISCRET,H_DISCRET);
+             led[i]->setGeometry(370,20+30*(i-3),W_DISCRET,H_DISCRET);
          for(int i=6;i<9;i++)
-             led[i]->setGeometry(420,20+35*(i-6),W_DISCRET,H_DISCRET);
+             led[i]->setGeometry(420,20+30*(i-6),W_DISCRET,H_DISCRET);
          for(int i=9;i<12;i++)
-             led[i]->setGeometry(470,20+35*(i-9),W_DISCRET,H_DISCRET);
+             led[i]->setGeometry(470,20+30*(i-9),W_DISCRET,H_DISCRET);
          for(int i=12;i<15;i++)
-             led[i]->setGeometry(0,20+35*(i-12),W_DISCRET,H_DISCRET);
+             led[i]->setGeometry(0,20+30*(i-12),W_DISCRET,H_DISCRET);
 }
 
      for(int i=0;i<8;i++){
@@ -63,9 +63,13 @@ outWidget::outWidget(QWidget *parent) :
      }
 
     this->setFixedSize(650,200);
+
+   this->err = 1;
 }
 
 void outWidget:: set_analog(unsigned int number, float value,int mode ){
+
+    this->err = 0;
 
     if(mode ==1)
         analog[number] ->setText(QString(" ") +QString::number(value,'f',1));
@@ -93,8 +97,8 @@ void outWidget::clean(){
 
     for(int i=0;i<6;i++)
         analog[i]->clear();
-    for(int i=0;i<14;i++)
-          led[i]->setLed(0);
+
+     this->err = 1;
 }
 
 outWidget::~outWidget()

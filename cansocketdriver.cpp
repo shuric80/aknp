@@ -1,5 +1,4 @@
-
- #include "cansocketdriver.h"
+#include "cansocketdriver.h"
 #include <iostream>
 #include <fcntl.h>
 
@@ -90,7 +89,7 @@ void CanSocketDriver::slot_save(QVector<int> data){
         qDebug() <<"w:" << hex << data;
 
     if(ret==-1)
-        qWarning()<<"Error send in CAN";
+        qWarning()<<"Error send in CAN: 0x" <<hex <<  frame_tx.can_id;
 }
 
 
@@ -104,6 +103,7 @@ void CanSocketDriver::stop(){
 
 
 CanSocketDriver::~CanSocketDriver(){
+
     emit finished();
     }
 

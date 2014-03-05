@@ -43,10 +43,31 @@ aknp_imit::aknp_imit(QWidget *parent):QWidget(parent){
     QVBoxLayout *privodLayout = new QVBoxLayout;
 
     PrivodImit *privodImit[4];
+    QLabel *privLabel[4];
+ 
+   // for(int i=0;i<4;i++){
+    {
+        privodLayout->addWidget(privLabel[0] = new QLabel);
+        privodLayout->addWidget(privodImit[0] = new PrivodImit(0));
+        
+        privodLayout->addWidget(privLabel[2] = new QLabel);
+        privodLayout->addWidget(privodImit[2] = new PrivodImit(2));
+         
+        privodLayout->addWidget(privLabel[1] = new QLabel);
+        privodLayout->addWidget(privodImit[1] = new PrivodImit(1));
+        
+        privodLayout->addWidget(privLabel[3] = new QLabel);
+        privodLayout->addWidget(privodImit[3] = new PrivodImit(3));
+      
 
-    for(int i=0;i<4;i++)
-        privodLayout->addWidget(privodImit[i] = new PrivodImit(i));
+     }
+    {
+       privLabel[3]->setText("Fт");
+       privLabel[1]->setText("Fн");
+       privLabel[2]->setText("Fср");
+       privLabel[0]->setText("Fвв");
 
+ }
     {
         QHBoxLayout *layout_0 = new QHBoxLayout;
         QHBoxLayout *layout_1 = new QHBoxLayout;
@@ -290,7 +311,7 @@ void aknp_imit::slot_privod(int value){
             privodBox[i]->setStyleSheet("background-color:white");
 
 
-    mode_imit(32);
+   // mode_imit(32);
 
     QVector<int> data;
     data << 0x30C;

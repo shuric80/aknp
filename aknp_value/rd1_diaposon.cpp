@@ -15,17 +15,17 @@ rd1_diaposon::rd1_diaposon(QWidget *parent )
 	led[10]->setVisible(false);
 	led[11]->setVisible(false);
     led[12]->setText("НД РД1");
-    led[13]->setText("Исп РД1");
-    led[14]->setText("Исп БХ");
+    led[13]->setText("РД1");
+    led[14]->setText("БХ РД1");
 
-    led[0]->setColor("red");
-    led[1]->setColor("red");
-    led[3]->setColor("yellow");
-    led[4]->setColor("yellow");
-    led[7]->setColor("yellow");
-	led[12]->setColor("green");
-    led[13]->setColor("green");
-    led[14]->setColor("green");
+    led[0]->setColor("R");
+    led[1]->setColor("R");
+    led[3]->setColor("Y");
+    led[4]->setColor("Y");
+    led[7]->setColor("Y");
+    led[12]->setColor("G");
+    led[13]->setColor("RG");
+    led[14]->setColor("RG");
   //  discret_layout->setColumnMinimumWidth(2,60);
   //  discret_layout->setColumnMinimumWidth(3,60);
 	//discret_layout->setRowMinimumHeight(2,30);

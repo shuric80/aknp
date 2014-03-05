@@ -14,6 +14,7 @@ class ake_01 : public QWidget
 Q_OBJECT
 public:
     explicit ake_01(QWidget *parent = 0);
+
     
 private:
 

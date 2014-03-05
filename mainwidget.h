@@ -20,6 +20,7 @@ class MainWidget : public QWidget
     Q_OBJECT
 public:
     explicit MainWidget(QWidget *parent = 0);
+    ~MainWidget();
     QStackedWidget *rightStack;
 
 private:
@@ -31,10 +32,14 @@ private:
     QComboBox *leftCombo;
     QComboBox *rightCombo;
     ParamTable *listParametrer;
+    QLabel *label;
+    QTimer *timer;
     //QStackedWidget *rightStack;
 public slots:
 
    void  sel(const QVector<int>&);
+private slots:
+   void setStatusBar();
 signals:
     void sendCan(QVector<int>);
     void select(const QVector<int>&);

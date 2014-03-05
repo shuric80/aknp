@@ -1,8 +1,10 @@
+
 #include <QtGui/QApplication>
 #include "topclass.h"
 #include <QDebug>
 #define DEBUG false
 #include <QTextCodec>
+#include "outlog.cpp"
 
 bool debug_rd = false;
 bool debug_wr = false;
@@ -23,6 +25,8 @@ int main(int argc, char *argv[])
 
     }
 
+    qInstallMsgHandler(myMessageOutput);
+   
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8")); //изменения
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8")); //изменения
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8")); //изменения
