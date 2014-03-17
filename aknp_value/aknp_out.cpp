@@ -137,7 +137,7 @@ void aknp_out::select(const QVector<int> &value){
         TWidget->set_discret(8,!discret(value.at(6),2)); // ГЦН3
         TWidget->set_discret(11,!discret(value.at(6),3)); // ГЦН4
         TWidget->set_discret(13,!discret(value.at(6),6));  // er ake
-
+        TWidget->set_discret(6,discret(value.at(5),2));
         
 
         count[0]++;
@@ -196,6 +196,10 @@ void aknp_out::select(const QVector<int> &value){
       PDWidget->set_discret(7,discret(value.at(2),4));    //pm t
 	  PDWidget->set_discret(12,discret(value.at(2),5));  // start
       PDWidget->set_discret(13,discret(value.at(2),6)); //err
+      TWidget->set_discret(7,discret(value.at(6),4));
+
+      TWidget->set_discret(1,discret(value.at(6),2));
+      TWidget->set_discret(4,discret(value.at(6),3));
       TWidget->set_discret(7,discret(value.at(6),4));
   
 

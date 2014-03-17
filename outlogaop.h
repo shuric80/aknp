@@ -91,6 +91,9 @@ typedef struct packet_t{
     quint16 discret_2;      //26
     quint16 discret_3;      //27
     quint16 discret_4;      //28
+
+    
+   
 }   packet;
 
 #pragma pack(pop)
@@ -123,13 +126,14 @@ private:
     QTimer  *timer;
     float swapIntFloat(const QVector<int>&);
     float swapIntFloat(int);
+
     float toFloat(const QVector<int>&);
     int  toInt(const QVector<int>&);
-
+    int  IntToInt_10(const QVector<int> &,float n=1);
     int CoderCommand10hRTU_List(unsigned char, unsigned char*,int, unsigned char*);
     unsigned short crc_sum(unsigned char*, int);
    unsigned int toBool(int,int,int);
-
+    
    // socket_t sock;
    // sockaddr_in local_addr;		// local address and port to bind
    // sockaddr_in remote_addr;	// remote address and port to send buffers

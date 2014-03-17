@@ -49,37 +49,39 @@ void outLogAop::select(const QVector<int> &val){
         pack.set_power_rd2 = toFloat(data_h);
         break;
     case 0x403:
-        pack.Fn = (quint16)(  10*(value.at(1) <<8 | value.at(2)));//toInt(value.mid(1,2));
-        pack.Fv = (quint16)( 10*(value.at(3)<<8  | value.at(4)));//toInt(value.mid(3,2));
-        pack.Fsr =(quint16)(10*(value.at(5)<<8  | value.at(6)));//toInt(value.mid(5,2));
-        pack.Fkor =10*(value.at(7)<<8| value.at(8));//toInt(value.mid(7,2));
+        pack.Fn = IntToInt_10(value.mid(1,2),1.1111);
+        pack.Fv = IntToInt_10(value.mid(3,2),1.1111);//
+        pack.Fsr =IntToInt_10(value.mid(5,2),1.1111);//
+       // pack.Fkor =(value.at(7)<<8  | value.at(8);//toInt(value.mid(7,2));
         break;
     case 0x404:
-      //  pack.Fkor = toInt(value.mid(1,2));
-
-        pack.discret_0 &= 0b10000;
-        pack.discret_3 &= 0x0;
-
-        pack.discret_0 |= toBool(value.at(5),0,0); //az rd2
-        pack.discret_0 |= toBool(value.at(5),1,1); //pz rd2
-
-        pack.discret_0 |= toBool(value.at(5),6,3); //start rd2
-
-        pack.discret_0 |= toBool(value.at(5),4,12); // n>5
-        pack.discret_0 |= toBool(value.at(5),5,15);  //n>75
-        pack.discret_0 |= toBool(value.at(5),6,3);  //error
+        pack.Fkor = IntToInt_10(value.mid(1,2),1.1111);
 
 
-        pack.discret_3 |= toBool(value.at(6),4,12); //correct +
-        pack.discret_3 |= toBool(value.at(6),5,13); //correct -
-        pack.discret_3 |= toBool(value.at(6),6,0); // er
+        
+        dd_0 |= toBool(value.at(5),0,0); //az rd2
+        dd_0 |= toBool(value.at(5),1,1); //pz rd2
+        dd_0 |= toBool(value.at(5),2,2); // pm n
+//        dd_0 |= toBool(value.at(5),3,4); // rd2
+
+        dd_0 |= toBool(value.at(5),4,12); // n>5
+        dd_0 |= toBool(value.at(5),5,15);  //n>75
+        dd_0 |= toBool(value.at(5),6,3);  //error
 
 
-        pack.discret_0 |= toBool(value.at(7),1,5);  // er aknp
-        pack.discret_0 |= toBool(value.at(7),8,6);  // az n
-        pack.discret_0 |= toBool(value.at(7),9,7);  // pz n
+        dd_3 |= toBool(value.at(6),4,12); //correct +
+        dd_3 |= toBool(value.at(6),5,13); //correct -
+        dd_3 |= toBool(value.at(6),6,0); // er
+        dd_0 |= toBool(~value.at(6),7,7);//    proverka
 
-        pack.discret_0 |= toBool(value.at(8),6,2); //pz-2 n    rd2
+        dd_0 |= toBool(~value.at(7),5,6);  // er aknp
+        dd_0 |= toBool(value.at(7),6,8);  // az n
+        dd_0 |= toBool(value.at(7),7,9);  // pz n
+
+        dd_4 &= ~0x200;    //  set flag read pum 514r1   if ok to dd4=0;
+
+
+        //dd_0 |= toBool(value.at(8),6,2); //pz-2 n    rd2
 
         break;
     case 0x405:
@@ -104,16 +106,16 @@ void outLogAop::select(const QVector<int> &val){
        // pack.H3 = value.at(5);
         break;
     case 0x408:
-        pack.Tef = value.at(1) << 8 |value.at(2);
-        pack.Tkf = value.at(3) << 8 |value.at(4);
+        pack.Tef = swapIntFloat(value.mid(1,2));
+        pack.Tkf = swapIntFloat(value.mid(3,2));
         pack.T1 =  swapIntFloat(value.mid(5,2));
         pack.T2 =  swapIntFloat(value.mid(7,2));
         break;
     case 0x409:
         pack.Tcold = swapIntFloat(value.mid(1,2));
-        pack.H1 = 0.01*(value.at(3) << 8 | value.at(4)); 
-        pack.H2 = 0.01*(value.at(5) << 8 | value.at(6));
-        pack.H3 = 0.01*(value.at(7) << 8 | value.at(8));
+        pack.H1 = IntToInt_10(value.mid(3,2),0.01);
+        pack.H2 = IntToInt_10(value.mid(5,2),0.01);
+        pack.H3 = IntToInt_10(value.mid(7,2),0.01);
         break;
     case 0x40A:
         pack.Kkor = toFloat(value.mid(1,4));
@@ -161,48 +163,57 @@ void outLogAop::select(const QVector<int> &val){
         break;
 
     case 0x107:
-        pack.discret_1 &= 0x0;
-        pack.discret_2 &= 0x0;
-        pack.discret_0 = toBool(0,0,4);
+       // dd_1=0;
+       // dd_2=0;
+       // dd_0 &= ~0b110000010000;
 
-        pack.discret_1 |= toBool(value.at(1),0,1); //az n rd1
-        pack.discret_1 |= toBool(value.at(1),1,0);  //pz n rd1
-        pack.discret_2 |= toBool(value.at(1),2,2);  //az t   rd1
-        pack.discret_2 |= toBool(value.at(1),3,1);  // pz t rd1
-
-        pack.discret_1 |= toBool(value.at(1),5,3);  //pz rd2
-
-
-        pack.discret_2 |= toBool(value.at(2),0,2); //az n pd
-        pack.discret_2 |= toBool(value.at(2),1,0); //pz n pd
-        pack.discret_2 |= toBool(value.at(2),2,7); //az t   pd
-        pack.discret_2 |= toBool(value.at(2),3,6);
-
-        pack.discret_2 |= toBool(value.at(2),5,8); //er pd
-
-        pack.discret_0 |= toBool(value.at(3),0,4); // rd 2
-        pack.discret_1 |= toBool(value.at(3),1,4); // rd 1
-        pack.discret_1 |= toBool(value.at(3),2,9); //  pd
+        dd_1 |= toBool(value.at(1),0,1); //az n rd1
+        dd_1 |= toBool(value.at(1),1,0);  //pz n rd1
+        dd_2 |= toBool(value.at(1),2,2);  //az t   rd1
+        dd_2 |= toBool(value.at(1),3,1);  // pz t rd1
+        dd_2 |= toBool(value.at(1),4,0);  // rm t
+        dd_1 |= toBool(value.at(1),6,3);  //p
 
 
-      //  pack.discret_1 |= toBool(value.at(4),1,0); //az n pd
-        pack.discret_2 |= toBool(value.at(4),3,1); //pzt-1
-        pack.discret_2 |= toBool(value.at(4),7,0); //pzt-2
+        //dd_l2 |= toBool(value.at(2),0,2); //az n pd
+        dd_1 |= toBool(value.at(2),0,6); //pz n pd
+        dd_1 |= toBool(value.at(2),1,5); //az t   pd
+        dd_2 |= toBool(value.at(2),2,7);
+        dd_2 |= toBool(value.at(2),3,6); //er pd
+        dd_2 |= toBool(value.at(2),4,5);
+        dd_1 |= toBool(~value.at(2),6,8);
 
-        pack.discret_2 |= toBool(value.at(5),3,6); //pct-1 pd
-        pack.discret_1 |= toBool(value.at(5),7,0); //pct-2  pd
+        dd_0 |= toBool(value.at(3),0,4); // rd 2
+        dd_1 |= toBool(value.at(3),1,4); // rd 1
+        dd_1 |= toBool(value.at(3),2,9); //  pd
+
+        dd_0 |= toBool(value.at(6),2,10);
+        dd_0 |= toBool(value.at(6),3,11);
+
+        dd_4 &= ~0x100;  // signal read data pum-514r  if ok to       dd_4 = 0;
+
+        //dd_1 |= toBool(value.at(4),1,0); //az n pd
+        //dd_2 |= toBool(value.at(4),3,1); //pzt-1
+        //dd_2 |= toBool(value.at(4),7,0); //pzt-2
+
+        //dd_2 |= toBool(value.at(5),3,6); //pct-1 pd
+        //dd_1 |= toBool(value.at(5),7,0); //pct-2  pd
 
         break;
 
     case 0x203:
-        pack.discret_4 &= 0;
-        pack.discret_4 |= toBool(value.at(1),1,3);
-        pack.discret_4 |= toBool(value.at(1),2,4);
-        pack.discret_4 |= toBool(value.at(1),1,5);
+       dd_4 &= 0x300;
+
+       dd_4 |= toBool(value.at(1),0,0);
+       dd_4 |= toBool(value.at(1),1,3);
+       dd_4 |= toBool(value.at(1),2,4);
+       dd_4 |= toBool(value.at(1),3,6);
+       //dd_4 |= toBool(value.at(1),4,6);
         break;
 
     case 0x201:
-        pack.beff = toFloat(value.mid(5,4));
+        pack.power_for_react = toFloat(value.mid(5,4));
+        pack.beff = toFloat(value.mid(1,4));
         break;
 
     default:
@@ -270,6 +281,18 @@ f = 0.01*(float)(value);
 
 }
 
+int outLogAop::IntToInt_10(const QVector<int> &value, float n){
+
+
+    int data = value.at(1) << 8 | value.at(0);
+
+    int data_10 = (int) (data*n);
+
+    return (data_10 << 8) | (data_10) >> 8;
+
+
+}
+
 float outLogAop::swapIntFloat(const QVector<int>&value){
  
  float fpr;
@@ -328,27 +351,24 @@ void outLogAop::send(){
         quint8 out_buf[1000];
         unsigned char adr = 0x1;
 
-        //   pack.discret_0 = (dd_0 <<8 )| (dd_0 >>8);
-        //   pack.discret_1 =0xffff;// (dd_1 <<8 )| (dd_1 >>8);
-        //   pack.discret_2 = (dd_2 <<8 )| (dd_2 >>8);
-        //  pack.discret_3 = (dd_3 <<8 )| (dd_3 >>8);
-        //  pack.discret_4 = (dd_4 <<8 )| (dd_4 >>8);
-        // dd_0=0;
-        // dd_1=0;
-        // dd_2=0;
-        // dd_3=0;
-        //dd_4=0;
+           pack.discret_0 = ((0xff & dd_0) <<8)| ((dd_0 & 0xff00)>>8);
+           pack.discret_1 = ((0xff & dd_1) <<8)| ((dd_1 & 0xff00)>>8);
+           pack.discret_2 = ((0xff & dd_2) <<8)| ((dd_2 & 0xff00)>>8) ;
+           pack.discret_3 = ((0xff & dd_3) <<8)| ((dd_3 & 0xff00)>>8);
+          pack.discret_4 = ((0xff & dd_4) <<8)| ((dd_4 & 0xff00)>>8) ;
+        
+         dd_0=0;
+         dd_1=0;
+         dd_2=0;
+         dd_3=0;
+         dd_4 = 0x301;
+
+
         int size_out = CoderCommand10hRTU_List(adr,&in_buf[0],sizeof(pack),&out_buf[0]);
-
+       
         int ret_p = write (pd,&out_buf[0],size_out);
-
-        //  int send = ::sendto(sock,&out_buf[0],size_out,0,(struct sockaddr *)&local_addr,sizeof(local_addr));
-
-        //dd_0=0;
-        //    qDebug() << send;
-
-        //  if (send ==-1)
-        //       qDebug() << "Error send archive";
+    
+//        qDebug()<< "size:="<< ret_p;
 
         if(ret_p ==-1)
             qWarning() << "Error send AOP";

@@ -18,15 +18,13 @@ TopClass::TopClass(QWidget*parent) :
         qWarning() << "Style can't be loaded.";
 
 
-
-
     connect(widget,SIGNAL(sendCan(QVector<int>)),thread,SLOT(tx_buffer(QVector<int>)));
     connect(thread,SIGNAL(emitRxBuf(const QVector<int>&)),widget,SLOT(sel(const QVector<int>&)));
     connect(widget,SIGNAL(destroyed()),thread,SLOT(deleteLater()));
     connect(thread,SIGNAL(emitRxBuf(QVector<int>)),aop,SLOT(select(const QVector<int>&)));
     //connect(thread,SIGNAL(emitRxBuf(const QVector<int>&)),widget,SIGNAL())
     widget->setWindowState(widget->windowState() ^ Qt::WindowFullScreen);
-    widget->setFixedSize(850,600);
+    widget->setFixedSize(850,650);
     widget->show();
 
 
