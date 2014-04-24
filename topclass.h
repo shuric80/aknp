@@ -4,7 +4,7 @@
 #include <QWidget>
 #include "mainwidget.h"
 #include "canthread.h"
-//#include "outlogaop.h"
+#include "outlogaop.h"
 
 class TopClass : public QWidget
 {
@@ -15,7 +15,9 @@ public:
 private:
     CanThread *thread;
     MainWidget *widget;
-  //  outLogAop *aop;
+    outLogAop *aop;
+    outLogAop *aop_test;
+
 
 signals:
     void sendInCan(QVector<int>);

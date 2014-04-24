@@ -105,15 +105,16 @@ class  outLogAop:public QObject{
     Q_OBJECT
 
 public:
-    explicit  outLogAop(QObject *parent =0);
+    explicit  outLogAop(const char port[20]= "/dev/ttyS0",QObject *parent =0);
     ~outLogAop();
 
 public slots:
 
     void select(const QVector<int>&);
     void send();
-
+    void watchDogTimerSlot();
 private:
+    char port[20];
     unsigned int dd_0;
     unsigned int dd_1;
     unsigned int dd_2;
@@ -126,6 +127,7 @@ private:
    // QDataStream out;
     packet pack;
     QTimer  *timer;
+    QTimer *watchDogTimer;
     float swapIntFloat(const QVector<int>&);
     float swapIntFloat(int);
 

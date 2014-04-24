@@ -2,11 +2,10 @@
 #include <QDebug>
 #define AOP_PORT "/dev/ttyS0"
 
-outLogAop::outLogAop(QObject *parent):QObject(parent){
+outLogAop::outLogAop(const char port[20], QObject *parent):QObject(parent){
 
     timer = new QTimer(this);
-
-
+    ::strncpy(this->port,port,20);
     //   sock = socket(AF_INET,SOCK_DGRAM,0);
     //   if(sock == -1)
     //      qWarning()<< "Error open sock";
@@ -21,10 +20,17 @@ outLogAop::outLogAop(QObject *parent):QObject(parent){
     // pack.set_NG = 120;
 
     connect(timer,SIGNAL(timeout()),this,SLOT(send()));   //connect timer
-  //  timer->start(100);
+    timer->start(50);
+    //  test
+    watchDogTimer = new QTimer(this);
+
 }
 
+void outLogAop::watchDogTimerSlot(){
 
+    qDebug() << "Pause send AOP";
+
+}
 
 void outLogAop::select(const QVector<int> &val){
 
@@ -319,7 +325,8 @@ void outLogAop::send(){
     struct termios termios_struct;
     //Конфигурирование порта
 
-    pd = open(AOP_PORT,O_RDWR|O_NOCTTY);
+    pd = open(port,O_RDWR|O_NOCTTY);
+   // qDebug << port;
 
 
     if(pd !=-1){
@@ -365,7 +372,7 @@ void outLogAop::send(){
 
         int size_out = CoderCommand10hRTU_List(adr,&in_buf[0],sizeof(pack),&out_buf[0]);
 
-        int ret_p = write (pd,&out_buf[0],size_out);
+        ssize_t ret_p = write (pd,&out_buf[0],size_out);
 
 
         //        qDebug()<< "size:="<< ret_p;
@@ -373,11 +380,15 @@ void outLogAop::send(){
         if(ret_p ==-1)
             qWarning() << "Error send AOP";
         close(pd);
+
     }
     else
         qWarning()<<"Error open port AOP";
   // timer->stop();
   //  timer->start();
+
+    watchDogTimer->stop();
+    watchDogTimer->start(300);
 
 
 }
