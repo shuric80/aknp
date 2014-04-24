@@ -1,5 +1,5 @@
 #include "ake_02.h"
-#define WIDTH 140
+#define WIDTH 180
 #define HEIGHT 40
 #include <QDebug>
 

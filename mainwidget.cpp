@@ -7,7 +7,7 @@ MainWidget::MainWidget(QWidget *parent) :
     //  QFont font("Arial cyr",12);
     // this->setFont(font);
 
-
+    this->modeImit = false;
 
     QHBoxLayout *top_layout = new QHBoxLayout;
     QVBoxLayout *main_layout = new QVBoxLayout;
@@ -17,11 +17,14 @@ MainWidget::MainWidget(QWidget *parent) :
     rightCombo = new QComboBox(this);
     rightCombo->setFixedWidth(200);
 
+    QHBoxLayout  *comboLayout= new QHBoxLayout;
+
     {   rightCombo->addItem("АКНП");
-        rightCombo->addItem("Слайд 1");
-        rightCombo->addItem("Слайд 2");
+        rightCombo->addItem("АКЭ(Слайд 1)");
+        rightCombo->addItem("АКЭ(Слайд 2)");
         rightCombo->addItem("АКР");
-        rightCombo->addItem("Параметры");
+        rightCombo->addItem("ПУМ-514Р");
+
     }
 
     leftCombo = new QComboBox(this);
@@ -34,15 +37,17 @@ MainWidget::MainWidget(QWidget *parent) :
         leftCombo->addItem("Проверка имитатора реактивности");
         leftCombo->addItem("Проверка НП");
         leftCombo->addItem("Имитатор АКЭ");
-        leftCombo->addItem("откл");
+        leftCombo->addItem("Откл  имитатор");
     }
 
     QVBoxLayout *leftLayout =new QVBoxLayout;
     {
-        leftLayout->addWidget(leftCombo);
+    //    leftLayout->addWidget(leftCombo);
         leftLayout->addWidget(Slide_imitator = new aknp_imit(this));
+        leftLayout->addStretch(1);
 
     }
+
     rightStack = new QStackedWidget(this);
     {
         rightStack ->addWidget(SlideValueDiap = new aknp_out(rightStack));
@@ -51,10 +56,15 @@ MainWidget::MainWidget(QWidget *parent) :
         rightStack->addWidget(Slide_akr = new akr_widget(rightStack));
         rightStack->addWidget(listParametrer = new ParamTable(rightStack));
     }
-    Slide_akr ->setFixedWidth(520);
-    connect(rightCombo,SIGNAL(activated(int)),rightStack,SLOT(setCurrentIndex(int)));
 
-    right_layout->addWidget(rightCombo);
+    Slide_akr ->setFixedWidth(520);
+
+    connect(rightCombo,SIGNAL(activated(int)),rightStack,SLOT(setCurrentIndex(int)));
+    connect(leftCombo,SIGNAL(activated(int)),this,SLOT(enableImit(int)));
+
+    comboLayout->addWidget(leftCombo);
+    comboLayout ->addWidget(rightCombo);
+   // right_layout->addLayout(comboLayout);
     right_layout->addWidget(rightStack);
     //rightStack->setFixedWidth(600);
 
@@ -76,9 +86,11 @@ MainWidget::MainWidget(QWidget *parent) :
     connect(leftCombo,SIGNAL(activated(int)),Slide_imitator,SLOT(stopFreq(int)));
 
     label = new QLabel();
+    comboLayout->addWidget(label);
 
+    main_layout->addLayout(comboLayout);
     main_layout->addLayout(top_layout);
-    main_layout->addWidget(label);
+    //main_layout->addWidget(label);
 
     this->setLayout(main_layout);
 
@@ -102,9 +114,6 @@ void MainWidget::sel(const QVector<int>&data){
 }
 
 void MainWidget::setStatusBar(){
-
-
-
 
     int cod_aknp = SlideValueDiap->err;
     int cod_akr = Slide_akr->err;
@@ -148,6 +157,14 @@ void MainWidget::setStatusBar(){
 //      qDebug() << err;
    
     }
+
+void MainWidget::enableImit(int n){
+
+    if(n==6)
+        Slide_imitator->setVisible(false);
+     else
+         Slide_imitator->setVisible(true);
+}
 
 MainWidget::~MainWidget(){
 

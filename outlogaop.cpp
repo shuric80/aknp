@@ -21,10 +21,7 @@ outLogAop::outLogAop(QObject *parent):QObject(parent){
     // pack.set_NG = 120;
 
     connect(timer,SIGNAL(timeout()),this,SLOT(send()));   //connect timer
-    timer->start(100);
-
-   
-
+  //  timer->start(100);
 }
 
 
@@ -52,17 +49,18 @@ void outLogAop::select(const QVector<int> &val){
         pack.Fn = IntToInt_10(value.mid(1,2),1.1111);
         pack.Fv = IntToInt_10(value.mid(3,2),1.1111);//
         pack.Fsr =IntToInt_10(value.mid(5,2),1.1111);//
-       // pack.Fkor =(value.at(7)<<8  | value.at(8);//toInt(value.mid(7,2));
+        // pack.Fkor =(value.at(7)<<8  | value.at(8);//toInt(value.mid(7,2));
         break;
     case 0x404:
         pack.Fkor = IntToInt_10(value.mid(1,2),1.1111);
 
+        dd_0 = 0;
+        dd_3 = 0;
 
-        
         dd_0 |= toBool(value.at(5),0,0); //az rd2
         dd_0 |= toBool(value.at(5),1,1); //pz rd2
         dd_0 |= toBool(value.at(5),2,2); // pm n
-//        dd_0 |= toBool(value.at(5),3,4); // rd2
+        //        dd_0 |= toBool(value.at(5),3,4); // rd2
 
         dd_0 |= toBool(value.at(5),4,12); // n>5
         dd_0 |= toBool(value.at(5),5,15);  //n>75
@@ -78,7 +76,7 @@ void outLogAop::select(const QVector<int> &val){
         dd_0 |= toBool(value.at(7),6,8);  // az n
         dd_0 |= toBool(value.at(7),7,9);  // pz n
 
-        dd_4 &= ~0x200;    //  set flag read pum 514r1   if ok to dd4=0;
+        dd_4 &= 0x1FF;    //  set flag read pum 514r1   if ok to dd4=0;
 
 
         //dd_0 |= toBool(value.at(8),6,2); //pz-2 n    rd2
@@ -101,9 +99,9 @@ void outLogAop::select(const QVector<int> &val){
     case 0x407:
         pack.Kz9 = swapIntFloat(value.at(1));
         pack.Kz10 = swapIntFloat(value.at(2));
-       // pack.H1 = value.at(3);
-       // p ack.H2 = value.at(4);
-       // pack.H3 = value.at(5);
+        // pack.H1 = value.at(3);
+        // p ack.H2 = value.at(4);
+        // pack.H3 = value.at(5);
         break;
     case 0x408:
         pack.Tef = swapIntFloat(value.mid(1,2));
@@ -163,9 +161,9 @@ void outLogAop::select(const QVector<int> &val){
         break;
 
     case 0x107:
-       // dd_1=0;
-       // dd_2=0;
-       // dd_0 &= ~0b110000010000;
+        dd_1=0;
+        dd_2=0;
+        dd_0 = ~0xC10;
 
         dd_1 |= toBool(value.at(1),0,1); //az n rd1
         dd_1 |= toBool(value.at(1),1,0);  //pz n rd1
@@ -202,13 +200,16 @@ void outLogAop::select(const QVector<int> &val){
         break;
 
     case 0x203:
-       dd_4 &= 0x300;
+        dd_4 = 0x300;
 
-       dd_4 |= toBool(value.at(1),0,0);
-       dd_4 |= toBool(value.at(1),1,3);
-       dd_4 |= toBool(value.at(1),2,4);
-       dd_4 |= toBool(value.at(1),3,6);
-       //dd_4 |= toBool(value.at(1),4,6);
+        //dd_4 = (value.at(1) & 1);
+
+        //test
+        dd_4 |= toBool(value.at(1),0,0);
+        dd_4 |= toBool(value.at(1),1,3);
+        dd_4 |= toBool(value.at(1),2,4);
+        dd_4 |= toBool(value.at(1),3,6);
+        //dd_4 |= toBool(value.at(1),4,6);
         break;
 
     case 0x201:
@@ -219,10 +220,7 @@ void outLogAop::select(const QVector<int> &val){
     default:
         break;
 
-     }
-
-
-
+    }
 }
 
 float outLogAop::toFloat(const QVector<int> &value){
@@ -258,27 +256,27 @@ int outLogAop::toInt(const QVector<int> &value)
 
 unsigned int outLogAop::toBool(int value, int pos, int bit){
 
+
+
     return ((value >> pos) &0x1)  << bit;
 }
 
 float outLogAop::swapIntFloat(int value){
 
-float fpr;
-float f;
+    float fpr;
+    float f;
 
-f = 0.01*(float)(value);
+    f = 0.01*(float)(value);
 
- quint8 *pr = (quint8*)&f;
-  quint8 *tr = (quint8*)&fpr;
+    quint8 *pr = (quint8*)&f;
+    quint8 *tr = (quint8*)&fpr;
 
-  tr[0]=pr[1];
-  tr[1]=pr[0];
-  tr[2]=pr[3];
-  tr[3]=pr[2];
-   
-    return  fpr; 
+    tr[0]=pr[1];
+    tr[1]=pr[0];
+    tr[2]=pr[3];
+    tr[3]=pr[2];
 
-
+    return  fpr;
 }
 
 int outLogAop::IntToInt_10(const QVector<int> &value, float n){
@@ -294,22 +292,22 @@ int outLogAop::IntToInt_10(const QVector<int> &value, float n){
 }
 
 float outLogAop::swapIntFloat(const QVector<int>&value){
- 
- float fpr;
- float f;
 
-   f = 0.01*(float)(value.at(1)<<8 | value.at(0));
- 
+    float fpr;
+    float f;
 
-  quint8 *pr = (quint8*)&f;
-  quint8 *tr = (quint8*)&fpr;
+    f = 0.01*(float)(value.at(1)<<8 | value.at(0));
 
-  tr[0]=pr[1];
-  tr[1]=pr[0];
-  tr[2]=pr[3];
-  tr[3]=pr[2];
-   
-    return  fpr; 
+
+    quint8 *pr = (quint8*)&f;
+    quint8 *tr = (quint8*)&fpr;
+
+    tr[0]=pr[1];
+    tr[1]=pr[0];
+    tr[2]=pr[3];
+    tr[3]=pr[2];
+
+    return  fpr;
 
 
 }
@@ -351,24 +349,26 @@ void outLogAop::send(){
         quint8 out_buf[1000];
         unsigned char adr = 0x1;
 
-           pack.discret_0 = ((0xff & dd_0) <<8)| ((dd_0 & 0xff00)>>8);
-           pack.discret_1 = ((0xff & dd_1) <<8)| ((dd_1 & 0xff00)>>8);
-           pack.discret_2 = ((0xff & dd_2) <<8)| ((dd_2 & 0xff00)>>8) ;
-           pack.discret_3 = ((0xff & dd_3) <<8)| ((dd_3 & 0xff00)>>8);
-          pack.discret_4 = ((0xff & dd_4) <<8)| ((dd_4 & 0xff00)>>8) ;
-        
-         dd_0=0;
-         dd_1=0;
-         dd_2=0;
-         dd_3=0;
-         dd_4 = 0x301;
+        pack.discret_0 = ((0xff & dd_0) <<8)| ((dd_0 & 0xff00)>>8);
+        pack.discret_1 = ((0xff & dd_1) <<8)| ((dd_1 & 0xff00)>>8);
+        pack.discret_2 = ((0xff & dd_2) <<8)| ((dd_2 & 0xff00)>>8) ;
+        pack.discret_3 = ((0xff & dd_3) <<8)| ((dd_3 & 0xff00)>>8);
+        pack.discret_4 = ((0xff & dd_4) <<8)| ((dd_4 & 0xff00)>>8) ;
+        //   set 0
+        //     dd_0=0;
+        //        dd_1=0;
+
+        //        dd_2=0;
+        //        dd_3=0;
+        dd_4 = 0x301;
 
 
         int size_out = CoderCommand10hRTU_List(adr,&in_buf[0],sizeof(pack),&out_buf[0]);
-       
+
         int ret_p = write (pd,&out_buf[0],size_out);
-    
-//        qDebug()<< "size:="<< ret_p;
+
+
+        //        qDebug()<< "size:="<< ret_p;
 
         if(ret_p ==-1)
             qWarning() << "Error send AOP";
@@ -376,6 +376,10 @@ void outLogAop::send(){
     }
     else
         qWarning()<<"Error open port AOP";
+  // timer->stop();
+  //  timer->start();
+
+
 }
 
 
@@ -444,8 +448,6 @@ unsigned short outLogAop::crc_sum(unsigned char* b, int cnt)
     }
     return sum;
 }
-
-
 
 
 outLogAop::~outLogAop(){

@@ -34,12 +34,14 @@ private:
     ParamTable *listParametrer;
     QLabel *label;
     QTimer *timer;
+    bool modeImit;
     //QStackedWidget *rightStack;
 public slots:
 
    void  sel(const QVector<int>&);
 private slots:
    void setStatusBar();
+   void enableImit(int);
 signals:
     void sendCan(QVector<int>);
     void select(const QVector<int>&);

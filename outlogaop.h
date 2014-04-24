@@ -19,7 +19,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-
+#include <QTime>
 
 
 #pragma pack(push,1)
@@ -120,6 +120,8 @@ private:
     unsigned int dd_3;
     unsigned int dd_4;
     int pd;
+
+    QTime time;
    // QFile file;
    // QDataStream out;
     packet pack;

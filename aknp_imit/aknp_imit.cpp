@@ -93,7 +93,16 @@ aknp_imit::aknp_imit(QWidget *parent):QWidget(parent){
 
         privodWidget->setLayout(privodLayout);
 
+        //set init value
+        {
+            privodBox[0]->setValue(146);
+            privodBox[1]->setValue(181);
+            privodBox[2]->setValue(181);
+            privodBox[3]->setValue(181);
+       }
+
     }
+
     {
         stack->addWidget(freq_widget);
         stack->addWidget(periodimit);
@@ -140,7 +149,7 @@ void aknp_imit::stopFreq(int n){
     reactimit->reset();
     test_react_imit->reset();
     if(n==6){
-        stack->setDisabled(true);
+
         stack->setCurrentIndex(0);
     }
     else if(n==0)
@@ -148,7 +157,7 @@ void aknp_imit::stopFreq(int n){
     else if(n==5)
         mode_imit(0b100000);
     else
-        stack->setDisabled(false);
+        stack->setEnabled(true);
 
 
 }
