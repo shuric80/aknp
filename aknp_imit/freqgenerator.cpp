@@ -7,8 +7,6 @@ FreqGenerator::FreqGenerator(int canal, QWidget *parent) : QWidget(parent)
     QLocale::setDefault(QLocale::C);
     this->setLocale(QLocale::C);
 
-
-
     freqBox = new QDoubleSpinBox;
     stepBox = new QDoubleSpinBox;
     stepPowerBox = new QDoubleSpinBox;
@@ -105,8 +103,8 @@ border:0px");
     step =10.0;
     freq =0.1;
 
-   // setMode(false);
-    selMode_1->setChecked(true); //default mode =true;
+    setMode(false);
+    selMode_0->setChecked(true); //default mode =true;
    //this->setFixedWidth(150);
 
 }

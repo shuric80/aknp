@@ -8,7 +8,11 @@ ParamTable::ParamTable(QWidget *parent) :
     ui->setupUi(this);
     this->setCurrentIndex(0);  //set start page
 
+    {
 
+
+
+    }
 }
 
 void ParamTable::selectId(const QVector<int> &data){
@@ -191,11 +195,6 @@ void ParamTable::selectId(const QVector<int> &data){
 
    }
 }
-
-void ParamTable::save(){
-
-      }
-
 
 const QString ParamTable::toFloat(const QVector<int> &value){
 

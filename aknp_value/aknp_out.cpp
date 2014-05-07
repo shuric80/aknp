@@ -4,12 +4,8 @@
 
 aknp_out::aknp_out(QWidget *parent)
 {
-
-
     QFont font("Monospace",8);
     this->setFont(font);
-
-
 
     TWidget = new top_diaposon;
     PDWidget = new pd_diaposon;
@@ -23,13 +19,13 @@ aknp_out::aknp_out(QWidget *parent)
 
     //ake_imit = new AkeSlideImitator;
 
-  //  PD1Widget->setVisible(false);
+    //  PD1Widget->setVisible(false);
 
 
-   // TWidget->setFixedHeight(140);
-  //  RD2Widget ->setFixedHeight(140);
-  //  RD1Widget->setFixedHeight(140);
-  //  PDWidget->setFixedHeight(140);
+    // TWidget->setFixedHeight(140);
+    //  RD2Widget ->setFixedHeight(140);
+    //  RD1Widget->setFixedHeight(140);
+    //  PDWidget->setFixedHeight(140);
 
     QVBoxLayout *verticalLayout = new QVBoxLayout;
     QHBoxLayout *diap_layout[4];
@@ -56,7 +52,7 @@ aknp_out::aknp_out(QWidget *parent)
         diap_layout[i]->addStretch(1);
         label[i]->setStyleSheet(" background-color: rgb(150,150,150);\
                                 border-radius: 5px; border-color: beige;\
-                                padding: 1px;");
+padding: 1px;");
 
         label[i]-> setFrameStyle(QFrame::Panel | QFrame::Raised);
         label[i]-> setLineWidth(1);
@@ -128,16 +124,16 @@ void aknp_out::select(const QVector<int> &value){
 
         RD1Widget->set_discret(14,!discret(value.at(7),1));   //err bh rd1
 
-        TWidget->set_discret(12,discret(value.at(7),5));
-        TWidget->set_discret(0,discret(value.at(7),6));
-        TWidget->set_discret(3,discret(value.at(7),7));
+        TWidget->set_discret(12,discret(value.at(7),5));   
+        TWidget->set_discret(0,discret(value.at(7),6));    // azn
+        TWidget->set_discret(3,discret(value.at(7),7));    //pz n
 
         TWidget->set_discret(2,!discret(value.at(6),0)); // ГЦН1
         TWidget->set_discret(5,!discret(value.at(6),1)); // ГЦН2
         TWidget->set_discret(8,!discret(value.at(6),2)); // ГЦН3
         TWidget->set_discret(11,!discret(value.at(6),3)); // ГЦН4
         TWidget->set_discret(13,!discret(value.at(6),6));  // er ake
-        TWidget->set_discret(6,discret(value.at(5),2));
+        TWidget->set_discret(6,discret(value.at(5),2));    //pn n 
         
 
         count[0]++;
@@ -181,27 +177,28 @@ void aknp_out::select(const QVector<int> &value){
         break;
 
     case 0x107:
-	  RD1Widget->set_discret(0,discret(value.at(1),0));  // az n
-      RD1Widget->set_discret(1,discret(value.at(1),2));  // az t
-      RD1Widget->set_discret(3,discret(value.at(1),1));  // pz n
-	  RD1Widget->set_discret(4,discret(value.at(1),3));  // pz t 
-      RD1Widget->set_discret(7,discret(value.at(1),4)); //  rm t
-	  RD1Widget->set_discret(12,discret(value.at(1),5)); //  start
-      RD1Widget->set_discret(13,!discret(value.at(1),6));  // er rd1
+        RD1Widget->set_discret(0,discret(value.at(1),0));  // az n
+        RD1Widget->set_discret(1,discret(value.at(1),2));  // az t
+        RD1Widget->set_discret(3,discret(value.at(1),1));  // pz n
+        RD1Widget->set_discret(4,discret(value.at(1),3));  // pz t
+        RD1Widget->set_discret(7,discret(value.at(1),4)); //  rm t
+        RD1Widget->set_discret(10,discret(value.at(1),4)); //  pz2 t
+        RD1Widget->set_discret(12,discret(value.at(1),5)); //  start
+        RD1Widget->set_discret(13,!discret(value.at(1),6));  // er rd1
 
-	  PDWidget->set_discret(0,discret(value.at(2),0));   // az n
-      PDWidget->set_discret(3,discret(value.at(2),1));   // pz n
-      PDWidget->set_discret(1,discret(value.at(2),2));   // az t
-	  PDWidget->set_discret(4,discret(value.at(2),3));   // pz t
-      PDWidget->set_discret(7,discret(value.at(2),4));    //pm t
-	  PDWidget->set_discret(12,discret(value.at(2),5));  // start
-      PDWidget->set_discret(13,discret(value.at(2),6)); //err
-      TWidget->set_discret(7,discret(value.at(6),4));
+        PDWidget->set_discret(0,discret(value.at(2),0));   // az n
+        PDWidget->set_discret(3,discret(value.at(2),1));   // pz n
+        PDWidget->set_discret(1,discret(value.at(2),2));   // az t
+        PDWidget->set_discret(4,discret(value.at(2),3));   // pz t
+        PDWidget->set_discret(7,discret(value.at(2),4));    //pm t
+        PDWidget->set_discret(12,discret(value.at(2),5));  // start
+        PDWidget->set_discret(13,discret(value.at(2),6)); //err
 
-      TWidget->set_discret(1,discret(value.at(6),2));
-      TWidget->set_discret(4,discret(value.at(6),3));
-      TWidget->set_discret(7,discret(value.at(6),4));
-  
+        TWidget->set_discret(7,discret(value.at(6),4));  //  obobsh
+        TWidget->set_discret(1,discret(value.at(6),2));
+        TWidget->set_discret(4,discret(value.at(6),3));
+        //TWidget->set_discret(7,discret(value.at(6),4));
+
 
         label[0]->setStyleSheet(discret(value.at(3),0) ? style_1: style_0);
         label[1]->setStyleSheet(discret(value.at(3),1) ? style_1: style_0);
@@ -252,7 +249,7 @@ void aknp_out::setErr(){
 
 
     this->err = ((RD2Widget->err) << 2) |(PDWidget->err);
-//    qDebug()<< err;
+    //    qDebug()<< err;
 
 
 }

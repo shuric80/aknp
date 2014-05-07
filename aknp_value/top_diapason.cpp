@@ -10,8 +10,8 @@ top_diaposon::top_diaposon(QWidget *parent)
     led[3]->setText("ПЗ N");
     led[4]->setText("ПЗ T");
     led[5]->setText("ГЦН 2");
-    led[6]->setText("PM N");
-    led[7]->setText("РМ Т");//setText("ПС N/G");
+    led[6]->setText("ПЗ-2 N");
+    led[7]->setText("ПЗ-2 Т");//setText("ПС N/G");
     led[8]->setText("ГЦН 3");
     led[9]->setVisible(false);//("ПЗАФСЗ");
     led[10]->setVisible(false);

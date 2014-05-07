@@ -16,8 +16,6 @@ private:
     CanThread *thread;
     MainWidget *widget;
     outLogAop *aop;
-    outLogAop *aop_test;
-
 
 signals:
     void sendInCan(QVector<int>);

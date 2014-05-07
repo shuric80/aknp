@@ -2,10 +2,11 @@
 #include <QDebug>
 #define AOP_PORT "/dev/ttyS0"
 
-outLogAop::outLogAop(const char port[20], QObject *parent):QObject(parent){
+outLogAop::outLogAop(QObject *parent):QObject(parent){
 
     timer = new QTimer(this);
-    ::strncpy(this->port,port,20);
+
+
     //   sock = socket(AF_INET,SOCK_DGRAM,0);
     //   if(sock == -1)
     //      qWarning()<< "Error open sock";
@@ -20,17 +21,10 @@ outLogAop::outLogAop(const char port[20], QObject *parent):QObject(parent){
     // pack.set_NG = 120;
 
     connect(timer,SIGNAL(timeout()),this,SLOT(send()));   //connect timer
-    timer->start(50);
-    //  test
-    watchDogTimer = new QTimer(this);
-
+    timer->start(100);
 }
 
-void outLogAop::watchDogTimerSlot(){
 
-    qDebug() << "Pause send AOP";
-
-}
 
 void outLogAop::select(const QVector<int> &val){
 
@@ -46,7 +40,7 @@ void outLogAop::select(const QVector<int> &val){
 
 
     switch(id){
-
+//    mutex.lock();
     case 0x401:
         pack.power_rd2 = toFloat(data_l);
         pack.set_power_rd2 = toFloat(data_h);
@@ -60,13 +54,17 @@ void outLogAop::select(const QVector<int> &val){
     case 0x404:
         pack.Fkor = IntToInt_10(value.mid(1,2),1.1111);
 
-        dd_0 = 0;
-        dd_3 = 0;
+        dd_0 &= 0x6c30;
+        dd_3 =0;
+        dd_1 &= 0xEFFF;  // mask   for reset  bit
+        dd_4 &= 0x1ff;
 
         dd_0 |= toBool(value.at(5),0,0); //az rd2
         dd_0 |= toBool(value.at(5),1,1); //pz rd2
         dd_0 |= toBool(value.at(5),2,2); // pm n
         //        dd_0 |= toBool(value.at(5),3,4); // rd2
+
+        dd_1 |= toBool(value.at(5),3,12);  // start diap rd2
 
         dd_0 |= toBool(value.at(5),4,12); // n>5
         dd_0 |= toBool(value.at(5),5,15);  //n>75
@@ -76,13 +74,14 @@ void outLogAop::select(const QVector<int> &val){
         dd_3 |= toBool(value.at(6),4,12); //correct +
         dd_3 |= toBool(value.at(6),5,13); //correct -
         dd_3 |= toBool(value.at(6),6,0); // er
-        dd_0 |= toBool(~value.at(6),7,7);//    proverka
 
+        dd_0 |= toBool(~value.at(6),7,7);//    proverka
         dd_0 |= toBool(~value.at(7),5,6);  // er aknp
         dd_0 |= toBool(value.at(7),6,8);  // az n
         dd_0 |= toBool(value.at(7),7,9);  // pz n
+        //dd_0 &= 0b0110110000110000;
 
-        dd_4 &= 0x1FF;    //  set flag read pum 514r1   if ok to dd4=0;
+        //dd_4 &= ~0x200;    //  set flag read pum 514r1   if ok to dd4=0;
 
 
         //dd_0 |= toBool(value.at(8),6,2); //pz-2 n    rd2
@@ -159,7 +158,7 @@ void outLogAop::select(const QVector<int> &val){
         break;
     case 0x105:
         pack.time_pd = toInt(value.mid(1,4));
-        pack.set_time_pd = toInt(value.mid(1,4));
+        pack.set_time_pd = toInt(value.mid(5,4));
         break;
     case 0x106:
         pack.power_current = toFloat(value.mid(1,4));
@@ -167,34 +166,44 @@ void outLogAop::select(const QVector<int> &val){
         break;
 
     case 0x107:
-        dd_1=0;
+       //  mask for reset discret
+        dd_1&=0xF084;
         dd_2=0;
-        dd_0 = ~0xC10;
+        dd_0 &= 0xf3cf;
+        dd_4 &= 0x2ff;
 
         dd_1 |= toBool(value.at(1),0,1); //az n rd1
         dd_1 |= toBool(value.at(1),1,0);  //pz n rd1
+
         dd_2 |= toBool(value.at(1),2,2);  //az t   rd1
         dd_2 |= toBool(value.at(1),3,1);  // pz t rd1
         dd_2 |= toBool(value.at(1),4,0);  // rm t
-        dd_1 |= toBool(value.at(1),6,3);  //p
 
+        dd_1 |= toBool(value.at(1),6,3);  // error rd1
+        dd_1 |= toBool(value.at(1),5,11);  //  start diap rd1
 
         //dd_l2 |= toBool(value.at(2),0,2); //az n pd
         dd_1 |= toBool(value.at(2),0,6); //pz n pd
         dd_1 |= toBool(value.at(2),1,5); //az t   pd
+
         dd_2 |= toBool(value.at(2),2,7);
         dd_2 |= toBool(value.at(2),3,6); //er pd
         dd_2 |= toBool(value.at(2),4,5);
+
+        dd_1 |= toBool(value.at(2),5,10);  // start diap pd
         dd_1 |= toBool(~value.at(2),6,8);
 
         dd_0 |= toBool(value.at(3),0,4); // rd 2
+
         dd_1 |= toBool(value.at(3),1,4); // rd 1
         dd_1 |= toBool(value.at(3),2,9); //  pd
 
         dd_0 |= toBool(value.at(6),2,10);
         dd_0 |= toBool(value.at(6),3,11);
 
-        dd_4 &= ~0x100;  // signal read data pum-514r  if ok to       dd_4 = 0;
+        dd_0 |= toBool(value.at(7),7,5);  // open close dveri
+        //dd_0 &= 0b1111001111001111;
+//        dd_4 &= 0x1FF;  // signal read data pum-514r  if ok to       dd_4 = 0;
 
         //dd_1 |= toBool(value.at(4),1,0); //az n pd
         //dd_2 |= toBool(value.at(4),3,1); //pzt-1
@@ -206,16 +215,18 @@ void outLogAop::select(const QVector<int> &val){
         break;
 
     case 0x203:
-        dd_4 = 0x300;
+        mutex.lock();
 
-        //dd_4 = (value.at(1) & 1);
-
-        //test
+        dd_4 &= 0x3fe;
         dd_4 |= toBool(value.at(1),0,0);
         dd_4 |= toBool(value.at(1),1,3);
         dd_4 |= toBool(value.at(1),2,4);
         dd_4 |= toBool(value.at(1),3,6);
         //dd_4 |= toBool(value.at(1),4,6);
+
+        //if( (dd_4 & 1) |((dd_4 >> 8) & 1)|(dd_4 >> 9)&1)  // obestochivanie vedet k oshibke
+        //       dd_0 |= 0b1000000;
+        mutex.unlock();
         break;
 
     case 0x201:
@@ -226,6 +237,7 @@ void outLogAop::select(const QVector<int> &val){
     default:
         break;
 
+  // mutex.unlock();
     }
 }
 
@@ -262,8 +274,6 @@ int outLogAop::toInt(const QVector<int> &value)
 
 unsigned int outLogAop::toBool(int value, int pos, int bit){
 
-
-
     return ((value >> pos) &0x1)  << bit;
 }
 
@@ -283,17 +293,17 @@ float outLogAop::swapIntFloat(int value){
     tr[3]=pr[2];
 
     return  fpr;
+
+
 }
 
 int outLogAop::IntToInt_10(const QVector<int> &value, float n){
-
 
     int data = value.at(1) << 8 | value.at(0);
 
     int data_10 = (int) (data*n);
 
     return (data_10 << 8) | (data_10) >> 8;
-
 
 }
 
@@ -304,7 +314,6 @@ float outLogAop::swapIntFloat(const QVector<int>&value){
 
     f = 0.01*(float)(value.at(1)<<8 | value.at(0));
 
-
     quint8 *pr = (quint8*)&f;
     quint8 *tr = (quint8*)&fpr;
 
@@ -314,8 +323,6 @@ float outLogAop::swapIntFloat(const QVector<int>&value){
     tr[3]=pr[2];
 
     return  fpr;
-
-
 }
 
 void outLogAop::send(){
@@ -325,8 +332,7 @@ void outLogAop::send(){
     struct termios termios_struct;
     //Конфигурирование порта
 
-    pd = open(port,O_RDWR|O_NOCTTY);
-   // qDebug << port;
+    pd = open(AOP_PORT,O_RDWR|O_NOCTTY);
 
 
     if(pd !=-1){
@@ -356,41 +362,43 @@ void outLogAop::send(){
         quint8 out_buf[1000];
         unsigned char adr = 0x1;
 
-        pack.discret_0 = ((0xff & dd_0) <<8)| ((dd_0 & 0xff00)>>8);
+        mutex.lock();
+
+        int err=0;
+        if((dd_4 & 1)|(dd_4>>8 &1)|(dd_4>>9&1))
+          
+            { err = 0b1000000;}
+       // qDebug() <<bin << err; 
+
+        pack.discret_0 = ((0xff & dd_0) <<8)| ((dd_0 & 0xff00)>>8)|(err<<8);
+        //err =0;
         pack.discret_1 = ((0xff & dd_1) <<8)| ((dd_1 & 0xff00)>>8);
+       // dd_1=0;
         pack.discret_2 = ((0xff & dd_2) <<8)| ((dd_2 & 0xff00)>>8) ;
+       // dd_2=0;
         pack.discret_3 = ((0xff & dd_3) <<8)| ((dd_3 & 0xff00)>>8);
+       // dd_3=0;
         pack.discret_4 = ((0xff & dd_4) <<8)| ((dd_4 & 0xff00)>>8) ;
-        //   set 0
-        //     dd_0=0;
-        //        dd_1=0;
-
-        //        dd_2=0;
-        //        dd_3=0;
+      
+        //mutex.lock();
         dd_4 = 0x301;
-
-
+        mutex.unlock();
+        
         int size_out = CoderCommand10hRTU_List(adr,&in_buf[0],sizeof(pack),&out_buf[0]);
 
-        ssize_t ret_p = write (pd,&out_buf[0],size_out);
+        //mutex.unlock();
 
-
+        ssize_t ret_p = ::write(pd,&out_buf[0],size_out);
+//        pack.discret_4=0;
         //        qDebug()<< "size:="<< ret_p;
 
         if(ret_p ==-1)
             qWarning() << "Error send AOP";
-        close(pd);
 
+        close(pd);
     }
     else
         qWarning()<<"Error open port AOP";
-  // timer->stop();
-  //  timer->start();
-
-    watchDogTimer->stop();
-    watchDogTimer->start(300);
-
-
 }
 
 
@@ -459,6 +467,8 @@ unsigned short outLogAop::crc_sum(unsigned char* b, int cnt)
     }
     return sum;
 }
+
+
 
 
 outLogAop::~outLogAop(){

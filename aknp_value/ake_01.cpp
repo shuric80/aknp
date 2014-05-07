@@ -12,7 +12,7 @@ ake_01::ake_01(QWidget *parent) :
 
   QFont font("Arial Cyr",12);
 
-  QString style = QString("background-color:rgb(100,100,100);color:rgb(250,250,250);\
+  QString style = QString("background-color:rgb(200,200,200);color:rgb(0,0,0);\
                           padding:0px;border-radius:10px");
   
   for(int i=0;i<8;i++){
@@ -165,9 +165,9 @@ void ake_01::selectId(const QVector<int> &data){
 
       case 0x409:
         label[0][0] ->setText(QString(" Tвх = %2 %1C").arg(QChar(0x00b0)).arg(toInt(data_01)*0.01));
-        label[1][0] ->setText(QString(" H10 = %1 см").arg(toInt(data_02)*0.01));
-        label[2][0] ->setText(QString(" H9 = %1 см").arg(toInt(data_03)*0.01));
-        label[3][0] ->setText(QString(" H8 = %1 см").arg(toInt(data_04)*0.01));
+        label[1][0] ->setText(QString(" H10 = %1 см").arg((int)(toInt(data_02)*0.01)));
+        label[2][0] ->setText(QString(" H9 = %1 см").arg((int)(toInt(data_03)*0.01)));
+        label[3][0] ->setText(QString(" H(УРБ) = %1 см").arg((int)(toInt(data_04)*0.01)));
         break;
 
     case 0x40A:

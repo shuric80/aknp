@@ -5,10 +5,10 @@ pd_diaposon::pd_diaposon(QWidget *parent )
     led[0]->setText("АЗ N");
     led[1]->setText("АЗ T");
     led[2]->setVisible(false);
-    led[3]->setText("ПЗ N");
-    led[4]->setText("ПЗ Т");
+    led[3]->setText("ПЗ-1 N");
+    led[4]->setText("ПЗ-1 Т");
     led[5]->setVisible(false);
-    led[7]->setText("PM T");
+    led[7]->setText("ПЗ-2 T");
     led[6]->setVisible(false);
     led[8]->setVisible(false);
     led[9]->setVisible(false);

@@ -9,7 +9,7 @@ ake_02::ake_02(QWidget *parent) :
 
     QHBoxLayout *hlayout[10];
     QVBoxLayout *topLayout = new QVBoxLayout;
-    QString style = QString("background-color:rgb(100,100,100);color:rgb(250,250,250);\
+    QString style = QString("background-color:rgb(200,200,200);color:rgb(0,0,0);\
                             padding:0px;border-radius:10px");
     QFont font("Monospace",12);
    // this->setFont(font);

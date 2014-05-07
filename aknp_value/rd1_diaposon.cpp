@@ -5,14 +5,14 @@ rd1_diaposon::rd1_diaposon(QWidget *parent )
     led[0]->setText("АЗ N");
     led[1]->setText("АЗ Т");
     led[2]->setVisible(false);
-    led[3]->setText("ПЗ N");;
-    led[4]->setText("ПЗ T");
+    led[3]->setText("ПЗ-1 N");;
+    led[4]->setText("ПЗ-1 T");
     led[5]->setVisible(false);
-    led[7]->setText("PM T");
+    led[7]->setText("ПЗ-2 T");
     led[6]->setVisible(false);
     led[8]->setVisible(false);
-	led[9]->setVisible(false);
-	led[10]->setVisible(false);
+    led[10]->setVisible(false);
+    led[9]->setVisible(false);
 	led[11]->setVisible(false);
     led[12]->setText("НД РД1");
     led[13]->setText("РД1");
@@ -23,6 +23,7 @@ rd1_diaposon::rd1_diaposon(QWidget *parent )
     led[3]->setColor("Y");
     led[4]->setColor("Y");
     led[7]->setColor("Y");
+    led[10]->setColor("Y");
     led[12]->setColor("G");
     led[13]->setColor("RG");
     led[14]->setColor("RG");

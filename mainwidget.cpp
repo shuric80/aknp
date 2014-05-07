@@ -47,7 +47,6 @@ MainWidget::MainWidget(QWidget *parent) :
         leftLayout->addStretch(1);
 
     }
-
     rightStack = new QStackedWidget(this);
     {
         rightStack ->addWidget(SlideValueDiap = new aknp_out(rightStack));
@@ -56,9 +55,7 @@ MainWidget::MainWidget(QWidget *parent) :
         rightStack->addWidget(Slide_akr = new akr_widget(rightStack));
         rightStack->addWidget(listParametrer = new ParamTable(rightStack));
     }
-
-    Slide_akr ->setFixedWidth(520);
-
+//    Slide_akr ->setFixedWidth(520);
     connect(rightCombo,SIGNAL(activated(int)),rightStack,SLOT(setCurrentIndex(int)));
     connect(leftCombo,SIGNAL(activated(int)),this,SLOT(enableImit(int)));
 
@@ -99,9 +96,6 @@ MainWidget::MainWidget(QWidget *parent) :
     timer = new QTimer;
     connect(timer,SIGNAL(timeout()),this,SLOT(setStatusBar()));
     timer->start(500);
-
-
-
 }
 
 void MainWidget::sel(const QVector<int>&data){
@@ -173,5 +167,6 @@ MainWidget::~MainWidget(){
     delete Slide_AKE1;
     delete Slide_akr;
     delete Slide_imitator;
+
     qDebug() <<"delete ";
 }

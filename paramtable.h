@@ -19,7 +19,6 @@ public:
 private:
     Ui::ParamTable *ui;
     const QString toFloat(const QVector<int> &);
-    void save();
 };
 
 #endif // PARAMTABLE_H

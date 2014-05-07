@@ -3,12 +3,12 @@
 rd2_diaposon::rd2_diaposon(QWidget *parent)
 {
     led[0]->setText("АЗ N");
-    led[3]->setText("ПЗ N");
+    led[3]->setText("ПЗ-1 N");
 	led[2]->setVisible(false);
     led[7]->setVisible(false);
     led[9]->setVisible(false);
     led[5]->setVisible(false);
-    led[6]->setText("PM N");
+    led[6]->setText("ПЗ-2 N");
     led[10]->setVisible(false);
     led[8]->setVisible(false);
     led[4]->setText("N>75%");
