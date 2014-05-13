@@ -77,6 +77,7 @@ MainWidget::MainWidget(QWidget *parent) :
     connect(Slide_imitator,SIGNAL(send(QVector<int>)),this,SIGNAL(sendCan(QVector<int>)));
     connect(this,SIGNAL(select(const QVector<int>&)),this,SLOT(sel(const QVector<int>&)));
     connect(Slide_akr,SIGNAL(send(QVector<int>)),this,SIGNAL(sendCan(QVector<int>)));
+    connect(listParametrer,SIGNAL(send(QVector<int>)),this,SIGNAL(sendCan(QVector<int>)));
     //  this->setStyleSheet("background-color:rgb(120,120,120);color:black");
 
     connect(leftCombo,SIGNAL(activated(int)),Slide_imitator->stack,SLOT(setCurrentIndex(int)));

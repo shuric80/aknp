@@ -123,6 +123,8 @@ void ake_01::selectId(const QVector<int> &data){
 
     switch(id){
 
+
+
     case 0x401:
         label[0][1]->setText(QString(" Nk = %1 %").arg(toFloat(dataFl),0,'f',2));
         break;

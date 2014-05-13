@@ -28,6 +28,8 @@ private:
     int toInt(const QVector<int>&);
     float toFloat(const QVector<int>&);
     QString Kz;
+signals:
+    void enabledAKE(bool);
 };
 
 #endif // AKE_01_H

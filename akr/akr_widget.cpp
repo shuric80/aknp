@@ -147,6 +147,15 @@ akr_widget::akr_widget(QWidget *parent) :
     connect(timer,SIGNAL(timeout()),this,SLOT(clear()));  //clear form if no send data
 
     this-> err = 1;
+    {//  zamechaniya
+        label[14]->setVisible(false);
+        analog_line[8]->setVisible(false);
+
+        label[10]->setVisible(false);
+        discret_box[4]->setVisible(false);
+
+
+    }
 
 
 }
