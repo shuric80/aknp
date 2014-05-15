@@ -7,8 +7,8 @@ aknp_imit::aknp_imit(QWidget *parent):QWidget(parent){
     //  combo = new QComboBox(this);
 
 
-    QFont font("Monospace",9);
-    this->setFont(font);
+  //  QFont font("Monospace",9);
+  //  this->setFont(font);
 
     FreqGenerator *freq[2];
 

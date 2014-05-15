@@ -4,7 +4,10 @@
 #include <QWidget>
 
 #include <QLabel>
+#include <QLineEdit>
 #include <QGridLayout>
+#include <QHBoxLayout>
+
 #include <QTimer>
 //#include <akeslideimitator.h>
 
@@ -19,6 +22,8 @@ public:
 private:
 
 QLabel *label[10][2];
+QLineEdit *lineEdit[10][2];
+
 QString str[10][2];
 //AkeSlideImitator *ake_imit[4];
 

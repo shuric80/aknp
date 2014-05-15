@@ -22,12 +22,14 @@ private:
     const QString toFloat(const QVector<int> &);
     void sendCAN(int,const QString&, const QString &);
     const QVector <int> toVector(float);
+    volatile bool enable;
 
 signals:
     void send(QVector<int>);
 
 private slots:
     void saveParam();
+
 };
 
 #endif // PARAMTABLE_H

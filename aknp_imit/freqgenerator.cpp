@@ -4,8 +4,8 @@
 
 FreqGenerator::FreqGenerator(int canal, QWidget *parent) : QWidget(parent)
 {
-    QLocale::setDefault(QLocale::C);
-    this->setLocale(QLocale::C);
+  //  QLocale::setDefault(QLocale::C);
+  //  this->setLocale(QLocale::C);
 
     freqBox = new QDoubleSpinBox;
     stepBox = new QDoubleSpinBox;

@@ -8,8 +8,8 @@ akr_widget::akr_widget(QWidget *parent) :
     toggled=false;
     timer = new QTimer;
 
-    QFont font("Monospace",9);
-    this->setFont(font);
+//    QFont font("Monospace",9);
+ //   this->setFont(font);
     
     QHBoxLayout *layout[18];// = new QHBoxLayout;
 

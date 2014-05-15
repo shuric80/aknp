@@ -6,77 +6,73 @@
 ake_02::ake_02(QWidget *parent) :
     QWidget(parent)
 {
-
     QHBoxLayout *hlayout[10];
-    QVBoxLayout *topLayout = new QVBoxLayout;
-    QString style = QString("background-color:rgb(200,200,200);color:rgb(0,0,0);\
-                            padding:0px;border-radius:10px");
-    QFont font("Monospace",12);
-   // this->setFont(font);
+    QVBoxLayout *layout = new QVBoxLayout;
 
-    for(int i=0;i<8;i++){
-        topLayout->addLayout(hlayout[i] = new QHBoxLayout);
+
+    for(int i=0;i<10;i++)
+        layout->addLayout(hlayout[i] = new QHBoxLayout);
+
+    for(int i =0;i<9;i++){
         hlayout[i]->addWidget(label[i][0] = new QLabel);
+        hlayout[i]->addWidget(lineEdit[i][0] = new QLineEdit);
+
+        hlayout[i]->addSpacing(100);
+
         hlayout[i]->addWidget(label[i][1] = new QLabel);
-        hlayout[i]->addStretch(1);
-
-    //    label[i][0]->setStyleSheet(style);
+        hlayout[i]->addWidget(lineEdit[i][1] = new QLineEdit);
 
     }
 
-    topLayout->addLayout(hlayout[8] = new QHBoxLayout);
-    topLayout->addLayout(hlayout[9] = new QHBoxLayout);
 
 
-    hlayout[8]->addWidget(label[8][1] = new QLabel);
-    hlayout[8]->addStretch(1);
+    for(int i=0;i<9;i++){
+
+        lineEdit[i][0] ->setReadOnly(true);
+        lineEdit[i][0]->setFocusPolicy(Qt::NoFocus);
+        lineEdit[i][1] ->setReadOnly(true);
+        lineEdit[i][1]->setFocusPolicy(Qt::NoFocus);
 
 
-    hlayout[9]->addWidget(label[9][1] = new QLabel);
-     hlayout[9]->addStretch(1);
-
-    str[4][1] = QString(" Nh = %1");
-
-
-
-
-    for(int i=0;i<8;i++){
-        for(int j=0;j<2;j++){
-            //label[i][j]->setText(str[i][j]);
-            label[i][j]->setFixedSize(WIDTH,HEIGHT);
-            label[i][j]->setFont(font);
-              label[i][j]->setStyleSheet(style);
-
-        }
-        for(int i=8;i<=9;i++){
-            label[i][1]->setFont(font);
-            label[i][1]->setFixedSize(WIDTH,HEIGHT);
-            label[i][1]->setStyleSheet(style);
-        }
+        label[i][0]->setFixedWidth(50);
+        label[i][1]->setFixedWidth(50);
     }
+
+
+
+    QHBoxLayout *topLayout = new QHBoxLayout;
+
+    topLayout->addStretch(1);
+    topLayout->addLayout(layout);
+
+
     this->setLayout(topLayout);
 
     {
-        label[8][1] ->setText(QString(" Fнкор = %1").arg(0));
-        label[9][1] ->setText(QString(" Fккор = %1").arg(0));
-        label[7][1] ->setText(QString(" %1kf0 = %2").arg(QChar(0x03B1)).arg(0));
-        label[0][0] ->setText(QString(" %1t = %2").arg(QChar(0x03B1)).arg(0));
-        label[1][0] ->setText(QString(" %1h = %2").arg(QChar(0x03B1)).arg(0));
-        label[2][0] ->setText(QString(" %1w = %2").arg(QChar(0x03B1)).arg(0));
-        label[2][1] ->setText(QString(" %1d = %2").arg(QChar(0x03B1)).arg(0));
-        label[0][1] ->setText(QString(" Q2 = %1").arg(0));
-        label[1][1] ->setText(QString(" Q3 = %1").arg(0));
-        label[3][0] ->setText(QString(" %1%2 = %3").arg(QChar(0x03B1)).arg(QChar(0x0033)).arg(0));
-        label[3][1] ->setText(QString(" %1%2* = %3").arg(QChar(0x03B1)).arg(QChar(0x0033)).arg(0));
-        label[4][0] ->setText(QString(" Nh1 = %1").arg(0));
-        label[5][0] ->setText(QString(" Nh1_2 = %1").arg(0));
-        label[6][0] ->setText(QString(" Nh1_3 = %1").arg(0));
-        label[7][0] ->setText(QString(" Nh1_1 = %1").arg(0));
-        label[6][1] ->setText(QString(" Tэфф = %1 дней").arg(0));
-        label[5][1] ->setText(QString(" Tkf = %1 дня").arg(0));
+
+        label[8][0] ->setText(QString(" Fнкор"));
+        label[8][1] ->setText(QString(" Fккор"));
+        label[7][1] ->setText(QString(" %1kf0").arg(QChar(0x03B1)));
+        label[0][0] ->setText(QString(" %1t").arg(QChar(0x03B1)));
+        label[1][0] ->setText(QString(" %1h").arg(QChar(0x03B1)));
+        label[2][0] ->setText(QString(" %1w").arg(QChar(0x03B1)));
+        label[2][1] ->setText(QString(" %1d").arg(QChar(0x03B1)));
+        label[0][1] ->setText(QString(" Q2"));
+        label[1][1] ->setText(QString(" Q3"));
+        label[3][0] ->setText(QString(" %1%2").arg(QChar(0x03B1)).arg(QChar(0x0033)));
+
+        label[3][1] ->setText(QString(" %1%2*").arg(QChar(0x03B1)).arg(QChar(0x0033)));
+        label[4][0] ->setText(QString(" Nh1"));
+
+        label[5][0] ->setText(QString(" Nh1_2"));
+        label[6][0] ->setText(QString(" Nh1_3"));
+        label[7][0] ->setText(QString(" Nh1_1"));
+        label[6][1] ->setText(QString(" Tэфф, дней"));
+        label[5][1] ->setText(QString(" Tkf, дня"));
 
     }
 
+  
 }
 
 void ake_02::selectId(const QVector<int> &data){
@@ -100,48 +96,48 @@ void ake_02::selectId(const QVector<int> &data){
 
     switch(id){
     case 0x404:
-        label[8][1] ->setText(QString(" Fнкор = %1").arg(toInt(data_01)*1.1111));
-        label[9][1] ->setText(QString(" Fккор = %1").arg(toInt(data_02)*1.1111));
+        lineEdit[8][1] ->setText(QString("%1").arg(toInt(data_01)*1.1111));
+        lineEdit[9][1] ->setText(QString("%1").arg(toInt(data_02)*1.1111));
         break;
 
     case 0x40A:
-        label[7][1] ->setText(QString(" %1kf0 = %2").arg(QChar(0x03B1)).arg(toFloat(dataFl),0,'g',3));
+        lineEdit[7][1] ->setText(QString(" %1").arg(toFloat(dataFl),0,'g',3));
         break;
 
     case 0x40B:
-        label[0][0] ->setText(QString(" %1t = %2").arg(QChar(0x03B1)).arg(toFloat(dataFh),0,'g',3));
-        label[1][0] ->setText(QString(" %1h = %2").arg(QChar(0x03B1)).arg(toFloat(dataFl),0,'g',3));
+        lineEdit[0][0] ->setText(QString(" %1").arg(toFloat(dataFh),0,'g',3));
+        lineEdit[1][0] ->setText(QString(" %1").arg(toFloat(dataFl),0,'g',3));
         break;
 
     case 0x40C:
-        label[2][0] ->setText(QString(" %1w = %2").arg(QChar(0x03B1)).arg(toFloat(dataFh),0,'g',3));
-        label[2][1] ->setText(QString(" %1d = %2").arg(QChar(0x03B1)).arg(toFloat(dataFl),0,'g',3));
+        lineEdit[2][0] ->setText(QString(" %1").arg(toFloat(dataFh),0,'g',3));
+        lineEdit[2][1] ->setText(QString(" %1").arg(toFloat(dataFl),0,'g',3));
         break;
 
     case 0x40d:
         //qDebug()<< hex << data;
-        label[0][1] ->setText(QString(" Q2 = %1").arg(toFloat(dataFl),0,'g',3));
-        label[1][1] ->setText(QString(" Q3 = %1").arg(toFloat(dataFh),0,'g',3));
+        lineEdit[0][1] ->setText(QString(" %1").arg(toFloat(dataFl),0,'g',3));
+        lineEdit[1][1] ->setText(QString(" %1").arg(toFloat(dataFh),0,'g',3));
         break;
 
     case 0x40E:
-        label[3][0]->setText(QString(" %1%2 = %3").arg(QChar(0x03B1)).arg(QChar(0x0033)).arg(toFloat(dataFh),0,'g',3));
+        lineEdit[3][0]->setText(QString(" %1").arg(toFloat(dataFh),0,'g',3));
         break;
 
     case 0x40F:
-        label[3][1] ->setText(QString(" %1%2* = %3").arg(QChar(0x03B1)).arg(QChar(0x0033)).arg(toFloat(dataFh),0,'g',3));
+        lineEdit[3][1] ->setText(QString(" %1").arg(toFloat(dataFh),0,'g',3));
         break;
 
     case 0x407:
-        label[4][0] ->setText(QString(" Nh1 = %1").arg(data.at(6)));
-        label[5][0] ->setText(QString(" Nh1_2 = %1").arg(data.at(4)));
-        label[6][0] ->setText(QString(" Nh1_3 = %1").arg(data.at(5)));
-        label[7][0] ->setText(QString(" Nh1_1 = %1").arg(data.at(3)));
+        lineEdit[4][0] ->setText(QString(" %1").arg(data.at(6)));
+        lineEdit[5][0] ->setText(QString(" %1").arg(data.at(4)));
+        lineEdit[6][0] ->setText(QString(" %1").arg(data.at(5)));
+        lineEdit[7][0] ->setText(QString(" %1").arg(data.at(3)));
         break;
 
     case 0x408:
-        label[6][1] ->setText(QString(" Tэфф = %1 дней").arg(toInt(data_01)));
-        label[5][1] ->setText(QString(" Tkf = %1 дня").arg(toInt(data_02)));
+        lineEdit[6][1] ->setText(QString(" %1").arg(toInt(data_01)));
+        lineEdit[5][1] ->setText(QString(" %1").arg(toInt(data_02)));
         break;
 
     default:

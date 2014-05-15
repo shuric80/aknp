@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>ParamTable</class>
  <widget class="QToolBox" name="ParamTable">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -16,6 +19,9 @@
   <property name="toolTip">
    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
   </property>
+  <property name="frameShape">
+   <enum>QFrame::HLine</enum>
+  </property>
   <property name="currentIndex">
    <number>3</number>
   </property>
@@ -24,8 +30,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>643</width>
-     <height>446</height>
+     <width>641</width>
+     <height>444</height>
     </rect>
    </property>
    <attribute name="label">
@@ -279,8 +285,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>643</width>
-     <height>446</height>
+     <width>641</width>
+     <height>444</height>
     </rect>
    </property>
    <attribute name="label">
@@ -534,8 +540,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>643</width>
-     <height>446</height>
+     <width>641</width>
+     <height>444</height>
     </rect>
    </property>
    <attribute name="label">
@@ -789,8 +795,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>643</width>
-     <height>446</height>
+     <width>641</width>
+     <height>444</height>
     </rect>
    </property>
    <attribute name="label">

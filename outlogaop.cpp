@@ -21,7 +21,7 @@ outLogAop::outLogAop(QObject *parent):QObject(parent){
     // pack.set_NG = 120;
 
     connect(timer,SIGNAL(timeout()),this,SLOT(send()));   //connect timer
-    timer->start(100);
+   // timer->start(100);
 }
 
 

@@ -11,12 +11,12 @@
 outWidget::outWidget(QWidget *parent) :
     QWidget(parent){
 
-    QFont font("Monospace",9);
+  //  QFont font("Monospace",9);
     //font.setPixelSize(11);
-    this->setFont(font);
+//    this->setFont(font);
 
-    QFont font_led("Monospace");
-    font_led.setPixelSize(9);
+ //   QFont font_led("Monospace");
+//    font_led.setPixelSize(9);
 
     for(int i=0;i<6;i++){
         analog[i] = new QLineEdit(this);
@@ -34,7 +34,7 @@ outWidget::outWidget(QWidget *parent) :
 
      for(int i=0;i<15;i++){
          led[i] = new QLed(this);
-         led[i]->setFont(font_led);
+   //      led[i]->setFont(font_led);
 
     }
      {
@@ -53,7 +53,7 @@ outWidget::outWidget(QWidget *parent) :
      for(int i=0;i<8;i++){
 
          analog_lab[i] = new QLabel(this);
-         analog_lab[i]->setFont(font_led);
+  //       analog_lab[i]->setFont(font_led);
      }
      {
          for(int i=0;i<3;i++)

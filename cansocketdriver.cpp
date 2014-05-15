@@ -8,9 +8,6 @@
 CanSocketDriver::CanSocketDriver(QObject *parent) :
     QObject(parent)
 {
-
-    //  extern bool debug;
-    //QLocalSocket socket;
     qRegisterMetaType <QVector<int> > ("QVector<int>");  // register signal  <QVector<int> >
     stopped = false;
     rx_s =0;
@@ -92,15 +89,11 @@ void CanSocketDriver::slot_save(QVector<int> data){
         qWarning()<<"Error send in CAN: 0x" <<hex <<  frame_tx.can_id;
 }
 
-
-
-
 void CanSocketDriver::stop(){
 
      qCritical()<<"Stop read";
      stopped = true;
 }
-
 
 CanSocketDriver::~CanSocketDriver(){
 

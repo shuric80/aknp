@@ -4,9 +4,6 @@ MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent)
 {
 
-    //  QFont font("Arial cyr",12);
-    // this->setFont(font);
-
     this->modeImit = false;
 
     QHBoxLayout *top_layout = new QHBoxLayout;
@@ -97,6 +94,7 @@ MainWidget::MainWidget(QWidget *parent) :
     timer = new QTimer;
     connect(timer,SIGNAL(timeout()),this,SLOT(setStatusBar()));
     timer->start(500);
+
 }
 
 void MainWidget::sel(const QVector<int>&data){
@@ -106,6 +104,7 @@ void MainWidget::sel(const QVector<int>&data){
     Slide_akr->select(data);
     Slide_imitator->select(data);
     listParametrer->selectId(data);
+
 }
 
 void MainWidget::setStatusBar(){

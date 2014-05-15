@@ -8,12 +8,8 @@ ParamTable::ParamTable(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setCurrentIndex(0);  //set start page
-
-    {
-
-
-
-    }
+   // enable = false;
+    this->setEnabled(false);
 }
 
 void ParamTable::selectId(const QVector<int> &data){
@@ -29,6 +25,11 @@ void ParamTable::selectId(const QVector<int> &data){
     QString str_h = toFloat(data_h);
 
     switch(id){
+    case 0x400:
+        enable =(bool)data.at(1);
+        this->setVisible(enable);
+
+        break;
 
     case 0x411:
         ui->lineEdit_01->setText(str_l);
@@ -193,11 +194,7 @@ void ParamTable::selectId(const QVector<int> &data){
     default:
         break;
 
-
     }
-
-
-
 }
 
 void ParamTable::saveParam(){

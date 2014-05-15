@@ -1,4 +1,4 @@
-#include "canthread.h"
+    #include "canthread.h"
 #include <QtCore>
 
 CanThread::CanThread(QObject *parent) :
@@ -22,12 +22,10 @@ void CanThread::addThread(){
   connect(cansocket,SIGNAL(finished()),cansocket,SLOT(deleteLater()));
   connect(thread,SIGNAL(finished()),thread,SLOT(deleteLater()));
 
-
   connect(cansocket,SIGNAL(read_ok(const QVector<int>&)),this,SLOT(rx_buffer(const QVector<int>&)));
   connect(cansocket,SIGNAL(read_ok(const QVector<int>&)),this,SIGNAL(emitRxBuf(const QVector<int>&)));
 
-
-  connect(this,SIGNAL(emitTxBuf(QVector<int>)),cansocket,SLOT(slot_save(QVector<int>)));
+   connect(this,SIGNAL(emitTxBuf(QVector<int>)),cansocket,SLOT(slot_save(QVector<int>)));
 
   thread->start();
 }

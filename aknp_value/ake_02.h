@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QLineEdit>
+
 
 class ake_02 : public QWidget
 {
@@ -11,7 +13,9 @@ class ake_02 : public QWidget
 public:
     explicit ake_02(QWidget *parent = 0);
     
+
     QLabel *label[10][2];
+    QLineEdit *lineEdit[10][2];
     QString str[10][2];
  private:
     int toInt(const QVector<int>&);

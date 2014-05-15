@@ -2,8 +2,8 @@
 
 ULineEdit::ULineEdit(QWidget *parent):QLineEdit(parent){
    
-     QFont font("Monospace",9);
-     this->setFont(font);
+   //  QFont font("Monospace",9);
+   //  this->setFont(font);
 
     this->setFixedHeight(30);
 
