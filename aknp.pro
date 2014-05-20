@@ -14,7 +14,6 @@ HEADERS += cansocketdriver.h \
            outlogaop.h \
            paramtable.h \
            topclass.h \
-           aknp_imit/akeimitator.h \
            aknp_imit/akeslideimitator.h \
            aknp_imit/aknp_imit.h \
            aknp_imit/freqgenerator.h \
@@ -43,7 +42,6 @@ SOURCES += cansocketdriver.cpp \
            outlogaop.cpp \
            paramtable.cpp \
            topclass.cpp \
-           aknp_imit/akeimitator.cpp \
            aknp_imit/akeslideimitator.cpp \
            aknp_imit/aknp_imit.cpp \
            aknp_imit/freqgenerator.cpp \

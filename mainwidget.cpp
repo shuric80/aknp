@@ -1,7 +1,11 @@
 #include "mainwidget.h"
 
+extern QMap <int,QVector<int> > GlBuffer;
+
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent)
+
+
 {
 
     this->modeImit = false;
@@ -39,7 +43,7 @@ MainWidget::MainWidget(QWidget *parent) :
 
     QVBoxLayout *leftLayout =new QVBoxLayout;
     {
-    //    leftLayout->addWidget(leftCombo);
+        //    leftLayout->addWidget(leftCombo);
         leftLayout->addWidget(Slide_imitator = new aknp_imit(this));
         leftLayout->addStretch(1);
 
@@ -52,13 +56,13 @@ MainWidget::MainWidget(QWidget *parent) :
         rightStack->addWidget(Slide_akr = new akr_widget(rightStack));
         rightStack->addWidget(listParametrer = new ParamTable(rightStack));
     }
-//    Slide_akr ->setFixedWidth(520);
+    //    Slide_akr ->setFixedWidth(520);
     connect(rightCombo,SIGNAL(activated(int)),rightStack,SLOT(setCurrentIndex(int)));
     connect(leftCombo,SIGNAL(activated(int)),this,SLOT(enableImit(int)));
 
     comboLayout->addWidget(leftCombo);
     comboLayout ->addWidget(rightCombo);
-   // right_layout->addLayout(comboLayout);
+    // right_layout->addLayout(comboLayout);
     right_layout->addWidget(rightStack);
     //rightStack->setFixedWidth(600);
 
@@ -89,84 +93,89 @@ MainWidget::MainWidget(QWidget *parent) :
 
     this->setLayout(main_layout);
 
-  //  connect(SlideValueDiap,SIGNAL(sendCodErr()),this,SLOT(setStatusBar()));
+    //  connect(SlideValueDiap,SIGNAL(sendCodErr()),this,SLOT(setStatusBar()));
 
     timer = new QTimer;
-    connect(timer,SIGNAL(timeout()),this,SLOT(setStatusBar()));
-    timer->start(500);
+    connect(timer,SIGNAL(timeout()),this,SLOT(slotUpdateGui()));
+    timer->start(300);
 
 }
 
-void MainWidget::sel(const QVector<int>&data){
-    SlideValueDiap->select(data);
-    Slide_AKE0->selectId(data);
-    Slide_AKE1->selectId(data);
-    Slide_akr->select(data);
-    Slide_imitator->select(data);
-    listParametrer->selectId(data);
+void MainWidget::slotUpdateGui(){
 
+    QMapIterator <int,QVector<int> > it(GlBuffer);
+
+    while (it.hasNext()) {
+          it.next();
+        SlideValueDiap->select(it.key(),it.value());
+        Slide_AKE0->selectId(it.key(),it.value());
+        Slide_AKE1->selectId(it.key(),it.value());
+        Slide_akr->select(it.key(),it.value());
+        Slide_imitator->select(it.key(),it.value());
+        listParametrer->selectId(it.key(),it.value());
+
+    }
+    setStatusBar();
 }
 
-void MainWidget::setStatusBar(){
+    void MainWidget::setStatusBar(){
 
-    int cod_aknp = SlideValueDiap->err;
-    int cod_akr = Slide_akr->err;
-    int err = cod_akr << 4 | cod_aknp;
-    
-    QString str = "Нет связи с ";
+        int cod_aknp = SlideValueDiap->err;
+        int cod_akr = Slide_akr->err;
+        int err = cod_akr << 4 | cod_aknp;
+        QString str = "Нет связи с ";
+        qDebug() << "er cod" << cod_aknp;
 
-    switch(err){
-      case 0:
-        label->clear();
-        break;
-      case 1:
-        str = str + " ПУМ-514Р1";
-        break;
-      case 4:
-        str = str + " ПУМ-514Р";
-        break;
-      case 5:
-        str = str + " ПУМ-514Р, ПУМ-514Р1";
-        break;
-      case 16:
-        str = str + "ПУМ-509Р";
-        break;
-      case 17:
-        str = str + "ПУМ-509Р ПУМ-514Р";
-        break;
-      case 20:
-        str = str+" ПУМ-509Р ПУМ-514Р1";
-        break;
-      case 21:
-        str = str+" ПУМ-509Р ПУМ-514Р ПУМ-514Р1";
-        break;
-      default:
-        break;
-      };
+        switch(err){
+        case 0:
+            label->clear();
+            break;
+        case 1:
+            str = str + " ПУМ-514Р1";
+            break;
+        case 4:
+            str = str + " ПУМ-514Р";
+            break;
+        case 5:
+            str = str + " ПУМ-514Р, ПУМ-514Р1";
+            break;
+        case 16:
+            str = str + "ПУМ-509Р";
+            break;
+        case 17:
+            str = str + "ПУМ-509Р ПУМ-514Р";
+            break;
+        case 20:
+            str = str+" ПУМ-509Р ПУМ-514Р1";
+            break;
+        case 21:
+            str = str+" ПУМ-509Р ПУМ-514Р ПУМ-514Р1";
+            break;
+        default:
+            break;
+        };
 
-      if(err==0)
-          label->clear();
-      else
-         label->setText(str);
-//      qDebug() << err;
-   
+        if(err==0)
+            label->clear();
+        else
+            label->setText(str);
     }
 
-void MainWidget::enableImit(int n){
+    void MainWidget::enableImit(int n){
 
-    if(n==6)
-        Slide_imitator->setVisible(false);
-     else
-         Slide_imitator->setVisible(true);
-}
+        if(n==6)
+            Slide_imitator->setVisible(false);
+        else
+            Slide_imitator->setVisible(true);
+    }
 
-MainWidget::~MainWidget(){
+    MainWidget::~MainWidget(){
 
-    delete SlideValueDiap;
-    delete Slide_AKE0;
-    delete Slide_AKE1;
-    delete Slide_akr;
-    delete Slide_imitator;
+        delete SlideValueDiap;
+        delete Slide_AKE0;
+        delete Slide_AKE1;
+        delete Slide_akr;
+        delete Slide_imitator;
 
-    qDebug() <<"delete ";
-}
+        qDebug() <<"delete ";
+    }

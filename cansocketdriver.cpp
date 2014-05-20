@@ -4,6 +4,7 @@
 
 #define MXCAN_NAME  "mxcan1"
 
+extern QMap<int, QVector<int> > GlBuffer;
 
 CanSocketDriver::CanSocketDriver(QObject *parent) :
     QObject(parent)
@@ -11,6 +12,7 @@ CanSocketDriver::CanSocketDriver(QObject *parent) :
     qRegisterMetaType <QVector<int> > ("QVector<int>");  // register signal  <QVector<int> >
     stopped = false;
     rx_s =0;
+    cnt=0;
 
 
     rx_s =::socket(PF_CAN,SOCK_RAW,CAN_RAW);
@@ -41,7 +43,8 @@ CanSocketDriver::CanSocketDriver(QObject *parent) :
 
 
 void CanSocketDriver::slot_thread_read(){
-    extern bool debug_rd;
+
+    QVector<int> buffer(9,0);
 
     while(!stopped){
 
@@ -51,15 +54,15 @@ void CanSocketDriver::slot_thread_read(){
             qWarning() << "Error read";
         }
         else{
-            buffer.clear();
-            buffer << (int)frame.can_id;
+
+            int id = (int)frame.can_id;
             
             for(int i=0;i<frame.can_dlc;i++)
-                buffer << frame.data[i];
-            emit read_ok(buffer);
+                buffer[i] =frame.data[i];
 
-            if(debug_rd)
-                qDebug() <<"r: id =0x" << hex << buffer.at(0);
+            buffer[8] = cnt++;
+
+            GlBuffer[id] = buffer;
         }
         qApp->processEvents();
     }
@@ -69,7 +72,6 @@ void CanSocketDriver::slot_thread_read(){
 
 void CanSocketDriver::slot_save(QVector<int> data){
 
-    extern bool debug_wr;
     struct can_frame frame_tx;
     frame_tx.can_id = data.at(0);
 
@@ -82,8 +84,7 @@ void CanSocketDriver::slot_save(QVector<int> data){
 
     ssize_t ret = ::send(rx_s,&frame_tx,sizeof(struct can_frame),0);
 
-    if(debug_wr)
-        qDebug() <<"w:" << hex << data;
+
 
     if(ret==-1)
         qWarning()<<"Error send in CAN: 0x" <<hex <<  frame_tx.can_id;

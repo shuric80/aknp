@@ -1,8 +1,6 @@
 #ifndef AOP_FILE
 #define AOP_FILE
 
-#include <QFile>
-#include <QDataStream>
 #include <QVector>
 #include <stdlib.h>
 #include <stdio.h>
@@ -20,8 +18,7 @@
 #include <unistd.h>
 #include <string.h>
 
-#include <QMutex>
-//#include <QMutex>
+
 
 
 #pragma pack(push,1)
@@ -95,7 +92,7 @@ typedef struct packet_t{
     quint16 discret_4;      //28
 
     
-   
+
 }   packet;
 
 #pragma pack(pop)
@@ -109,10 +106,9 @@ class  outLogAop:public QObject{
 public:
     explicit  outLogAop(QObject *parent =0);
     ~outLogAop();
+    void select(int, const QVector<int>&);
 
 public slots:
-
-    void select(const QVector<int>&);
     void send();
 
 private:
@@ -122,24 +118,19 @@ private:
     unsigned int dd_3;
     unsigned int dd_4;
     int pd;
-   // QFile file;
-   // QDataStream out;
+
     packet pack;
     QTimer  *timer;
-    float swapIntFloat(const QVector<int>&);
-    float swapIntFloat(int);
+    inline  float swapIntFloat(const QVector<int>&);
+    inline  float swapIntFloat(int);
 
-    float toFloat(const QVector<int>&);
-    int  toInt(const QVector<int>&);
-    int  IntToInt_10(const QVector<int> &,float n=1);
-    int CoderCommand10hRTU_List(unsigned char, unsigned char*,int, unsigned char*);
-    unsigned short crc_sum(unsigned char*, int);
-   unsigned int toBool(int,int,int);
-    
-    QMutex mutex;
-   // socket_t sock;
-   // sockaddr_in local_addr;		// local address and port to bind
-   // sockaddr_in remote_addr;	// remote address and port to send buffers
+    inline float toFloat(const QVector<int>&);
+    inline int  toInt(const QVector<int>&);
+    inline int  IntToInt_10(const QVector<int> &,float n=1);
+    inline int CoderCommand10hRTU_List(unsigned char, unsigned char*,int, unsigned char*);
+    inline unsigned short crc_sum(unsigned char*, int);
+    inline unsigned int toBool(int,int,int);
+
 
 };
 

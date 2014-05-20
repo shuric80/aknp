@@ -1,5 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+
 #include <QtGui/QVBoxLayout>
 #include "pd_diaposon.h"
 #include "rd1_diaposon.h"
@@ -7,10 +8,7 @@
 #include "top_diapason.h"
 #include "QLed/qled.h"
 #include <QtGui/QLineEdit>
-//#include "akeslideimitator.h"
 
-//#include "ake_01.h"
-//#include "ake_02.h"
 
 class aknp_out : public QWidget
 {
@@ -18,7 +16,7 @@ class aknp_out : public QWidget
 
 public:
     explicit aknp_out(QWidget *parent = 0);
-    volatile int err;
+    volatile quint8 err;
     //~MainWindow();
 
 private:
@@ -34,13 +32,12 @@ private:
     QLabel *label[3];
     QLabel *ind[4];
     int count[2];
-    QTimer *timer[2];
-     float toFloat(QVector<int>);
+    quint8 prev_cnt[2];
 
-
+   inline float toFloat(const QVector<int>&);
 
 public slots:
-    void select(const QVector<int>&);
+    void select(int id, const QVector<int>&);
     void setErr();
 
 signals:

@@ -15,7 +15,7 @@ class ParamTable : public QToolBox
 public:
     explicit ParamTable(QWidget *parent = 0);
     ~ParamTable();
-    void selectId(const QVector<int> &);
+    void selectId(int, const QVector<int> &);
 
 private:
     Ui::ParamTable *ui;

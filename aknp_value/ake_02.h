@@ -18,11 +18,11 @@ public:
     QLineEdit *lineEdit[10][2];
     QString str[10][2];
  private:
-    int toInt(const QVector<int>&);
-    float toFloat(const QVector<int>&);
+   inline  int toInt(const QVector<int>&);
+   inline float toFloat(const QVector<int>&);
 
 public slots:
-    void selectId(const QVector<int>&);
+    void selectId(int,      const QVector<int>&);
 };
 
 #endif // AKE_02_H

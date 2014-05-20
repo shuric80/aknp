@@ -28,10 +28,10 @@ QString str[10][2];
 //AkeSlideImitator *ake_imit[4];
 
 public slots:
-  void selectId(const QVector<int>&);
+  void selectId(int, const QVector<int>&);
 private:
-    int toInt(const QVector<int>&);
-    float toFloat(const QVector<int>&);
+    inline int toInt(const QVector<int>&);
+    inline float toFloat(const QVector<int>&);
     QString Kz;
 signals:
     void enabledAKE(bool);

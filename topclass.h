@@ -1,7 +1,6 @@
 #ifndef TOPCLASS_H
 #define TOPCLASS_H
 
-#include <QWidget>
 #include "mainwidget.h"
 #include "canthread.h"
 #include "outlogaop.h"

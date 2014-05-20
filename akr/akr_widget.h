@@ -1,7 +1,6 @@
 #ifndef AKR_WIDGET_H
 #define AKR_WIDGET_H
 
-#include <QWidget>
 #include <QComboBox>
 #include <QLineEdit>
 #include <QLabel>
@@ -11,7 +10,6 @@
 #include <QPushButton>
 #include <QInputDialog>
 #include <QTimer>
-#include <QMutex>
 #include <unistd.h>
 
 class akr_widget : public QWidget
@@ -29,7 +27,7 @@ private:
     QLineEdit *diaposon_line;
     QComboBox *discret_box[5];
     QComboBox *box;
- //   QLineEdit *discret_line[6];
+
     QPushButton *btn;
     QLabel *diap_label;
     QLabel *cannel_label;
@@ -42,17 +40,19 @@ private:
     QStringList list_sr;
     QStringList list_select_diap;
     QVector <QString> buf_discret;
-    float toFloat(QVector<int>);
-    QVector<int> toVector(const QString &);
-    QTimer *timer;
-    QMutex mutex;
+
+    quint8 prev_cnt;
+    volatile  bool enabled;
+
+   inline  float toFloat(const QVector<int> &);
+   inline QVector<int> toVector(const QString &);
 
 signals:
     void send(QVector<int>);
     void reset_akr();
 
 public slots:
-    void select(const QVector<int>&);
+    void select(int, const QVector<int>&);
     void input_password();
     void slot_save();
     void slot_reset();

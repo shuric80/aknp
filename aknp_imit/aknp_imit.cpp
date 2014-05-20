@@ -4,11 +4,6 @@
 aknp_imit::aknp_imit(QWidget *parent):QWidget(parent){
 
     stack = new QStackedWidget(this);
-    //  combo = new QComboBox(this);
-
-
-  //  QFont font("Monospace",9);
-  //  this->setFont(font);
 
     FreqGenerator *freq[2];
 
@@ -162,14 +157,13 @@ void aknp_imit::stopFreq(int n){
 
 }
 
-void aknp_imit::select(const QVector<int> &value){
+void aknp_imit::select(int id, const QVector<int> &value){
 
-    int id = value.at(0);
     QVector <int> data_h;
     QVector <int> data_l;
 
-    data_l = value.mid(1,4);
-    data_h = value.mid(5,4);
+    data_l = value.mid(0,4);
+    data_h = value.mid(4,4);
     float val_l = toFloat(data_l);
     float val_h = toFloat(data_h);
 

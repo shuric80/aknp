@@ -15,7 +15,7 @@ PrivodImit::PrivodImit(int canal,QWidget *parent) : QWidget(parent)
     minusButton = new QPushButton;
 
 
-    QLabel *privodLabel =new QLabel;
+        QLabel *privodLabel =new QLabel;
     QLabel *freqLabel =new QLabel;
     QLabel *stepLabel =new QLabel;
 

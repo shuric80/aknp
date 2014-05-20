@@ -1,8 +1,6 @@
 #ifndef MAINWIDGET_H
 #define MAINWIDGET_H
 
-#include <QWidget>
-
 #include "aknp_imit/aknp_imit.h"
 #include "aknp_value/ake_01.h"
 #include "aknp_value/ake_02.h"
@@ -13,7 +11,7 @@
 #include <QHBoxLayout>
 #include "aknp_value/aknp_out.h"
 #include "paramtable.h"
-
+#include <QMap>
 
 class MainWidget : public QWidget
 {
@@ -37,11 +35,12 @@ private:
     bool modeImit;
     //QStackedWidget *rightStack;
 public slots:
+   void slotUpdateGui();
 
-   void  sel(const QVector<int>&);
 private slots:
    void setStatusBar();
    void enableImit(int);
+
 signals:
     void sendCan(QVector<int>);
     void select(const QVector<int>&);

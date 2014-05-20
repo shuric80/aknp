@@ -6,79 +6,61 @@ outLogAop::outLogAop(QObject *parent):QObject(parent){
 
     timer = new QTimer(this);
 
-
-    //   sock = socket(AF_INET,SOCK_DGRAM,0);
-    //   if(sock == -1)
-    //      qWarning()<< "Error open sock";
-
-    //   local_addr.sin_family = AF_INET;
-    //   local_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-    //   local_addr.sin_port = htons(6014);
-
     memset(&pack,0,sizeof(pack));
-    // setNG =120%
-
-    // pack.set_NG = 120;
 
     connect(timer,SIGNAL(timeout()),this,SLOT(send()));   //connect timer
-   // timer->start(100);
+    timer->start(100);
 }
 
 
 
-void outLogAop::select(const QVector<int> &val){
+void outLogAop::select(int id, const QVector<int> &value){
 
-    QVector <int> value;
-    value << val;
-
-    int id  = value.at(0);
-
-    QVector<int> data_l;// << data.mid(1,4);
-    QVector<int> data_h;// << data.mid(5,4);
-    data_h << value.mid(5,4);
-    data_l << value.mid(1,4);
-
+    QVector<int> data_l;       // mid vector na 2 part     hight and low  word
+    QVector<int> data_h;
+    data_h << value.mid(4,4);
+    data_l << value.mid(0,4);
+ //  select frame in packet
 
     switch(id){
-//    mutex.lock();
     case 0x401:
         pack.power_rd2 = toFloat(data_l);
         pack.set_power_rd2 = toFloat(data_h);
         break;
     case 0x403:
-        pack.Fn = IntToInt_10(value.mid(1,2),1.1111);
-        pack.Fv = IntToInt_10(value.mid(3,2),1.1111);//
-        pack.Fsr =IntToInt_10(value.mid(5,2),1.1111);//
+        pack.Fn = IntToInt_10(value.mid(0,2),1.1111);
+        pack.Fv = IntToInt_10(value.mid(2,2),1.1111);//
+        pack.Fsr =IntToInt_10(value.mid(4,2),1.1111);//
         // pack.Fkor =(value.at(7)<<8  | value.at(8);//toInt(value.mid(7,2));
         break;
     case 0x404:
-        pack.Fkor = IntToInt_10(value.mid(1,2),1.1111);
+        pack.Fkor = IntToInt_10(value.mid(0,2),1.1111);
 
         dd_0 &= 0x6c30;
         dd_3 =0;
         dd_1 &= 0xEFFF;  // mask   for reset  bit
         dd_4 &= 0x1ff;
 
-        dd_0 |= toBool(value.at(5),0,0); //az rd2
-        dd_0 |= toBool(value.at(5),1,1); //pz rd2
-        dd_0 |= toBool(value.at(5),2,2); // pm n
+        dd_0 |= toBool(value.at(4),0,0); //az rd2
+        dd_0 |= toBool(value.at(4),1,1); //pz rd2
+        dd_0 |= toBool(value.at(4),2,2); // pm n
         //        dd_0 |= toBool(value.at(5),3,4); // rd2
 
-        dd_1 |= toBool(value.at(5),3,12);  // start diap rd2
+        dd_1 |= toBool(value.at(4),3,12);  // start diap rd2
 
-        dd_0 |= toBool(value.at(5),4,12); // n>5
-        dd_0 |= toBool(value.at(5),5,15);  //n>75
-        dd_0 |= toBool(value.at(5),6,3);  //error
+        dd_0 |= toBool(value.at(4),4,12); // n>5
+        dd_0 |= toBool(value.at(4),5,15);  //n>75
+        dd_0 |= toBool(value.at(4),6,3);  //error
 
 
-        dd_3 |= toBool(value.at(6),4,12); //correct +
-        dd_3 |= toBool(value.at(6),5,13); //correct -
-        dd_3 |= toBool(value.at(6),6,0); // er
+        dd_3 |= toBool(value.at(5),4,12); //correct +
+        dd_3 |= toBool(value.at(5),5,13); //correct -
+        dd_3 |= toBool(value.at(5),6,0); // er
 
-        dd_0 |= toBool(~value.at(6),7,7);//    proverka
-        dd_0 |= toBool(~value.at(7),5,6);  // er aknp
-        dd_0 |= toBool(value.at(7),6,8);  // az n
-        dd_0 |= toBool(value.at(7),7,9);  // pz n
+        dd_0 |= toBool(~value.at(5),7,7);//    proverka
+        dd_0 |= toBool(~value.at(6),5,6);  // er aknp
+        dd_0 |= toBool(value.at(6),6,8);  // az n
+        dd_0 |= toBool(value.at(6),7,9);  // pz n
         //dd_0 &= 0b0110110000110000;
 
         //dd_4 &= ~0x200;    //  set flag read pum 514r1   if ok to dd4=0;
@@ -92,77 +74,75 @@ void outLogAop::select(const QVector<int> &val){
         pack.nocorrect_power = toFloat(data_h);
         break;
     case 0x406:
-        pack.Kz1 = swapIntFloat(value.at(1));
-        pack.Kz2 = swapIntFloat(value.at(2));
-        pack.Kz3 = swapIntFloat(value.at(3));
-        pack.Kz4 = swapIntFloat(value.at(4));
-        pack.Kz5 = swapIntFloat(value.at(5));
-        pack.Kz6 = swapIntFloat(value.at(6));
-        pack.Kz7 = swapIntFloat(value.at(7));
-        pack.Kz8 = swapIntFloat(value.at(8));
+        pack.Kz1 = swapIntFloat(value.at(0));
+        pack.Kz2 = swapIntFloat(value.at(1));
+        pack.Kz3 = swapIntFloat(value.at(2));
+        pack.Kz4 = swapIntFloat(value.at(3));
+        pack.Kz5 = swapIntFloat(value.at(4));
+        pack.Kz6 = swapIntFloat(value.at(5));
+        pack.Kz7 = swapIntFloat(value.at(6));
+        pack.Kz8 = swapIntFloat(value.at(7));
         break;
     case 0x407:
-        pack.Kz9 = swapIntFloat(value.at(1));
-        pack.Kz10 = swapIntFloat(value.at(2));
-        // pack.H1 = value.at(3);
-        // p ack.H2 = value.at(4);
-        // pack.H3 = value.at(5);
-        break;
+        pack.Kz9 = swapIntFloat(value.at(0));
+        pack.Kz10 = swapIntFloat(value.at(1));
+           break;
+
     case 0x408:
-        pack.Tef = swapIntFloat(value.mid(1,2));
-        pack.Tkf = swapIntFloat(value.mid(3,2));
-        pack.T1 =  swapIntFloat(value.mid(5,2));
-        pack.T2 =  swapIntFloat(value.mid(7,2));
+        pack.Tef = swapIntFloat(value.mid(0,2));
+        pack.Tkf = swapIntFloat(value.mid(2,2));
+        pack.T1 =  swapIntFloat(value.mid(4,2));
+        pack.T2 =  swapIntFloat(value.mid(6,2));
         break;
     case 0x409:
-        pack.Tcold = swapIntFloat(value.mid(1,2));
-        pack.H1 = IntToInt_10(value.mid(3,2),0.01);
-        pack.H2 = IntToInt_10(value.mid(5,2),0.01);
-        pack.H3 = IntToInt_10(value.mid(7,2),0.01);
+        pack.Tcold = swapIntFloat(value.mid(0,2));
+        pack.H1 = IntToInt_10(value.mid(2,2),0.01);
+        pack.H2 = IntToInt_10(value.mid(4,2),0.01);
+        pack.H3 = IntToInt_10(value.mid(6,2),0.01);
         break;
     case 0x40A:
-        pack.Kkor = toFloat(value.mid(1,4));
-        pack.a0kf = toFloat(value.mid(5,4));
+        pack.Kkor = toFloat(value.mid(0,4));
+        pack.a0kf = toFloat(value.mid(4,4));
         break;
     case 0x40B:
-        pack.ah = toFloat(value.mid(1,4));
-        pack.at = toFloat(value.mid(5,4));
+        pack.ah = toFloat(value.mid(0,4));
+        pack.at = toFloat(value.mid(4,4));
         break;
     case 0x40C:
-        pack.ad = toFloat(value.mid(1,4));
-        pack.aw = toFloat(value.mid(5,4));
+        pack.ad = toFloat(value.mid(0,4));
+        pack.aw = toFloat(value.mid(4,4));
         break;
     case 0x40D:
-        pack.Q2 = toFloat(value.mid(1,4));
-        pack.Q3 = toFloat(value.mid(5,4));
+        pack.Q2 = toFloat(value.mid(0,4));
+        pack.Q3 = toFloat(value.mid(4,4));
         break;
     case 0x40E:
-        pack.a2 = toFloat(value.mid(1,4));
-        pack.a3 = toFloat(value.mid(5,4));
+        pack.a2 = toFloat(value.mid(0,4));
+        pack.a3 = toFloat(value.mid(4,4));
         break;
     case 0x40F:
-        pack.a4 = toFloat(value.mid(1,4));
-        pack._a3 = toFloat(value.mid(5,4));
+        pack.a4 = toFloat(value.mid(0,4));
+        pack._a3 = toFloat(value.mid(4,4));
         break;
     case 0x102:
-        pack.power_rd1 = toFloat(value.mid(1,4));
-        pack.set_power_rd1 = toFloat(value.mid(5,4));
+        pack.power_rd1 = toFloat(value.mid(0,4));
+        pack.set_power_rd1 = toFloat(value.mid(4,4));
         break;
     case 0x103:
-        pack.time_rd1 = toInt(value.mid(1,4));
-        pack.set_time_rd1 = toInt(value.mid(5,4));
+        pack.time_rd1 = toInt(value.mid(0,4));
+        pack.set_time_rd1 = toInt(value.mid(4,4));
         break;
     case 0x104:
-        pack.power_pd = toFloat(value.mid(1,4));
-        pack.set_power_pd = toFloat(value.mid(5,4));
+        pack.power_pd = toFloat(value.mid(0,4));
+        pack.set_power_pd = toFloat(value.mid(4,4));
         break;
     case 0x105:
-        pack.time_pd = toInt(value.mid(1,4));
-        pack.set_time_pd = toInt(value.mid(5,4));
+        pack.time_pd = toInt(value.mid(0,4));
+        pack.set_time_pd = toInt(value.mid(4,4));
         break;
     case 0x106:
-        pack.power_current = toFloat(value.mid(1,4));
-        pack.time_current = toInt(value.mid(5,4));
+        pack.power_current = toFloat(value.mid(0,4));
+        pack.time_current = toInt(value.mid(4,4));
         break;
 
     case 0x107:
@@ -172,36 +152,36 @@ void outLogAop::select(const QVector<int> &val){
         dd_0 &= 0xf3cf;
         dd_4 &= 0x2ff;
 
-        dd_1 |= toBool(value.at(1),0,1); //az n rd1
-        dd_1 |= toBool(value.at(1),1,0);  //pz n rd1
+        dd_1 |= toBool(value.at(0),0,1); //az n rd1
+        dd_1 |= toBool(value.at(0),1,0);  //pz n rd1
 
-        dd_2 |= toBool(value.at(1),2,2);  //az t   rd1
-        dd_2 |= toBool(value.at(1),3,1);  // pz t rd1
-        dd_2 |= toBool(value.at(1),4,0);  // rm t
+        dd_2 |= toBool(value.at(0),2,2);  //az t   rd1
+        dd_2 |= toBool(value.at(0),3,1);  // pz t rd1
+        dd_2 |= toBool(value.at(0),4,0);  // rm t
 
-        dd_1 |= toBool(value.at(1),6,3);  // error rd1
-        dd_1 |= toBool(value.at(1),5,11);  //  start diap rd1
+        dd_1 |= toBool(value.at(0),6,3);  // error rd1
+        dd_1 |= toBool(value.at(0),5,11);  //  start diap rd1
 
         //dd_l2 |= toBool(value.at(2),0,2); //az n pd
-        dd_1 |= toBool(value.at(2),0,6); //pz n pd
-        dd_1 |= toBool(value.at(2),1,5); //az t   pd
+        dd_1 |= toBool(value.at(1),0,6); //pz n pd
+        dd_1 |= toBool(value.at(1),1,5); //az t   pd
 
-        dd_2 |= toBool(value.at(2),2,7);
-        dd_2 |= toBool(value.at(2),3,6); //er pd
-        dd_2 |= toBool(value.at(2),4,5);
+        dd_2 |= toBool(value.at(1),2,7);
+        dd_2 |= toBool(value.at(1),3,6); //er pd
+        dd_2 |= toBool(value.at(1),4,5);
 
-        dd_1 |= toBool(value.at(2),5,10);  // start diap pd
-        dd_1 |= toBool(~value.at(2),6,8);
+        dd_1 |= toBool(value.at(1),5,10);  // start diap pd
+        dd_1 |= toBool(~value.at(1),6,8);
 
-        dd_0 |= toBool(value.at(3),0,4); // rd 2
+        dd_0 |= toBool(value.at(2),0,4); // rd 2
 
-        dd_1 |= toBool(value.at(3),1,4); // rd 1
-        dd_1 |= toBool(value.at(3),2,9); //  pd
+        dd_1 |= toBool(value.at(2),1,4); // rd 1
+        dd_1 |= toBool(value.at(2),2,9); //  pd
 
-        dd_0 |= toBool(value.at(6),2,10);
-        dd_0 |= toBool(value.at(6),3,11);
+        dd_0 |= toBool(value.at(5),2,10);
+        dd_0 |= toBool(value.at(5),3,11);
 
-        dd_0 |= toBool(value.at(7),7,5);  // open close dveri
+        dd_0 |= toBool(value.at(6),7,5);  // open close dveri
         //dd_0 &= 0b1111001111001111;
 //        dd_4 &= 0x1FF;  // signal read data pum-514r  if ok to       dd_4 = 0;
 
@@ -215,29 +195,22 @@ void outLogAop::select(const QVector<int> &val){
         break;
 
     case 0x203:
-        mutex.lock();
-
         dd_4 &= 0x3fe;
-        dd_4 |= toBool(value.at(1),0,0);
-        dd_4 |= toBool(value.at(1),1,3);
-        dd_4 |= toBool(value.at(1),2,4);
-        dd_4 |= toBool(value.at(1),3,6);
-        //dd_4 |= toBool(value.at(1),4,6);
+        dd_4 |= toBool(value.at(0),0,0);
+        dd_4 |= toBool(value.at(0),1,3);
+        dd_4 |= toBool(value.at(0),2,4);
+        dd_4 |= toBool(value.at(0),3,6);
 
-        //if( (dd_4 & 1) |((dd_4 >> 8) & 1)|(dd_4 >> 9)&1)  // obestochivanie vedet k oshibke
-        //       dd_0 |= 0b1000000;
-        mutex.unlock();
         break;
 
     case 0x201:
-        pack.power_for_react = toFloat(value.mid(5,4));
-        pack.beff = toFloat(value.mid(1,4));
+        pack.power_for_react = toFloat(value.mid(4,4));
+        pack.beff = toFloat(value.mid(0,4));
         break;
 
     default:
         break;
 
-  // mutex.unlock();
     }
 }
 
@@ -293,8 +266,6 @@ float outLogAop::swapIntFloat(int value){
     tr[3]=pr[2];
 
     return  fpr;
-
-
 }
 
 int outLogAop::IntToInt_10(const QVector<int> &value, float n){
@@ -362,13 +333,10 @@ void outLogAop::send(){
         quint8 out_buf[1000];
         unsigned char adr = 0x1;
 
-        mutex.lock();
-
         int err=0;
         if((dd_4 & 1)|(dd_4>>8 &1)|(dd_4>>9&1))
           
             { err = 0b1000000;}
-       // qDebug() <<bin << err; 
 
         pack.discret_0 = ((0xff & dd_0) <<8)| ((dd_0 & 0xff00)>>8)|(err<<8);
         //err =0;
@@ -380,17 +348,12 @@ void outLogAop::send(){
        // dd_3=0;
         pack.discret_4 = ((0xff & dd_4) <<8)| ((dd_4 & 0xff00)>>8) ;
       
-        //mutex.lock();
         dd_4 = 0x301;
-        mutex.unlock();
-        
+
         int size_out = CoderCommand10hRTU_List(adr,&in_buf[0],sizeof(pack),&out_buf[0]);
 
-        //mutex.unlock();
-
         ssize_t ret_p = ::write(pd,&out_buf[0],size_out);
-//        pack.discret_4=0;
-        //        qDebug()<< "size:="<< ret_p;
+
 
         if(ret_p ==-1)
             qWarning() << "Error send AOP";

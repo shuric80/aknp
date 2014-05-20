@@ -1,4 +1,4 @@
-#include "ake_02.h"
+    x    #include "ake_02.h"
 #define WIDTH 180
 #define HEIGHT 40
 #include <QDebug>
@@ -24,8 +24,6 @@ ake_02::ake_02(QWidget *parent) :
 
     }
 
-
-
     for(int i=0;i<9;i++){
 
         lineEdit[i][0] ->setReadOnly(true);
@@ -38,19 +36,14 @@ ake_02::ake_02(QWidget *parent) :
         label[i][1]->setFixedWidth(50);
     }
 
-
-
     QHBoxLayout *topLayout = new QHBoxLayout;
 
     topLayout->addStretch(1);
     topLayout->addLayout(layout);
 
-
     this->setLayout(topLayout);
 
-    {
-
-        label[8][0] ->setText(QString(" Fнкор"));
+    {   label[8][0] ->setText(QString(" Fнкор"));
         label[8][1] ->setText(QString(" Fккор"));
         label[7][1] ->setText(QString(" %1kf0").arg(QChar(0x03B1)));
         label[0][0] ->setText(QString(" %1t").arg(QChar(0x03B1)));
@@ -69,35 +62,31 @@ ake_02::ake_02(QWidget *parent) :
         label[7][0] ->setText(QString(" Nh1_1"));
         label[6][1] ->setText(QString(" Tэфф, дней"));
         label[5][1] ->setText(QString(" Tkf, дня"));
-
     }
-
-  
 }
 
-void ake_02::selectId(const QVector<int> &data){
+void ake_02::selectId(int id,const QVector<int> &data){
 
-    int id = data.at(0);
     QVector<int> data_01;
     QVector<int> data_02;
     QVector<int> data_03;
     QVector<int> data_04;
 
-    data_01 = data.mid(1,2);
-    data_02 = data.mid(3,2);
-    data_03 = data.mid(5,2);
-    data_04 = data.mid(7,2);
+    data_01 = data.mid(0,2);
+    data_02 = data.mid(2,2);
+    data_03 = data.mid(4,2);
+    data_04 = data.mid(6,2);
 
     QVector <int> dataFl;
     QVector <int> dataFh;
 
-    dataFl = data.mid(1,4);
-    dataFh = data.mid(5,4);
+    dataFl = data.mid(0,4);
+    dataFh = data.mid(4,4);
 
     switch(id){
     case 0x404:
         lineEdit[8][1] ->setText(QString("%1").arg(toInt(data_01)*1.1111));
-        lineEdit[9][1] ->setText(QString("%1").arg(toInt(data_02)*1.1111));
+        lineEdit[8][0] ->setText(QString("%1").arg(toInt(data_02)*1.1111));
         break;
 
     case 0x40A:
@@ -163,5 +152,4 @@ float ake_02::toFloat(const QVector<int> &data){
     str[3] = data.at(3);
 
     return f;
-
 }

@@ -1,7 +1,6 @@
 #ifndef AKNP_WIDGET_H
 #define AKNP_WIDGET_H
 
-#include <QtGui/QWidget>
 #include <QDebug>
 #include <QtGui/QStackedWidget>
 #include <QtGui/QComboBox>
@@ -41,7 +40,7 @@ private:
     QSpinBox *privodBox[4];
 
 public slots:
-    void select(const QVector<int>&);
+    void select(int id, const QVector<int>&);
     void mode_imit(int);
     void mode_imit_byte2(int);
 

@@ -11,13 +11,6 @@
 outWidget::outWidget(QWidget *parent) :
     QWidget(parent){
 
-  //  QFont font("Monospace",9);
-    //font.setPixelSize(11);
-//    this->setFont(font);
-
- //   QFont font_led("Monospace");
-//    font_led.setPixelSize(9);
-
     for(int i=0;i<6;i++){
         analog[i] = new QLineEdit(this);
         analog[i]->setMaxLength(9);
@@ -69,7 +62,7 @@ outWidget::outWidget(QWidget *parent) :
 
 void outWidget:: set_analog(unsigned int number, float value,int mode ){
 
-    this->err = 0;
+  //              this->err = 0;
 
     if(mode ==1)
         analog[number] ->setText(QString(" ") +QString::number(value,'f',1));
@@ -97,8 +90,11 @@ void outWidget::clean(){
 
     for(int i=0;i<6;i++)
         analog[i]->clear();
+}
 
-     this->err = 1;
+void outWidget::setCodErr(bool st){
+
+    this->err = st;
 }
 
 outWidget::~outWidget()

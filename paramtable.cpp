@@ -12,21 +12,20 @@ ParamTable::ParamTable(QWidget *parent) :
     this->setEnabled(false);
 }
 
-void ParamTable::selectId(const QVector<int> &data){
+void ParamTable::selectId(int id, const QVector<int> &data){
 
-    int id = data.at(0);
     QVector<int> data_h;
     QVector<int> data_l;
 
-    data_l << data.mid(1,4);
-    data_h << data.mid(5,4);
+    data_l << data.mid(0,4);
+    data_h << data.mid(4,4);
 
     QString str_l = toFloat(data_l);
     QString str_h = toFloat(data_h);
 
     switch(id){
     case 0x400:
-        enable =(bool)data.at(1);
+        enable =(bool)data.at(0);
         this->setVisible(enable);
 
         break;

@@ -9,12 +9,10 @@
 #include <sys/ioctl.h>
 #include <netinet/in.h>
 
-
 #include <QObject>
 #include <QVector>
 #include <QtCore>
 #include <QDebug>
-#include <QMutex>
 
 
 using namespace std;
@@ -36,7 +34,7 @@ public slots:
   void stop();
 
 private:
-  QVector <int> buffer;
+  quint8 cnt;
   volatile bool stopped;
   int rx_s;
   struct sockaddr_can addr;
