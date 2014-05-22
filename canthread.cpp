@@ -1,4 +1,4 @@
-    #include "canthread.h"
+#include "canthread.h"
 #include <QtCore>
 
 CanThread::CanThread(QObject *parent) :

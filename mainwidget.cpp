@@ -76,7 +76,7 @@ MainWidget::MainWidget(QWidget *parent) :
     //this->setLayout(top_layout);
 
     connect(Slide_imitator,SIGNAL(send(QVector<int>)),this,SIGNAL(sendCan(QVector<int>)));
-    connect(this,SIGNAL(select(const QVector<int>&)),this,SLOT(sel(const QVector<int>&)));
+    //connect(this,SIGNAL(select(const QVector<int>&)),this,SLOT(sel(const QVector<int>&)));
     connect(Slide_akr,SIGNAL(send(QVector<int>)),this,SIGNAL(sendCan(QVector<int>)));
     connect(listParametrer,SIGNAL(send(QVector<int>)),this,SIGNAL(sendCan(QVector<int>)));
     //  this->setStyleSheet("background-color:rgb(120,120,120);color:black");
@@ -120,35 +120,35 @@ void MainWidget::slotUpdateGui(){
 
     void MainWidget::setStatusBar(){
 
-        int cod_aknp = SlideValueDiap->err;
+        int cod_aknp = SlideValueDiap->getCodErr();
         int cod_akr = Slide_akr->err;
-        int err = cod_akr << 4 | cod_aknp;
+        int err = cod_akr << 3 | cod_aknp;
         QString str = "Нет связи с ";
-        qDebug() << "er cod" << cod_aknp;
+       // qDebug() << "er cod" << cod_aknp;
 
         switch(err){
         case 0:
             label->clear();
             break;
-        case 1:
+        case 0b001:
             str = str + " ПУМ-514Р1";
             break;
-        case 4:
+        case 0b010:
             str = str + " ПУМ-514Р";
             break;
-        case 5:
+        case 0b011:
             str = str + " ПУМ-514Р, ПУМ-514Р1";
             break;
-        case 16:
+        case 0b100:
             str = str + "ПУМ-509Р";
             break;
-        case 17:
+        case 0b110:
             str = str + "ПУМ-509Р ПУМ-514Р";
             break;
-        case 20:
+        case 0b101:
             str = str+" ПУМ-509Р ПУМ-514Р1";
             break;
-        case 21:
+        case 0b111:
             str = str+" ПУМ-509Р ПУМ-514Р ПУМ-514Р1";
             break;
         default:

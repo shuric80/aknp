@@ -38,7 +38,7 @@ private:
 
 public slots:
     void select(int id, const QVector<int>&);
-    void setErr();
+    quint8 getCodErr();
 
 signals:
     void sendCodErr();

@@ -1,4 +1,4 @@
-    x    #include "ake_02.h"
+#include "ake_02.h"
 #define WIDTH 180
 #define HEIGHT 40
 #include <QDebug>

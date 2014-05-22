@@ -60,6 +60,8 @@ padding: 1px;");
     topLayout->addLayout(verticalLayout);
     this->setLayout(topLayout);
     //	RD2Widget->set_analog(5,120);
+
+    this->err =0b11;
 }
 
 void aknp_out::select(int id, const QVector<int> &value){
@@ -112,13 +114,13 @@ void aknp_out::select(int id, const QVector<int> &value){
         }
 
         if(prev_cnt[0]==value.at(8)){
-            setErr();
+
             RD2Widget->clean();
-            RD2Widget->setCodErr(false);
-        }
+            err |=0b01;
+            }
         else{
              prev_cnt[0]=value.at(8);
-             RD2Widget->setCodErr(true);
+             err &= 0b10;
         }
 
         break;
@@ -186,22 +188,18 @@ void aknp_out::select(int id, const QVector<int> &value){
 
         }
         if(prev_cnt[1]==value.at(8)){
-            setErr();
+
             RD1Widget->clean();
             TWidget->clean();
             PDWidget->clean();
+            err |= 0b10;
 
-            RD1Widget->setCodErr(false);
-            TWidget->setCodErr(false);
-            PDWidget->setCodErr(false);
         }
 
         else{
-            RD1Widget->setCodErr(true);
-            TWidget->setCodErr(true);
-            PDWidget->setCodErr(true);
-
-            prev_cnt[1]=value.at(8);}
+            prev_cnt[1]=value.at(8);
+            err &= 0b01 ;
+        }
 
         break;
     default:
@@ -229,11 +227,7 @@ float aknp_out::toFloat(const QVector<int> &value){
     return f;
 }
 
-void aknp_out::setErr(){
+quint8 aknp_out::getCodErr(){
 
-
-    this->err = ((int)(RD2Widget->err) << 2) |(int)(PDWidget->err);
-    //    qDebug()<< err;
-
-
+    return  err;
 }

@@ -1,0 +1,9 @@
+QLabel{font-size:12px}
+ULineEdit{font-size:12px}
+QLineEdit{font-size:12px}
+QComboBox{font-size:12px}
+QLed{font-size:10px}
+QDoubleSpinBox{font-size:12px}
+
+
+

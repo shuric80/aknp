@@ -131,6 +131,7 @@ private:
     inline unsigned short crc_sum(unsigned char*, int);
     inline unsigned int toBool(int,int,int);
 
+    quint8 prev_cnt[3];
 
 };
 

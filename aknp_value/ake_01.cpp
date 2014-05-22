@@ -10,7 +10,6 @@ ake_01::ake_01(QWidget *parent) :
     QHBoxLayout *hlayout[10];
     QVBoxLayout *layout = new QVBoxLayout;
 
-
     for(int i=0;i<10;i++)
         layout->addLayout(hlayout[i] = new QHBoxLayout);
 

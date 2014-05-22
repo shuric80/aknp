@@ -39,7 +39,6 @@ void outLogAop::select(int id, const QVector<int> &value){
         dd_0 &= 0x6c30;
         dd_3 =0;
         dd_1 &= 0xEFFF;  // mask   for reset  bit
-        dd_4 &= 0x1ff;
 
         dd_0 |= toBool(value.at(4),0,0); //az rd2
         dd_0 |= toBool(value.at(4),1,1); //pz rd2
@@ -64,7 +63,11 @@ void outLogAop::select(int id, const QVector<int> &value){
         //dd_0 &= 0b0110110000110000;
 
         //dd_4 &= ~0x200;    //  set flag read pum 514r1   if ok to dd4=0;
-
+        if(prev_cnt[0]== value.at(8))
+            dd_4 |= 0b0000000100000000;   // pum 514r
+        else
+            dd_4 &= 0b1111111011111111;
+        prev_cnt[0]= value.at(8);
 
         //dd_0 |= toBool(value.at(8),6,2); //pz-2 n    rd2
 
@@ -182,7 +185,16 @@ void outLogAop::select(int id, const QVector<int> &value){
         dd_0 |= toBool(value.at(5),3,11);
 
         dd_0 |= toBool(value.at(6),7,5);  // open close dveri
-        //dd_0 &= 0b1111001111001111;
+
+        if(prev_cnt[1]== value.at(8))
+            dd_4 |= 0b0000001000000000;  //514r1
+        else
+            dd_4 &= 0b1111110111111111;
+        prev_cnt[1]= value.at(8);
+
+
+
+
 //        dd_4 &= 0x1FF;  // signal read data pum-514r  if ok to       dd_4 = 0;
 
         //dd_1 |= toBool(value.at(4),1,0); //az n pd
@@ -206,10 +218,20 @@ void outLogAop::select(int id, const QVector<int> &value){
     case 0x201:
         pack.power_for_react = toFloat(value.mid(4,4));
         pack.beff = toFloat(value.mid(0,4));
+
+        if(prev_cnt[2]== value.at(8))
+            dd_4 |= 0b0000010000000000;
+        else
+            dd_4 &= 0b1111101111111111;
+        prev_cnt[2]= value.at(8);
+
+
         break;
 
     default:
         break;
+
+
 
     }
 }
